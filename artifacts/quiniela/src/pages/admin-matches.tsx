@@ -34,8 +34,8 @@ function useMatchData(jornadaId: number | null) {
 }
 
 const LIGA_MX_TEAMS = [
-  "América", "Atlas", "Atlético San Luis", "Cruz Azul", "Guadalajara",
-  "Juárez", "León", "Mazatlán", "Monterrey", "Necaxa", 
+  "América", "Atlas", "Atlante", "Atlético San Luis", "Cruz Azul", "Guadalajara",
+  "Juárez", "León", "Monterrey", "Necaxa",
   "Pachuca", "Puebla", "Pumas UNAM", "Querétaro", "Santos Laguna",
   "Tigres UANL", "Tijuana", "Toluca"
 ];
