@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Quiniela Liga MX Apertura 2026"
+version = "1.0.0"
+id = "artifacts/quiniela"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18374
+
+[services.development]
+run = "pnpm --filter @workspace/quiniela run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/quiniela", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/quiniela/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18374"
+BASE_PATH = "/"

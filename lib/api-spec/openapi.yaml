@@ -3,20 +3,38 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Quiniela Liga MX Apertura 2026 API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Authentication
+  - name: users
+    description: User management
+  - name: jornadas
+    description: Match days
+  - name: matches
+    description: Matches
+  - name: predictions
+    description: User predictions
+  - name: matchups
+    description: Head-to-head matchups
+  - name: standings
+    description: Standings tables
+  - name: dashboard
+    description: Dashboard data
+  - name: history
+    description: Player history
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +42,604 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # Auth
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/register:
+    post:
+      operationId: register
+      tags: [auth]
+      summary: Register new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterInput"
+      responses:
+        "201":
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [auth]
+      summary: Logout
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthUser"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # Users (admin)
+  /users:
+    get:
+      operationId: listUsers
+      tags: [users]
+      summary: List all users
+      responses:
+        "200":
+          description: Users list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    post:
+      operationId: createUser
+      tags: [users]
+      summary: Create user (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "201":
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /users/{id}:
+    get:
+      operationId: getUser
+      tags: [users]
+      summary: Get user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: updateUser
+      tags: [users]
+      summary: Update user (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    delete:
+      operationId: deleteUser
+      tags: [users]
+      summary: Delete user (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  # Jornadas
+  /jornadas:
+    get:
+      operationId: listJornadas
+      tags: [jornadas]
+      summary: List all jornadas
+      responses:
+        "200":
+          description: Jornadas list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Jornada"
+    post:
+      operationId: createJornada
+      tags: [jornadas]
+      summary: Create jornada (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JornadaInput"
+      responses:
+        "201":
+          description: Jornada created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Jornada"
+
+  /jornadas/{id}:
+    get:
+      operationId: getJornada
+      tags: [jornadas]
+      summary: Get jornada with matches
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Jornada with matches
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JornadaDetail"
+    put:
+      operationId: updateJornada
+      tags: [jornadas]
+      summary: Update jornada (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JornadaInput"
+      responses:
+        "200":
+          description: Updated jornada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Jornada"
+
+  # Matches
+  /matches:
+    get:
+      operationId: listMatches
+      tags: [matches]
+      summary: List matches (optionally filtered by jornada)
+      parameters:
+        - name: jornadaId
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [pending, live, finished]
+      responses:
+        "200":
+          description: Matches list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Match"
+    post:
+      operationId: createMatch
+      tags: [matches]
+      summary: Create match (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchInput"
+      responses:
+        "201":
+          description: Match created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Match"
+
+  /matches/{id}:
+    get:
+      operationId: getMatch
+      tags: [matches]
+      summary: Get match by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Match
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Match"
+    put:
+      operationId: updateMatch
+      tags: [matches]
+      summary: Update match (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchUpdate"
+      responses:
+        "200":
+          description: Updated match
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Match"
+    delete:
+      operationId: deleteMatch
+      tags: [matches]
+      summary: Delete match (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /matches/{id}/result:
+    post:
+      operationId: setMatchResult
+      tags: [matches]
+      summary: Set official match result (admin) — triggers scoring recalculation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchResultInput"
+      responses:
+        "200":
+          description: Result set and scores recalculated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Match"
+
+  # Predictions
+  /predictions:
+    get:
+      operationId: listPredictions
+      tags: [predictions]
+      summary: Get predictions (by user and/or jornada)
+      parameters:
+        - name: userId
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: jornadaId
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Predictions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Prediction"
+
+  /predictions/bulk:
+    post:
+      operationId: savePredictions
+      tags: [predictions]
+      summary: Save predictions for a jornada (bulk)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PredictionBulkInput"
+      responses:
+        "200":
+          description: Predictions saved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Prediction"
+        "400":
+          description: Locked (match started)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # Matchups (head-to-head per jornada)
+  /matchups:
+    get:
+      operationId: listMatchups
+      tags: [matchups]
+      summary: List matchups (optionally by jornada)
+      parameters:
+        - name: jornadaId
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Matchups
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Matchup"
+    post:
+      operationId: createMatchup
+      tags: [matchups]
+      summary: Create a matchup for a jornada (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchupInput"
+      responses:
+        "201":
+          description: Matchup created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Matchup"
+
+  /matchups/generate:
+    post:
+      operationId: generateMatchups
+      tags: [matchups]
+      summary: Auto-generate matchups for a jornada (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateMatchupsInput"
+      responses:
+        "200":
+          description: Generated matchups
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Matchup"
+
+  /matchups/{id}:
+    delete:
+      operationId: deleteMatchup
+      tags: [matchups]
+      summary: Delete matchup (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  # Standings
+  /standings/general:
+    get:
+      operationId: getGeneralStandings
+      tags: [standings]
+      summary: Get general standings table
+      responses:
+        "200":
+          description: General standings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GeneralStandingRow"
+
+  /standings/matchups:
+    get:
+      operationId: getMatchupStandings
+      tags: [standings]
+      summary: Get head-to-head standings table
+      responses:
+        "200":
+          description: Head-to-head standings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MatchupStandingRow"
+
+  # Dashboard
+  /dashboard:
+    get:
+      operationId: getDashboard
+      tags: [dashboard]
+      summary: Get dashboard data (stats + top3 + upcoming matches)
+      responses:
+        "200":
+          description: Dashboard data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardData"
+
+  # Player history
+  /users/{id}/history:
+    get:
+      operationId: getPlayerHistory
+      tags: [history]
+      summary: Get player prediction and matchup history
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Player history
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlayerHistory"
+
+  # Admin recalculate
+  /admin/recalculate:
+    post:
+      operationId: recalculateAll
+      tags: [standings]
+      summary: Recalculate all scores and standings (admin)
+      responses:
+        "200":
+          description: Recalculation complete
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +650,617 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
+
+    # Auth
+    LoginInput:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
+
+    RegisterInput:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 3
+        password:
+          type: string
+          minLength: 6
+        displayName:
+          type: string
+      required:
+        - username
+        - password
+        - displayName
+
+    AuthUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        displayName:
+          type: string
+        role:
+          type: string
+          enum: [admin, player]
+      required:
+        - id
+        - username
+        - displayName
+        - role
+
+    # Users
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        displayName:
+          type: string
+        role:
+          type: string
+          enum: [admin, player]
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - username
+        - displayName
+        - role
+        - createdAt
+
+    UserInput:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 3
+        password:
+          type: string
+          minLength: 6
+        displayName:
+          type: string
+        role:
+          type: string
+          enum: [admin, player]
+      required:
+        - username
+        - password
+        - displayName
+        - role
+
+    UserUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: ["string", "null"]
+        displayName:
+          type: string
+        role:
+          type: string
+          enum: [admin, player]
+
+    # Jornadas
+    Jornada:
+      type: object
+      properties:
+        id:
+          type: integer
+        number:
+          type: integer
+        name:
+          type: string
+        startDate:
+          type: ["string", "null"]
+          format: date-time
+        endDate:
+          type: ["string", "null"]
+          format: date-time
+        status:
+          type: string
+          enum: [upcoming, active, finished]
+        matchCount:
+          type: integer
+      required:
+        - id
+        - number
+        - name
+        - status
+        - matchCount
+
+    JornadaDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+        number:
+          type: integer
+        name:
+          type: string
+        startDate:
+          type: ["string", "null"]
+          format: date-time
+        endDate:
+          type: ["string", "null"]
+          format: date-time
+        status:
+          type: string
+          enum: [upcoming, active, finished]
+        matches:
+          type: array
+          items:
+            $ref: "#/components/schemas/Match"
+      required:
+        - id
+        - number
+        - name
+        - status
+        - matches
+
+    JornadaInput:
+      type: object
+      properties:
+        number:
+          type: integer
+          minimum: 1
+          maximum: 17
+        name:
+          type: string
+        startDate:
+          type: ["string", "null"]
+          format: date-time
+        endDate:
+          type: ["string", "null"]
+          format: date-time
+      required:
+        - number
+        - name
+
+    # Matches
+    Match:
+      type: object
+      properties:
+        id:
+          type: integer
+        jornadaId:
+          type: integer
+        homeTeam:
+          type: string
+        awayTeam:
+          type: string
+        homeTeamLogo:
+          type: ["string", "null"]
+        awayTeamLogo:
+          type: ["string", "null"]
+        matchDate:
+          type: ["string", "null"]
+          format: date-time
+        stadium:
+          type: ["string", "null"]
+        status:
+          type: string
+          enum: [pending, live, finished]
+        homeScore:
+          type: ["integer", "null"]
+        awayScore:
+          type: ["integer", "null"]
+        isLocked:
+          type: boolean
+      required:
+        - id
+        - jornadaId
+        - homeTeam
+        - awayTeam
+        - status
+        - isLocked
+
+    MatchInput:
+      type: object
+      properties:
+        jornadaId:
+          type: integer
+        homeTeam:
+          type: string
+        awayTeam:
+          type: string
+        homeTeamLogo:
+          type: ["string", "null"]
+        awayTeamLogo:
+          type: ["string", "null"]
+        matchDate:
+          type: ["string", "null"]
+          format: date-time
+        stadium:
+          type: ["string", "null"]
+      required:
+        - jornadaId
+        - homeTeam
+        - awayTeam
+
+    MatchUpdate:
+      type: object
+      properties:
+        homeTeam:
+          type: string
+        awayTeam:
+          type: string
+        homeTeamLogo:
+          type: ["string", "null"]
+        awayTeamLogo:
+          type: ["string", "null"]
+        matchDate:
+          type: ["string", "null"]
+          format: date-time
+        stadium:
+          type: ["string", "null"]
+        status:
+          type: string
+          enum: [pending, live, finished]
+
+    MatchResultInput:
+      type: object
+      properties:
+        homeScore:
+          type: integer
+          minimum: 0
+        awayScore:
+          type: integer
+          minimum: 0
+        status:
+          type: string
+          enum: [live, finished]
+      required:
+        - homeScore
+        - awayScore
+        - status
+
+    # Predictions
+    Prediction:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        matchId:
+          type: integer
+        homeScore:
+          type: ["integer", "null"]
+        awayScore:
+          type: ["integer", "null"]
+        points:
+          type: ["integer", "null"]
+        isLocked:
+          type: boolean
+        match:
+          $ref: "#/components/schemas/Match"
+      required:
+        - id
+        - userId
+        - matchId
+        - isLocked
+
+    PredictionItem:
+      type: object
+      properties:
+        matchId:
+          type: integer
+        homeScore:
+          type: ["integer", "null"]
+        awayScore:
+          type: ["integer", "null"]
+      required:
+        - matchId
+
+    PredictionBulkInput:
+      type: object
+      properties:
+        jornadaId:
+          type: integer
+        predictions:
+          type: array
+          items:
+            $ref: "#/components/schemas/PredictionItem"
+      required:
+        - jornadaId
+        - predictions
+
+    # Matchups
+    Matchup:
+      type: object
+      properties:
+        id:
+          type: integer
+        jornadaId:
+          type: integer
+        player1Id:
+          type: integer
+        player2Id:
+          type: integer
+        player1DisplayName:
+          type: string
+        player2DisplayName:
+          type: string
+        player1Points:
+          type: ["integer", "null"]
+        player2Points:
+          type: ["integer", "null"]
+        player1MatchupPoints:
+          type: ["integer", "null"]
+        player2MatchupPoints:
+          type: ["integer", "null"]
+        result:
+          type: ["string", "null"]
+          enum: [player1_wins, player2_wins, draw, "null"]
+      required:
+        - id
+        - jornadaId
+        - player1Id
+        - player2Id
+        - player1DisplayName
+        - player2DisplayName
+
+    MatchupInput:
+      type: object
+      properties:
+        jornadaId:
+          type: integer
+        player1Id:
+          type: integer
+        player2Id:
+          type: integer
+      required:
+        - jornadaId
+        - player1Id
+        - player2Id
+
+    GenerateMatchupsInput:
+      type: object
+      properties:
+        jornadaId:
+          type: integer
+      required:
+        - jornadaId
+
+    # Standings
+    GeneralStandingRow:
+      type: object
+      properties:
+        position:
+          type: integer
+        positionChange:
+          type: integer
+        userId:
+          type: integer
+        displayName:
+          type: string
+        exactScores:
+          type: integer
+        correctResults:
+          type: integer
+        totalPoints:
+          type: integer
+        accuracy:
+          type: number
+      required:
+        - position
+        - positionChange
+        - userId
+        - displayName
+        - exactScores
+        - correctResults
+        - totalPoints
+        - accuracy
+
+    MatchupStandingRow:
+      type: object
+      properties:
+        position:
+          type: integer
+        positionChange:
+          type: integer
+        userId:
+          type: integer
+        displayName:
+          type: string
+        wins:
+          type: integer
+        draws:
+          type: integer
+        losses:
+          type: integer
+        points:
+          type: integer
+        pointDiff:
+          type: integer
+      required:
+        - position
+        - positionChange
+        - userId
+        - displayName
+        - wins
+        - draws
+        - losses
+        - points
+        - pointDiff
+
+    # Dashboard
+    UpcomingMatch:
+      type: object
+      properties:
+        id:
+          type: integer
+        jornadaId:
+          type: integer
+        jornadaNumber:
+          type: integer
+        homeTeam:
+          type: string
+        awayTeam:
+          type: string
+        homeTeamLogo:
+          type: ["string", "null"]
+        awayTeamLogo:
+          type: ["string", "null"]
+        matchDate:
+          type: ["string", "null"]
+          format: date-time
+        stadium:
+          type: ["string", "null"]
+        isLocked:
+          type: boolean
+      required:
+        - id
+        - jornadaId
+        - jornadaNumber
+        - homeTeam
+        - awayTeam
+        - isLocked
+
+    Top3Player:
+      type: object
+      properties:
+        position:
+          type: integer
+        userId:
+          type: integer
+        displayName:
+          type: string
+        points:
+          type: integer
+      required:
+        - position
+        - userId
+        - displayName
+        - points
+
+    DashboardData:
+      type: object
+      properties:
+        totalPlayers:
+          type: integer
+        currentJornada:
+          type: ["integer", "null"]
+        playedMatches:
+          type: integer
+        pendingMatches:
+          type: integer
+        generalLeader:
+          type: ["string", "null"]
+        matchupLeader:
+          type: ["string", "null"]
+        upcomingMatches:
+          type: array
+          items:
+            $ref: "#/components/schemas/UpcomingMatch"
+        top3General:
+          type: array
+          items:
+            $ref: "#/components/schemas/Top3Player"
+        top3Matchups:
+          type: array
+          items:
+            $ref: "#/components/schemas/Top3Player"
+      required:
+        - totalPlayers
+        - playedMatches
+        - pendingMatches
+        - upcomingMatches
+        - top3General
+        - top3Matchups
+
+    # History
+    JornadaPointsSummary:
+      type: object
+      properties:
+        jornadaId:
+          type: integer
+        jornadaNumber:
+          type: integer
+        jornadaName:
+          type: string
+        points:
+          type: integer
+        exactScores:
+          type: integer
+        correctResults:
+          type: integer
+        matchupResult:
+          type: ["string", "null"]
+        matchupOpponent:
+          type: ["string", "null"]
+        matchupPoints:
+          type: ["integer", "null"]
+      required:
+        - jornadaId
+        - jornadaNumber
+        - jornadaName
+        - points
+        - exactScores
+        - correctResults
+
+    PlayerHistory:
+      type: object
+      properties:
+        userId:
+          type: integer
+        displayName:
+          type: string
+        totalPoints:
+          type: integer
+        totalMatchupPoints:
+          type: integer
+        exactScores:
+          type: integer
+        correctResults:
+          type: integer
+        accuracy:
+          type: number
+        jornadaSummaries:
+          type: array
+          items:
+            $ref: "#/components/schemas/JornadaPointsSummary"
+        predictions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Prediction"
+      required:
+        - userId
+        - displayName
+        - totalPoints
+        - totalMatchupPoints
+        - exactScores
+        - correctResults
+        - accuracy
+        - jornadaSummaries
+        - predictions

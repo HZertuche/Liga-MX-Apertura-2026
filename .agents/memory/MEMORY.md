@@ -1,0 +1,1 @@
+- [Quiniela Liga MX architecture](quiniela-architecture.md) — stack, auth pattern, error handling, scoring, known JornadaInput/status limitation

@@ -1,0 +1,417 @@
+Prompt para Replit AI
+
+Quiero desarrollar una aplicación web llamada "Quiniela Liga MX Apertura 2026".
+
+La aplicación debe tener un diseño moderno, responsive y fácil de usar tanto en computadora como en dispositivos móviles.
+
+Autenticacion:
+
+Un usuario de prueba de administrador que sea: admin y contraseña: admin123
+Un usuario de prueba como participante que sea: maestro y contraseña: pincelin
+
+Que al inicio tambien tenga un boton para registrarte como usuario nuevo, ademas el boton de iniciar sesion.
+
+Objetivo
+
+La aplicación administrará una quiniela del torneo Liga MX Apertura 2026.
+
+Únicamente deben considerarse los partidos de:
+
+Jornada 1
+Jornada 2
+...
+Jornada 17
+
+No deben incluirse Play In, Liguilla, Cuartos de Final, Semifinales ni Final.
+
+Tipos de competencia
+
+Existen dos competencias simultáneas.
+
+1. Puntos por Torneo
+
+Cada jugador pronostica todos los partidos de cada jornada.
+
+La puntuación será:
+
+Marcador exacto → 5 puntos
+
+Ejemplo
+
+Resultado real
+
+Xolos 2-1 Tigres
+
+Pronóstico
+
+Xolos 2-1 Tigres
+
+Resultado:
+
+5 puntos
+
+Resultado correcto pero marcador incorrecto → 3 puntos
+
+Ejemplo
+
+Resultado real
+
+Xolos 2-1 Tigres
+
+Pronóstico
+
+Xolos 3-1 Tigres
+
+Ganó Xolos en ambos.
+
+Resultado:
+
+3 puntos
+
+Otro ejemplo
+
+Resultado real
+
+2-2
+
+Pronóstico
+
+1-1
+
+Empate en ambos.
+
+Resultado:
+
+3 puntos
+
+Resultado incorrecto
+
+0 puntos
+
+La Tabla General debe acumular todos los puntos obtenidos durante las 17 jornadas.
+
+2. Competencia por Enfrentamientos
+
+Cada jornada los jugadores tendrán un rival.
+
+Ejemplo
+
+Jugador A vs Jugador B
+
+Cada uno obtiene puntos de acuerdo con sus pronósticos (5,3,0).
+
+Al terminar la jornada:
+
+Si Jugador A hizo más puntos
+
+Jugador A recibe
+
+3 puntos de enfrentamiento
+
+Jugador B recibe
+
+0
+
+Si empatan en puntos
+
+Jugador A recibe
+
+1 punto
+
+Jugador B recibe
+
+1 punto
+
+Si Jugador B hizo más puntos
+
+Jugador B recibe
+
+3 puntos
+
+Jugador A recibe
+
+0
+
+La Tabla de Enfrentamientos debe acumular únicamente esos puntos (3,1,0).
+
+Dashboard (Inicio)
+
+La pantalla inicial debe mostrar tarjetas con:
+
+Número de jugadores registrados
+Jornada actual
+Cantidad de partidos jugados
+Cantidad de partidos pendientes
+Líder actual de la Tabla General
+Líder actual de Enfrentamientos
+
+También mostrar:
+
+Próximos partidos
+
+Lista de partidos próximos ordenados por fecha.
+
+Mostrar
+
+equipos con sus respectivos logos
+fecha
+hora
+estadio
+Top 3 Tabla General
+
+Jugador
+Puntos
+
+Jugador
+Puntos
+
+Jugador
+Puntos
+
+Top 3 Enfrentamientos
+
+Jugador
+Puntos
+
+Jugador
+Puntos
+
+Jugador
+Puntos
+
+Menú lateral
+
+Crear las siguientes opciones.
+
+Inicio
+
+Dashboard.
+
+Tabla General
+
+Mostrar una tabla con
+
+Posición
+
+Jugador
+
+Partidos acertados exactos
+
+Resultados acertados
+
+Puntos Totales
+
+Permitir ordenar por cualquier columna.
+
+Tabla Enfrentamientos
+
+Mostrar
+
+Posición
+
+Jugador
+
+Ganados
+
+Empatados
+
+Perdidos
+
+Puntos
+
+Diferencia de puntos
+
+Partidos
+
+Mostrar todas las jornadas.
+
+Al seleccionar una jornada mostrar los partidos.
+
+Cada partido tendrá
+
+Equipo Local
+
+Equipo Visitante
+
+Fecha
+
+Hora
+
+Estado
+
+Pendiente
+
+En Juego
+
+Finalizado
+
+Resultado Final
+
+Captura de Pronósticos
+
+Cada usuario puede ingresar sus marcadores.
+
+Ejemplo
+
+Xolos
+
+[2]
+
+vs
+
+Tigres
+
+[1]
+
+Debe existir un botón
+
+Guardar Pronósticos
+
+Restricción importante
+
+Los usuarios solo podrán modificar sus pronósticos hasta 10 minutos antes del inicio del partido.
+
+Después de ese momento
+
+Los campos deberán quedar bloqueados automáticamente.
+
+El administrador sí podrá modificar resultados oficiales.
+
+Administración
+
+Debe existir un rol Administrador.
+
+El administrador podrá:
+
+Agregar jugadores.
+
+Editar jugadores.
+
+Eliminar jugadores.
+
+Crear jornadas.
+
+Agregar partidos.
+
+Editar fechas.
+
+Capturar resultados oficiales.
+
+Crear enfrentamientos de cada jornada.
+
+Recalcular automáticamente todas las tablas.
+
+Enfrentamientos
+
+Debe existir una pantalla donde el administrador genere los enfrentamientos.
+
+Ejemplo
+
+Jornada 1
+
+Juan vs Pedro
+
+Carlos vs Luis
+
+Mario vs José
+
+etc.
+
+Cálculo Automático
+
+Cuando el administrador capture el resultado oficial:
+
+El sistema debe:
+
+Calcular automáticamente todos los puntos.
+
+Actualizar Tabla General.
+
+Actualizar Tabla Enfrentamientos.
+
+Actualizar Dashboard.
+
+Historial
+
+Cada jugador tendrá una página donde pueda consultar
+
+Todos sus pronósticos.
+
+Puntos obtenidos por jornada.
+
+Total acumulado.
+
+Historial de enfrentamientos.
+
+Rivales anteriores.
+
+Diseño
+
+Quiero un diseño moderno inspirado en aplicaciones deportivas.
+
+Utilizar colores:
+
+Verde
+
+Blanco
+
+Gris oscuro
+
+Detalles en dorado para los líderes.
+
+Usar tarjetas con sombras suaves.
+
+Animaciones discretas.
+
+Modo responsive.
+
+Base de Datos
+
+Crear las tablas necesarias.
+
+Por ejemplo:
+
+Usuarios
+
+Jugadores
+
+Jornadas
+
+Partidos
+
+Pronósticos
+
+Resultados
+
+Enfrentamientos
+
+TablaGeneral
+
+TablaEnfrentamientos
+
+Integración con Liga MX
+
+Si es posible, obtener automáticamente:
+
+Calendario oficial del Liga MX Apertura 2026.
+
+Fechas.
+
+Horarios.
+
+Equipos.
+
+Si no existe una API gratuita disponible, dejar preparada la estructura para importar los partidos mediante archivo CSV o captura manual.
+
+Funcionalidades adicionales
+Barra de búsqueda de jugadores.
+Filtros por jornada.
+Indicadores de cambios de posición en las tablas (▲ ▼).
+Estadísticas de porcentaje de aciertos por jugador.
+Mostrar cuántos marcadores exactos y resultados acertados lleva cada jugador.
+Notificaciones visuales cuando un partido esté bloqueado.
+Confirmación antes de guardar pronósticos.
+Tema de los colores de la Liga MX.
+Objetivo final
+
+Quiero una aplicación completamente funcional, con arquitectura limpia, código modular y escalable, preparada para futuras temporadas (Clausura 2027, Apertura 2027, etc.), de forma que solo sea necesario cargar un nuevo calendario y reiniciar la competencia sin modificar el código fuente.
