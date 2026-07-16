@@ -96,7 +96,8 @@ export default function AdminMatches() {
         jornadaId: selectedJornadaId,
         homeTeam,
         awayTeam,
-        matchDate: matchDate || null,
+        // Append Mexico City offset so the entered time is stored correctly
+        matchDate: matchDate ? `${matchDate}:00-06:00` : null,
         stadium: stadium || null
       }
     }, {
