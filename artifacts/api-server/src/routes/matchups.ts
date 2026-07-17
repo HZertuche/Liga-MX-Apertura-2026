@@ -66,13 +66,12 @@ router.post("/matchups/generate", requireAdmin, async (req, res) => {
   // Delete existing matchups for this jornada
   await db.delete(matchupsTable).where(eq(matchupsTable.jornadaId, jornadaId));
 
-  // Get all players
+  // Get all users (players and admins all participate)
   const players = await db.select({ id: usersTable.id, displayName: usersTable.displayName })
-    .from(usersTable)
-    .where(eq(usersTable.role, "player"));
+    .from(usersTable);
 
   if (players.length < 2) {
-    res.status(400).json({ error: "Se necesitan al menos 2 jugadores" });
+    res.status(400).json({ error: "Se necesitan al menos 2 usuarios" });
     return;
   }
 
