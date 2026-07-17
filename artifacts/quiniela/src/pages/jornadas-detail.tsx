@@ -315,6 +315,7 @@ export default function JornadaDetail() {
             const isLocked = isMatchLocked(match);
             const pred = predictions?.find((p: any) => p.matchId === match.id);
             const score = localScores[match.id] || { home: "", away: "" };
+            const hasOfficialResult = match.homeScore !== null && match.awayScore !== null;
 
             return (
               <div key={match.id} className={cn(
@@ -353,45 +354,99 @@ export default function JornadaDetail() {
                   </div>
                 </div>
 
-                <div className="p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-6">
-                  {/* Home Team */}
-                  <div className="flex-1 flex items-center justify-end sm:justify-start gap-4 w-full sm:w-auto">
-                    <span className="font-display font-bold text-lg sm:text-xl order-2 sm:order-1 flex-1 text-right">{match.homeTeam}</span>
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      value={score.home}
-                      onChange={(e) => handleScoreChange(match.id, 'home', e.target.value)}
-                      disabled={isLocked}
-                      className={cn(
-                        "w-14 h-14 sm:w-16 sm:h-16 text-center text-2xl font-bold rounded-lg border-2 order-1 sm:order-2",
-                        isLocked ? "bg-muted text-muted-foreground border-border cursor-not-allowed" : "bg-background focus:border-primary focus:ring-0",
-                        score.home !== "" ? "text-foreground" : "text-muted-foreground/30"
-                      )}
-                      placeholder="-"
-                    />
+                <div className="p-4 sm:p-6 flex flex-col gap-5">
+                <div className="p-4 sm:p-6 flex flex-col gap-5">
+                
+                  {/* Resultado oficial */}
+                  {isLocked && hasOfficialResult && (
+                    <div className="text-center bg-primary/5 rounded-lg p-4">
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground font-semibold mb-3">
+                        Resultado Final
+                      </p>
+                
+                      <div className="flex items-center justify-center gap-4 sm:gap-8">
+                        <span className="font-display font-bold text-lg sm:text-xl">
+                          {match.homeTeam}
+                        </span>
+                
+                        <span className="text-3xl font-bold">
+                          {match.homeScore} - {match.awayScore}
+                        </span>
+                
+                        <span className="font-display font-bold text-lg sm:text-xl">
+                          {match.awayTeam}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                
+                
+                  {/* Tu predicción */}
+                  <div className="text-center">
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground font-semibold mb-3">
+                      Tu Predicción
+                    </p>
+                
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+                
+                      {/* Local */}
+                      <div className="flex items-center gap-3">
+                        <span className="font-display font-bold text-lg sm:text-xl">
+                          {match.homeTeam}
+                        </span>
+                
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          value={score.home}
+                          onChange={(e) => handleScoreChange(match.id, 'home', e.target.value)}
+                          disabled={isLocked}
+                          className={cn(
+                            "w-14 h-14 sm:w-16 sm:h-16 text-center text-2xl font-bold rounded-lg border-2",
+                            isLocked
+                              ? "bg-muted text-muted-foreground border-border cursor-not-allowed"
+                              : "bg-background focus:border-primary focus:ring-0",
+                            score.home !== "" ? "text-foreground" : "text-muted-foreground/30"
+                          )}
+                          placeholder="-"
+                        />
+                      </div>
+                
+                
+                      <span className="font-bold text-muted-foreground/50">
+                        VS
+                      </span>
+                
+                
+                      {/* Visitante */}
+                      <div className="flex items-center gap-3">
+                
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          value={score.away}
+                          onChange={(e) => handleScoreChange(match.id, 'away', e.target.value)}
+                          disabled={isLocked}
+                          className={cn(
+                            "w-14 h-14 sm:w-16 sm:h-16 text-center text-2xl font-bold rounded-lg border-2",
+                            isLocked
+                              ? "bg-muted text-muted-foreground border-border cursor-not-allowed"
+                              : "bg-background focus:border-primary focus:ring-0",
+                            score.away !== "" ? "text-foreground" : "text-muted-foreground/30"
+                          )}
+                          placeholder="-"
+                        />
+                
+                        <span className="font-display font-bold text-lg sm:text-xl">
+                          {match.awayTeam}
+                        </span>
+                
+                      </div>
+                
+                    </div>
                   </div>
-
-                  <div className="shrink-0 font-bold text-muted-foreground/50 text-sm">VS</div>
-
-                  {/* Away Team */}
-                  <div className="flex-1 flex items-center justify-start sm:justify-end gap-4 w-full sm:w-auto">
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      value={score.away}
-                      onChange={(e) => handleScoreChange(match.id, 'away', e.target.value)}
-                      disabled={isLocked}
-                      className={cn(
-                        "w-14 h-14 sm:w-16 sm:h-16 text-center text-2xl font-bold rounded-lg border-2",
-                        isLocked ? "bg-muted text-muted-foreground border-border cursor-not-allowed" : "bg-background focus:border-primary focus:ring-0",
-                        score.away !== "" ? "text-foreground" : "text-muted-foreground/30"
-                      )}
-                      placeholder="-"
-                    />
-                    <span className="font-display font-bold text-lg sm:text-xl flex-1 text-left">{match.awayTeam}</span>
-                  </div>
-                </div>
+                
+                </div>           
 
                 {/* Result summary if finished */}
                 {match.status === 'finished' && (
