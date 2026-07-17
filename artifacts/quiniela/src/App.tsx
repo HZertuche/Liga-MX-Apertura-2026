@@ -19,6 +19,7 @@ import AdminUsers from '@/pages/admin-users';
 import AdminJornadas from '@/pages/admin-jornadas';
 import AdminMatches from '@/pages/admin-matches';
 import AdminMatchups from '@/pages/admin-matchups';
+import AdminPredictions from '@/pages/admin-predictions';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -95,6 +96,11 @@ function Router() {
         <Route path="/admin/matchups">
           <ProtectedRoute adminOnly>
             <AdminMatchups />
+          </ProtectedRoute>
+        </Route>
+        <Route path="/admin/predictions">
+          <ProtectedRoute adminOnly>
+            <AdminPredictions />
           </ProtectedRoute>
         </Route>
 
