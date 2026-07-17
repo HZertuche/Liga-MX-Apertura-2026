@@ -129,7 +129,12 @@ export default function JornadaDetail() {
   }
 
   const dirty = isFormDirty();
-  const allLocked = jornada.matches.every(m => m.isLocked);
+
+  const LOCK_MS = 10 * 60 * 1000; // 10 min antes del partido
+  const isMatchLocked = (m: { isLocked: boolean; matchDate?: string | null }) =>
+    m.isLocked || (!!m.matchDate && new Date(m.matchDate).getTime() - Date.now() < LOCK_MS);
+
+  const allLocked = jornada.matches.every(isMatchLocked);
 
   return (
     <div className="p-4 md:p-8 max-w-4xl mx-auto space-y-6">
@@ -171,7 +176,7 @@ export default function JornadaDetail() {
           </div>
         ) : (
           jornada.matches.map(match => {
-            const isLocked = match.isLocked;
+            const isLocked = isMatchLocked(match);
             const pred = predictions?.find(p => p.matchId === match.id);
             const score = localScores[match.id] || { home: "", away: "" };
             
