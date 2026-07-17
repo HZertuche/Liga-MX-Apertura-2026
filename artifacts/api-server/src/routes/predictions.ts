@@ -36,7 +36,12 @@ router.get("/predictions", requireAuth, async (req, res) => {
   } else if (userId) {
     predictions = await db.select().from(predictionsTable).where(eq(predictionsTable.userId, userId));
   } else if (matchIds) {
-    predictions = await db.select().from(predictionsTable).where(inArray(predictionsTable.matchId, matchIds));
+    predictions = await db.select().from(predictionsTable).where(
+      and(
+        eq(predictionsTable.userId, req.session.userId!),
+        inArray(predictionsTable.matchId, matchIds)
+      )
+    );
   } else {
     // Return only current user's predictions
     predictions = await db.select().from(predictionsTable).where(eq(predictionsTable.userId, req.session.userId!));
