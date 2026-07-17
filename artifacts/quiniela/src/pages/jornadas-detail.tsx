@@ -477,7 +477,7 @@ export default function JornadaDetail() {
                     </div>
                   </div>
                 
-                </div>           
+                         
 
                 {/* Result summary if finished */}
                 {match.status === 'finished' && (
