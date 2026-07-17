@@ -355,7 +355,6 @@ export default function JornadaDetail() {
                 </div>
 
                 <div className="p-4 sm:p-6 flex flex-col gap-5">
-                <div className="p-4 sm:p-6 flex flex-col gap-5">
                 
                   {/* Resultado oficial */}
                   {isLocked && hasOfficialResult && (
