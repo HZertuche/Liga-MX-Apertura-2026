@@ -85,8 +85,7 @@ router.post("/predictions/bulk", requireAuth, async (req, res) => {
     );
 
     if (isLocked) {
-      res.status(400).json({ error: `El partido ${match.homeTeam} vs ${match.awayTeam} ya está bloqueado` });
-      return;
+      continue;
     }
 
     // Upsert prediction
