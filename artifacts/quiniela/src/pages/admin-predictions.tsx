@@ -2,6 +2,10 @@ import { useState } from "react";
 import { useListJornadas, useListUsers, useListPredictions, useListMatches } from "@workspace/api-client-react";
 import { formatDate } from "@/lib/format";
 
+const LOCK_MS = 10 * 60 * 1000;
+const isMatchLocked = (m: { isLocked: boolean; matchDate?: string | null }) =>
+  m.isLocked || (!!m.matchDate && new Date(m.matchDate).getTime() - Date.now() < LOCK_MS);
+
 export default function AdminPredictions() {
   const [jornadaId, setJornadaId] = useState<number | null>(null);
 
@@ -122,6 +126,7 @@ export default function AdminPredictions() {
               </thead>
               <tbody>
                 {sortedMatches.map((match, i) => {
+                  const locked = isMatchLocked(match);
                   const hasResult = match.homeScore !== null && match.awayScore !== null;
                   return (
                     <tr key={match.id} className={i % 2 === 0 ? "bg-background" : "bg-muted/20"}>
@@ -130,23 +135,34 @@ export default function AdminPredictions() {
                         <span>{match.homeTeam}</span>
                         <span className="text-muted-foreground mx-1.5">vs</span>
                         <span>{match.awayTeam}</span>
-                        {hasResult && (
+                        {hasResult && locked && (
                           <div className="text-xs text-primary font-semibold mt-0.5">
                             Resultado: {match.homeScore} – {match.awayScore}
                           </div>
                         )}
                       </td>
-                      {/* Date */}
+                      {/* Date + estado */}
                       <td className="p-3 border-b text-muted-foreground text-xs">
-                        {formatDate(match.matchDate)}
+                        <div>{formatDate(match.matchDate)}</div>
+                        {locked
+                          ? <span className="text-destructive/70 font-medium">Cerrado</span>
+                          : <span className="text-green-600 font-medium">Abierto</span>}
                       </td>
-                      {/* Each user's prediction */}
+                      {/* Each user's prediction — only visible when match is locked */}
                       {sortedUsers.map(u => {
+                        if (!locked) {
+                          return (
+                            <td key={u.id} className="p-3 border-b text-center text-muted-foreground/30">
+                              —
+                            </td>
+                          );
+                        }
+
                         const pred = predsByMatchAndUser[match.id]?.[u.id];
                         const submitted = pred !== undefined;
                         const hasScore = submitted && pred.homeScore !== null && pred.awayScore !== null;
 
-                        // If result exists, determine outcome color
+                        // Determine outcome color once result exists
                         let outcomeClass = "";
                         if (hasResult && hasScore) {
                           const realHome = match.homeScore!;
@@ -154,15 +170,15 @@ export default function AdminPredictions() {
                           const predHome = pred.homeScore!;
                           const predAway = pred.awayScore!;
                           if (predHome === realHome && predAway === realAway) {
-                            outcomeClass = "bg-green-100 text-green-800 font-semibold"; // exact
+                            outcomeClass = "bg-green-100 text-green-800 font-semibold";
                           } else if (
                             (predHome > predAway && realHome > realAway) ||
                             (predHome < predAway && realHome < realAway) ||
                             (predHome === predAway && realHome === realAway)
                           ) {
-                            outcomeClass = "bg-blue-100 text-blue-800"; // correct outcome
+                            outcomeClass = "bg-blue-100 text-blue-800";
                           } else {
-                            outcomeClass = "bg-red-100 text-red-800"; // wrong
+                            outcomeClass = "bg-red-100 text-red-800";
                           }
                         }
 
