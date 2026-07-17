@@ -25,10 +25,6 @@ import {
 // Helper hook pattern wrapper due to API client constraints
 function useMatchData(jornadaId: number | null) {
   return useListMatches({
-    query: {
-      enabled: !!jornadaId,
-      queryKey: ["/api/matches", { jornadaId }]
-    },
     request: { query: { jornadaId: jornadaId || undefined } }
   } as any);
 }
