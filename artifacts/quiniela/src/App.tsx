@@ -20,6 +20,7 @@ import AdminJornadas from '@/pages/admin-jornadas';
 import AdminMatches from '@/pages/admin-matches';
 import AdminMatchups from '@/pages/admin-matchups';
 import AdminPredictions from '@/pages/admin-predictions';
+import WeeklyStandings from '@/pages/standings-weekly';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -64,6 +65,11 @@ function Router() {
         <Route path="/standings/general">
           <ProtectedRoute>
             <GeneralStandings />
+          </ProtectedRoute>
+        </Route>
+        <Route path="/standings/weekly">
+          <ProtectedRoute>
+            <WeeklyStandings />
           </ProtectedRoute>
         </Route>
         <Route path="/standings/matchups">

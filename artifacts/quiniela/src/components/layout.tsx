@@ -1,7 +1,7 @@
 import { useAuth } from '@/contexts/auth-context';
 import { useLogout } from '@workspace/api-client-react';
 import { Link, useLocation } from 'wouter';
-import { LayoutDashboard, CalendarDays, Trophy, Swords, History, Users, Settings, LogOut, ChevronLeft, Menu, ClipboardList } from 'lucide-react';
+import { LayoutDashboard, CalendarDays, Trophy, Swords, History, Users, Settings, LogOut, ChevronLeft, Menu, ClipboardList, Star } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -33,6 +33,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     { href: '/dashboard', label: 'Inicio', icon: LayoutDashboard },
     { href: '/jornadas', label: 'Jornadas', icon: CalendarDays },
     { href: '/standings/general', label: 'Tabla General', icon: Trophy },
+    { href: '/standings/weekly', label: 'Premio Semanal', icon: Star },
     { href: '/standings/matchups', label: 'Enfrentamientos', icon: Swords },
     { href: `/history/${user.id}`, label: 'Mi Historial', icon: History },
   ];

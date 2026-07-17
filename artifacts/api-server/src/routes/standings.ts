@@ -113,6 +113,41 @@ router.get("/standings/matchups", requireAuth, async (_req, res) => {
   res.json(withPosition);
 });
 
+// GET /api/standings/weekly?jornadaId=X — points for a single jornada
+router.get("/standings/weekly", requireAuth, async (req, res) => {
+  const jornadaId = req.query.jornadaId ? Number(req.query.jornadaId) : null;
+
+  const players = await db.select().from(usersTable);
+  const jornadaMatches = jornadaId
+    ? await db.select().from(matchesTable).where(and(eq(matchesTable.jornadaId, jornadaId), eq(matchesTable.status, "finished")))
+    : await db.select().from(matchesTable).where(eq(matchesTable.status, "finished"));
+
+  const matchIds = jornadaMatches.map(m => m.id);
+  const allPredictions = matchIds.length > 0
+    ? await db.select().from(predictionsTable)
+    : [];
+
+  const rows = players.map(player => {
+    const preds = allPredictions.filter(p => p.userId === player.id && matchIds.includes(p.matchId));
+    let exactScores = 0, correctResults = 0, totalPoints = 0;
+
+    for (const pred of preds) {
+      const match = jornadaMatches.find(m => m.id === pred.matchId);
+      if (!match || match.homeScore === null || match.awayScore === null) continue;
+      if (pred.homeScore === null || pred.awayScore === null) continue;
+      const pts = pred.points ?? calculatePoints(pred.homeScore, pred.awayScore, match.homeScore, match.awayScore);
+      totalPoints += pts;
+      if (pts === 5) exactScores++;
+      if (pts === 3) correctResults++;
+    }
+
+    return { userId: player.id, displayName: player.displayName, exactScores, correctResults, totalPoints };
+  });
+
+  rows.sort((a, b) => b.totalPoints - a.totalPoints || b.exactScores - a.exactScores);
+  res.json(rows.map((row, i) => ({ position: i + 1, ...row })));
+});
+
 // POST /api/admin/recalculate — recalculate all scores
 router.post("/admin/recalculate", requireAdmin, async (_req, res) => {
   const allMatches = await db.select().from(matchesTable).where(eq(matchesTable.status, "finished"));

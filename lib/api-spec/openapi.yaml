@@ -577,6 +577,27 @@ paths:
                 items:
                   $ref: "#/components/schemas/GeneralStandingRow"
 
+  /standings/weekly:
+    get:
+      operationId: getWeeklyStandings
+      tags: [standings]
+      summary: Get standings for a single jornada (weekly prize)
+      parameters:
+        - name: jornadaId
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Weekly standings for the jornada
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WeeklyStandingRow"
+
   /standings/matchups:
     get:
       operationId: getMatchupStandings
@@ -1081,6 +1102,29 @@ components:
         - correctResults
         - totalPoints
         - accuracy
+
+    WeeklyStandingRow:
+      type: object
+      properties:
+        position:
+          type: integer
+        userId:
+          type: integer
+        displayName:
+          type: string
+        exactScores:
+          type: integer
+        correctResults:
+          type: integer
+        totalPoints:
+          type: integer
+      required:
+        - position
+        - userId
+        - displayName
+        - exactScores
+        - correctResults
+        - totalPoints
 
     MatchupStandingRow:
       type: object
