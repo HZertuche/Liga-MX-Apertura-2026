@@ -406,14 +406,14 @@ export default function JornadaDetail() {
                       Tu Predicción
                     </p>
                 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+                    <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
                 
                       {/* Local */}
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 lg:w-64 lg:justify-end">
                         <img
                           src={getTeamLogo(match.homeTeam)}
                           alt={match.homeTeam}
-                          className="w-8 h-8 object-contain"
+                          className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
                         />
                       
                         <span className="font-display font-bold text-lg sm:text-xl">
@@ -444,11 +444,11 @@ export default function JornadaDetail() {
                 
                 
                       {/* Visitante */}
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 lg:w-64">
                         <img
                           src={getTeamLogo(match.awayTeam)}
                           alt={match.awayTeam}
-                          className="w-8 h-8 object-contain"
+                          className="w-8 h-8 lg:w-12 lg:h-12 object-contain"
                         />
                       
                         <span className="font-display font-bold text-lg sm:text-xl">
