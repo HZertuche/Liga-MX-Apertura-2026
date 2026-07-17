@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { formatDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { getTeamLogo } from "@/lib/team-logos";
 
 import {
   AlertDialog,
@@ -362,22 +363,41 @@ export default function JornadaDetail() {
                       <p className="text-xs uppercase tracking-wide text-muted-foreground font-semibold mb-3">
                         Resultado Final
                       </p>
-                
-                      <div className="flex items-center justify-center gap-4 sm:gap-8">
-                        <span className="font-display font-bold text-lg sm:text-xl">
-                          {match.homeTeam}
-                        </span>
-                
+                  
+                      <div className="flex items-center justify-center gap-6 sm:gap-8 flex-wrap">
+                  
+                        {/* Local */}
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={getTeamLogo(match.homeTeam)}
+                            alt={match.homeTeam}
+                            className="w-8 h-8 object-contain"
+                          />
+                          <span className="font-display font-bold text-lg sm:text-xl">
+                            {match.homeTeam}
+                          </span>
+                        </div>
+                  
+                        {/* Marcador */}
                         <span className="text-3xl font-bold">
                           {match.homeScore} - {match.awayScore}
                         </span>
-                
-                        <span className="font-display font-bold text-lg sm:text-xl">
-                          {match.awayTeam}
-                        </span>
+                  
+                        {/* Visitante */}
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={getTeamLogo(match.awayTeam)}
+                            alt={match.awayTeam}
+                            className="w-8 h-8 object-contain"
+                          />
+                          <span className="font-display font-bold text-lg sm:text-xl">
+                            {match.awayTeam}
+                          </span>
+                        </div>
+                  
                       </div>
                     </div>
-                  )}
+                  )}                  
                 
                 
                   {/* Tu predicción */}
@@ -390,15 +410,21 @@ export default function JornadaDetail() {
                 
                       {/* Local */}
                       <div className="flex items-center gap-3">
+                        <img
+                          src={getTeamLogo(match.homeTeam)}
+                          alt={match.homeTeam}
+                          className="w-8 h-8 object-contain"
+                        />
+                      
                         <span className="font-display font-bold text-lg sm:text-xl">
                           {match.homeTeam}
                         </span>
-                
+                      
                         <input
                           type="text"
                           inputMode="numeric"
                           value={score.home}
-                          onChange={(e) => handleScoreChange(match.id, 'home', e.target.value)}
+                          onChange={(e) => handleScoreChange(match.id, "home", e.target.value)}
                           disabled={isLocked}
                           className={cn(
                             "w-14 h-14 sm:w-16 sm:h-16 text-center text-2xl font-bold rounded-lg border-2",
@@ -410,7 +436,7 @@ export default function JornadaDetail() {
                           placeholder="-"
                         />
                       </div>
-                
+                  
                 
                       <span className="font-bold text-muted-foreground/50">
                         VS
@@ -419,12 +445,21 @@ export default function JornadaDetail() {
                 
                       {/* Visitante */}
                       <div className="flex items-center gap-3">
-                
+                        <img
+                          src={getTeamLogo(match.awayTeam)}
+                          alt={match.awayTeam}
+                          className="w-8 h-8 object-contain"
+                        />
+                      
+                        <span className="font-display font-bold text-lg sm:text-xl">
+                          {match.awayTeam}
+                        </span>
+                      
                         <input
                           type="text"
                           inputMode="numeric"
                           value={score.away}
-                          onChange={(e) => handleScoreChange(match.id, 'away', e.target.value)}
+                          onChange={(e) => handleScoreChange(match.id, "away", e.target.value)}
                           disabled={isLocked}
                           className={cn(
                             "w-14 h-14 sm:w-16 sm:h-16 text-center text-2xl font-bold rounded-lg border-2",
@@ -435,11 +470,8 @@ export default function JornadaDetail() {
                           )}
                           placeholder="-"
                         />
-                
-                        <span className="font-display font-bold text-lg sm:text-xl">
-                          {match.awayTeam}
-                        </span>
-                
+                      </div>                
+                    
                       </div>
                 
                     </div>
