@@ -23,10 +23,12 @@ import {
 } from "@/components/ui/dialog";
 
 // Helper hook pattern wrapper due to API client constraints
+
 function useMatchData(jornadaId: number | null) {
-  return useListMatches({
-    request: { query: { jornadaId: jornadaId || undefined } }
-  } as any);
+  return useListMatches(
+    jornadaId ? { jornadaId } : {},
+    { query: { enabled: !!jornadaId } }
+  );
 }
 
 const LIGA_MX_TEAMS = [
