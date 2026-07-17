@@ -3,7 +3,7 @@ import { db } from "@workspace/db";
 import { predictionsTable, matchesTable } from "@workspace/db";
 import { eq, and, inArray } from "drizzle-orm";
 import { SavePredictionsBody, ListPredictionsQueryParams } from "@workspace/api-zod";
-import { requireAuth } from "../lib/auth";
+import { requireAuth, requireAdmin } from "../lib/auth";
 
 const router = Router();
 
@@ -115,6 +115,33 @@ router.post("/predictions/bulk", requireAuth, async (req, res) => {
   }
 
   res.json(results);
+});
+
+// POST /api/admin/predictions/override — admin sets a prediction for any user, bypassing lock
+router.post("/admin/predictions/override", requireAdmin, async (req, res) => {
+  const { userId, matchId, homeScore, awayScore } = req.body;
+  if (!userId || !matchId || homeScore == null || awayScore == null) {
+    res.status(400).json({ error: "userId, matchId, homeScore y awayScore son requeridos" });
+    return;
+  }
+
+  const now = new Date();
+  const [saved] = await db.insert(predictionsTable).values({
+    userId: Number(userId),
+    matchId: Number(matchId),
+    homeScore: Number(homeScore),
+    awayScore: Number(awayScore),
+    isLocked: true,
+  }).onConflictDoUpdate({
+    target: [predictionsTable.userId, predictionsTable.matchId],
+    set: {
+      homeScore: Number(homeScore),
+      awayScore: Number(awayScore),
+      updatedAt: now,
+    },
+  }).returning();
+
+  res.json(saved);
 });
 
 export default router;
