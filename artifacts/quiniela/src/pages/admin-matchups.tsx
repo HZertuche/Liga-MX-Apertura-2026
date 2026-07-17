@@ -2,47 +2,58 @@ import { useState } from "react";
 import { 
   useListJornadas, 
   useListMatchups, 
+  useListMatches,
   useGenerateMatchups,
   useDeleteMatchup
 } from "@workspace/api-client-react";
-import { Swords, Wand2, Trash2, ShieldAlert } from "lucide-react";
+import { Swords, Wand2, Trash2, ShieldAlert, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 
-// Custom hook wrapper
+const LOCK_MS = 10 * 60 * 1000;
+const isMatchLocked = (m: { isLocked: boolean; matchDate?: string | null }) =>
+  m.isLocked || (!!m.matchDate && new Date(m.matchDate).getTime() - Date.now() < LOCK_MS);
+
 function useMatchupsData(jornadaId: number | null) {
   return useListMatchups({
-    query: {
-      enabled: !!jornadaId,
-      queryKey: ["/api/matchups", { jornadaId }]
-    },
-    request: { query: { jornadaId: jornadaId || undefined } }
+    query: { enabled: !!jornadaId, queryKey: ["/api/matchups", { jornadaId }] },
+    request: { query: { jornadaId: jornadaId || undefined } },
   } as any);
+}
+
+function useMatchesData(jornadaId: number | null) {
+  return useListMatches(
+    jornadaId ? { jornadaId } : {},
+    { query: { enabled: !!jornadaId } }
+  );
 }
 
 export default function AdminMatchups() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   const { data: jornadas, isLoading: loadingJornadas } = useListJornadas();
   const [selectedJornadaId, setSelectedJornadaId] = useState<number | null>(null);
-  
+
   if (!selectedJornadaId && jornadas && jornadas.length > 0) {
-    const active = jornadas.find(j => j.status === 'active') || jornadas[0];
+    const active = jornadas.find(j => j.status === "active") || jornadas[0];
     setSelectedJornadaId(active.id);
   }
 
   const { data: matchups, isLoading: loadingMatchups } = useMatchupsData(selectedJornadaId);
+  const { data: matches } = useMatchesData(selectedJornadaId);
   const generateMatchups = useGenerateMatchups();
   const deleteMatchup = useDeleteMatchup();
 
+  // Jornada is locked if ANY match has already started (or is within 10 min)
+  const jornadaLocked = !!matches && matches.length > 0 && matches.some(isMatchLocked);
+
   const handleGenerate = () => {
-    if (!selectedJornadaId) return;
+    if (!selectedJornadaId || jornadaLocked) return;
     if (matchups && matchups.length > 0) {
       if (!confirm("Ya existen enfrentamientos para esta jornada. ¿Borrar los actuales y regenerar?")) return;
     }
-    
     generateMatchups.mutate({ data: { jornadaId: selectedJornadaId } }, {
       onSuccess: () => {
         toast({ title: "Éxito", description: "Enfrentamientos generados correctamente." });
@@ -55,6 +66,7 @@ export default function AdminMatchups() {
   };
 
   const handleDelete = (id: number) => {
+    if (jornadaLocked) return;
     if (!confirm("¿Eliminar este enfrentamiento?")) return;
     deleteMatchup.mutate({ id }, {
       onSuccess: () => {
@@ -64,45 +76,62 @@ export default function AdminMatchups() {
     });
   };
 
-  if (loadingJornadas) return <div className="p-8 flex justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>;
+  if (loadingJornadas) return (
+    <div className="p-8 flex justify-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    </div>
+  );
 
   return (
     <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-6">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-display font-bold text-foreground flex items-center">
-            <Swords className="h-8 w-8 mr-3 text-blue-600" />
-            Admin: Enfrentamientos
-          </h1>
-          <p className="text-muted-foreground mt-1">Genera los duelos head-to-head (1 vs 1) para la jornada.</p>
-        </div>
+      <div>
+        <h1 className="text-3xl font-display font-bold text-foreground flex items-center">
+          <Swords className="h-8 w-8 mr-3 text-blue-600" />
+          Admin: Enfrentamientos
+        </h1>
+        <p className="text-muted-foreground mt-1">Genera los duelos head-to-head (1 vs 1) para la jornada.</p>
       </div>
 
+      {/* Jornada selector + generate button */}
       <div className="bg-card p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm">
         <label className="font-medium whitespace-nowrap">Seleccionar Jornada:</label>
-        <select 
+        <select
           className="w-full sm:max-w-xs px-3 py-2 border rounded-md focus:ring-1 focus:ring-primary bg-background"
           value={selectedJornadaId || ""}
-          onChange={(e) => setSelectedJornadaId(Number(e.target.value))}
+          onChange={e => setSelectedJornadaId(Number(e.target.value))}
         >
           <option value="" disabled>Elige una jornada...</option>
           {jornadas?.map(j => (
             <option key={j.id} value={j.id}>{j.name} ({j.status})</option>
           ))}
         </select>
-        
+
         <div className="sm:ml-auto">
           <button
             onClick={handleGenerate}
-            disabled={!selectedJornadaId || generateMatchups.isPending}
-            className="w-full sm:w-auto bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-lg font-medium flex items-center justify-center transition-colors disabled:opacity-50"
+            disabled={!selectedJornadaId || generateMatchups.isPending || jornadaLocked}
+            className="w-full sm:w-auto bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-lg font-medium flex items-center justify-center transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            <Wand2 className={cn("h-4 w-4 mr-2", generateMatchups.isPending && "animate-pulse")} />
-            {generateMatchups.isPending ? "Generando..." : "Generar Aleatoriamente"}
+            {jornadaLocked
+              ? <><Lock className="h-4 w-4 mr-2" />Jornada en curso</>
+              : <><Wand2 className={cn("h-4 w-4 mr-2", generateMatchups.isPending && "animate-pulse")} />
+                  {generateMatchups.isPending ? "Generando..." : "Generar Aleatoriamente"}</>
+            }
           </button>
         </div>
       </div>
 
+      {/* Lock banner */}
+      {jornadaLocked && (
+        <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-xl px-4 py-3 text-sm">
+          <Lock className="h-4 w-4 mt-0.5 shrink-0" />
+          <span>
+            Esta jornada ya comenzó — los emparejamientos están bloqueados y no pueden modificarse para mantener la integridad de la competencia.
+          </span>
+        </div>
+      )}
+
+      {/* Matchup cards */}
       <div className="space-y-4">
         {loadingMatchups ? (
           <div className="p-8 text-center"><div className="animate-spin inline-block h-6 w-6 border-b-2 border-primary"></div></div>
@@ -115,16 +144,15 @@ export default function AdminMatchups() {
             <ShieldAlert className="h-12 w-12 text-muted-foreground/30 mb-4" />
             <p className="text-muted-foreground max-w-md">
               No hay enfrentamientos generados. Usa el botón de arriba para emparejar a los jugadores al azar.
-              (Si hay número impar, un jugador no tendrá duelo).
+              (Si hay número impar, un jugador quedará libre).
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {matchups?.map(matchup => {
-              // Determine visual winner if results are settled
-              const isP1Winner = matchup.result === 'player1_wins';
-              const isP2Winner = matchup.result === 'player2_wins';
-              const isDraw = matchup.result === 'draw';
+              const isP1Winner = matchup.result === "player1_wins";
+              const isP2Winner = matchup.result === "player2_wins";
+              const isDraw = matchup.result === "draw";
               const hasResult = matchup.result !== null && matchup.result !== undefined;
 
               return (
@@ -133,23 +161,32 @@ export default function AdminMatchups() {
                   hasResult && isDraw && "bg-slate-50 dark:bg-slate-900/20"
                 )}>
                   <div className="flex justify-between items-center text-xs text-muted-foreground border-b pb-2 mb-2">
-                    <span className="font-mono">ID: #{matchup.id}</span>
-                    <button onClick={() => handleDelete(matchup.id)} className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors">
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                    <span className="font-mono">#{matchup.id}</span>
+                    {jornadaLocked ? (
+                      <span className="flex items-center gap-1 text-amber-600">
+                        <Lock className="h-3 w-3" /> Bloqueado
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => handleDelete(matchup.id)}
+                        className="text-destructive hover:bg-destructive/10 p-1 rounded transition-colors"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    )}
                   </div>
-                  
+
                   <div className="flex items-center justify-between w-full">
                     {/* Player 1 */}
                     <div className={cn(
                       "flex-1 text-center p-3 rounded-lg border",
-                      isP1Winner ? "bg-green-100 border-green-200 dark:bg-green-900/30 dark:border-green-800" : 
+                      isP1Winner ? "bg-green-100 border-green-200 dark:bg-green-900/30 dark:border-green-800" :
                       (hasResult && !isP1Winner && !isDraw) ? "opacity-50" : "bg-background"
                     )}>
                       <p className={cn("font-bold truncate text-base", isP1Winner && "text-green-800 dark:text-green-400")}>
                         {matchup.player1DisplayName}
                       </p>
-                      <p className="font-mono text-xl mt-1">{matchup.player1Points ?? '-'}</p>
+                      <p className="font-mono text-xl mt-1">{matchup.player1Points ?? "-"}</p>
                     </div>
 
                     <div className="px-4 text-center shrink-0 flex flex-col items-center justify-center">
@@ -160,16 +197,16 @@ export default function AdminMatchups() {
                     {/* Player 2 */}
                     <div className={cn(
                       "flex-1 text-center p-3 rounded-lg border",
-                      isP2Winner ? "bg-green-100 border-green-200 dark:bg-green-900/30 dark:border-green-800" : 
+                      isP2Winner ? "bg-green-100 border-green-200 dark:bg-green-900/30 dark:border-green-800" :
                       (hasResult && !isP2Winner && !isDraw) ? "opacity-50" : "bg-background"
                     )}>
                       <p className={cn("font-bold truncate text-base", isP2Winner && "text-green-800 dark:text-green-400")}>
                         {matchup.player2DisplayName}
                       </p>
-                      <p className="font-mono text-xl mt-1">{matchup.player2Points ?? '-'}</p>
+                      <p className="font-mono text-xl mt-1">{matchup.player2Points ?? "-"}</p>
                     </div>
                   </div>
-                  
+
                   {hasResult && (
                     <div className="text-center text-xs font-medium uppercase tracking-wider text-muted-foreground bg-muted/50 py-1 rounded">
                       {isDraw ? "Empate" : isP1Winner ? "Ganó " + matchup.player1DisplayName : "Ganó " + matchup.player2DisplayName}
