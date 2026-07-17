@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
-import { predictionsTable, matchesTable } from "@workspace/db";
+import { predictionsTable, matchesTable, usersTable } from "@workspace/db";
 import { eq, and, inArray } from "drizzle-orm";
 import { SavePredictionsBody, ListPredictionsQueryParams } from "@workspace/api-zod";
 import { requireAuth, requireAdmin } from "../lib/auth";
@@ -117,31 +117,36 @@ router.post("/predictions/bulk", requireAuth, async (req, res) => {
   res.json(results);
 });
 
-// POST /api/admin/predictions/override — admin sets a prediction for any user, bypassing lock
-router.post("/admin/predictions/override", requireAdmin, async (req, res) => {
-  const { userId, matchId, homeScore, awayScore } = req.body;
-  if (!userId || !matchId || homeScore == null || awayScore == null) {
-    res.status(400).json({ error: "userId, matchId, homeScore y awayScore son requeridos" });
+// GET /api/predictions/match/:matchId — all users' predictions for a locked match
+router.get("/predictions/match/:matchId", requireAuth, async (req, res) => {
+  const matchId = Number(req.params.matchId);
+  if (isNaN(matchId)) { res.status(400).json({ error: "matchId inválido" }); return; }
+
+  const [match] = await db.select().from(matchesTable).where(eq(matchesTable.id, matchId));
+  if (!match) { res.status(404).json({ error: "Partido no encontrado" }); return; }
+
+  // Only expose if match is locked (started within 10 min) or finished
+  const LOCK_MS = 10 * 60 * 1000;
+  const isLocked = match.isLocked ||
+    match.status === "finished" ||
+    (match.matchDate !== null && new Date(match.matchDate).getTime() - Date.now() < LOCK_MS);
+
+  if (!isLocked) {
+    res.status(403).json({ error: "El partido aún no está cerrado" });
     return;
   }
 
-  const now = new Date();
-  const [saved] = await db.insert(predictionsTable).values({
-    userId: Number(userId),
-    matchId: Number(matchId),
-    homeScore: Number(homeScore),
-    awayScore: Number(awayScore),
-    isLocked: true,
-  }).onConflictDoUpdate({
-    target: [predictionsTable.userId, predictionsTable.matchId],
-    set: {
-      homeScore: Number(homeScore),
-      awayScore: Number(awayScore),
-      updatedAt: now,
-    },
-  }).returning();
+  const preds = await db.select().from(predictionsTable).where(eq(predictionsTable.matchId, matchId));
+  const users = await db.select().from(usersTable);
+  const usersMap = Object.fromEntries(users.map(u => [u.id, u]));
 
-  res.json(saved);
+  res.json(preds.map(p => ({
+    userId: p.userId,
+    displayName: usersMap[p.userId]?.displayName ?? "—",
+    homeScore: p.homeScore,
+    awayScore: p.awayScore,
+    points: p.points,
+  })));
 });
 
 export default router;
