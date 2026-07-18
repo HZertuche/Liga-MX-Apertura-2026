@@ -265,12 +265,14 @@ export default function JornadaDetail() {
   const availableDates = Array.from(
     new Set(
       jornada.matches.map((match:any) =>
-        new Date(match.matchDate).toISOString().split("T")[0]
+        new Date(match.matchDate).toLocaleDateString("sv-SE")
       )
     )
   ).sort();
   
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Intl.DateTimeFormat("sv-SE", {
+    timeZone: "America/Mexico_City",
+  }).format(new Date());
   
   const firstAvailableDate = availableDates.find(
     date => date >= today
@@ -279,7 +281,7 @@ export default function JornadaDetail() {
 const currentDate = selectedDate || firstAvailableDate || availableDates[0];  
   
   const filteredMatches = jornada.matches.filter((match:any) =>
-    new Date(match.matchDate).toISOString().split("T")[0] === currentDate
+    new Date(match.matchDate).toLocaleDateString("sv-SE") === currentDate
   );  
 
   const dirty = isFormDirty();
