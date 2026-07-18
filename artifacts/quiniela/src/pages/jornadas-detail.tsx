@@ -524,16 +524,13 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                           <Trophy className="h-4 w-4"/>
                           +{pred.points} puntos
                         </div>
-              
-                      )}
-              
-                    </div>
-              
-                  </div>
-              
-                </div>
-              );                  
-                     
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>              
+                          
       {/* Match predictions modal */}
       {openMatchId && (
         <MatchPredictionsModal
