@@ -64,6 +64,9 @@ const resultados = users.map(user => {
 
 resultados.sort((a,b)=> b.valor - a.valor);  
 
+const reyResultado = resultados[0];
+
+
   res.json({
     reyExacto,
     reyResultado,
