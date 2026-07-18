@@ -16,6 +16,7 @@ import GeneralStandings from '@/pages/standings-general';
 import MatchupStandings from '@/pages/standings-matchups';
 import PlayerHistory from '@/pages/history';
 import AdminUsers from '@/pages/admin-users';
+import HallOfFame from '@/pages/hall-of-fame'
 import AdminJornadas from '@/pages/admin-jornadas';
 import AdminMatches from '@/pages/admin-matches';
 import AdminMatchups from '@/pages/admin-matchups';
@@ -80,6 +81,12 @@ function Router() {
         <Route path="/history/:userId">
           <ProtectedRoute>
             <PlayerHistory />
+          </ProtectedRoute>
+        </Route>
+
+        <Route path="/hall-of-fame">
+          <ProtectedRoute>
+            <HallOfFame />
           </ProtectedRoute>
         </Route>
 
