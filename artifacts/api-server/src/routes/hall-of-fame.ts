@@ -42,10 +42,31 @@ exactos.sort((a,b)=> b.valor - a.valor);
 
 
 const reyExacto = exactos[0];
+  
+const resultados = users.map(user => {
+
+  const userPredictions = predictions.filter(
+    p => p.userId === user.id
+  );
+
+  const totalResultados = userPredictions.filter(
+    p => p.points === 3
+  ).length;
+
+
+  return {
+    jugador: user.displayName,
+    valor: totalResultados
+  };
+
+});
+
+
+resultados.sort((a,b)=> b.valor - a.valor);  
 
   res.json({
     reyExacto,
-    reyResultado: {},
+    reyResultado,
     reyLiderato: {},
     farol: {},
     especialista: {},
