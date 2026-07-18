@@ -188,7 +188,7 @@ export default function JornadaDetail() {
 
   const { data: predictions, isLoading: isPredictionsLoading } = useListPredictions(
     jornadaId ? { jornadaId } : {},
-    { query: { enabled: !!user?.id && !!jornadaId, queryKey: getListPredictionsQueryKey({ userId: user?.id, jornadaId }) } }
+    { query: { enabled: !!user?.id && !!jornadaId, queryKey: getListPredictionsQueryKey({ jornadaId }) } }
   ) as any;
 
   const saveMutation = useSavePredictions();
