@@ -19,10 +19,32 @@ router.get("/hall-of-fame", requireAuth, async (_req, res) => {
 
 
   // aquí calcularemos los premios
+const exactos = users.map(user => {
 
+  const userPredictions = predictions.filter(
+    p => p.userId === user.id
+  );
+
+  const totalExactos = userPredictions.filter(
+    p => p.points === 5
+  ).length;
+
+
+  return {
+    jugador: user.displayName,
+    valor: totalExactos
+  };
+
+});
+
+
+exactos.sort((a,b)=> b.valor - a.valor);
+
+
+const reyExacto = exactos[0];
 
   res.json({
-    reyExacto: {},
+    reyExacto,
     reyResultado: {},
     reyLiderato: {},
     farol: {},
@@ -31,8 +53,8 @@ router.get("/hall-of-fame", requireAuth, async (_req, res) => {
     muro: {},
     sobreviviente: {},
     descenso: {}
-  });
-
+  });  
+    
 });
 
 
