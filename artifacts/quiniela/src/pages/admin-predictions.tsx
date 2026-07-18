@@ -38,6 +38,10 @@ export default function AdminPredictions() {
   const submittedCount = (userId: number) =>
     sortedMatches.filter(m => predsByMatchAndUser[m.id]?.[userId] !== undefined).length;
 
+  const submittedForMatch = (matchId: number) =>
+    sortedUsers.filter(u => predsByMatchAndUser[matchId]?.[u.id] !== undefined).length;
+
+
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-full">
       <div>
@@ -112,15 +116,32 @@ export default function AdminPredictions() {
                     <tr key={match.id} className={i % 2 === 0 ? "bg-background" : "bg-muted/20"}>
                       {/* Match name */}
                       <td className="p-3 border-b sticky left-0 bg-inherit font-medium">
-                        <span>{match.homeTeam}</span>
-                        <span className="text-muted-foreground mx-1.5">vs</span>
-                        <span>{match.awayTeam}</span>
+                        <div className="flex items-center justify-between gap-3">
+                          <div>
+                            <span>{match.homeTeam}</span>
+                            <span className="text-muted-foreground mx-1.5">vs</span>
+                            <span>{match.awayTeam}</span>
+                          </div>
+                      
+                          <span
+                            className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                              submittedForMatch(match.id) === sortedUsers.length
+                                ? "bg-green-100 text-green-800"
+                                : submittedForMatch(match.id) > 0
+                                ? "bg-yellow-100 text-yellow-800"
+                                : "bg-muted text-muted-foreground"
+                            }`}
+                          >
+                            {submittedForMatch(match.id)}/{sortedUsers.length}
+                          </span>              
+                      
                         {hasResult && locked && (
-                          <div className="text-xs text-primary font-semibold mt-0.5">
+                          <div className="text-xs text-primary font-semibold mt-1">
                             Resultado: {match.homeScore} – {match.awayScore}
                           </div>
                         )}
                       </td>
+                      
                       {/* Date + status */}
                       <td className="p-3 border-b text-muted-foreground text-xs">
                         <div>{formatDate(match.matchDate)}</div>
