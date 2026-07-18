@@ -172,6 +172,8 @@ export default function JornadaDetail() {
   const params = useParams();
   const jornadaId = Number(params.id);
   const { data: user } = useGetMe();
+  
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -258,7 +260,27 @@ export default function JornadaDetail() {
 
   if (!jornada) {
     return <div className="p-8 text-destructive">Jornada no encontrada.</div>;
-  }
+  } 
+  
+  const availableDates = Array.from(
+    new Set(
+      jornada.matches.map((match:any) =>
+        new Date(match.matchDate).toISOString().split("T")[0]
+      )
+    )
+  ).sort();
+  
+  const today = new Date().toISOString().split("T")[0];
+  
+  const firstAvailableDate = availableDates.find(
+    date => date >= today
+  );
+
+const currentDate = selectedDate || firstAvailableDate || availableDates[0];  
+  
+  const filteredMatches = jornada.matches.filter((match:any) =>
+    new Date(match.matchDate).toISOString().split("T")[0] === currentDate
+  );  
 
   const dirty = isFormDirty();
   const LOCK_MS = 10 * 60 * 1000;
@@ -306,13 +328,51 @@ export default function JornadaDetail() {
         )}
       </div>
 
+
+      <div className="flex items-center justify-center gap-4 bg-card border rounded-xl p-4">
+
+<button
+  disabled={availableDates.indexOf(currentDate) === 0}
+  onClick={() => {
+    const index = availableDates.indexOf(currentDate);
+    setSelectedDate(availableDates[index - 1]);
+  }}
+  className="px-3 py-2 border rounded-lg disabled:opacity-40"
+>
+  ◀
+</button>
+
+
+      <div className="font-bold text-lg">
+        {new Date(currentDate + "T12:00:00").toLocaleDateString("es-MX", {
+          weekday: "long",
+          day: "numeric",
+          month: "long"
+        })}
+      </div>
+      
+      
+      <button
+        disabled={availableDates.indexOf(currentDate) === availableDates.length - 1}
+        onClick={() => {
+          const index = availableDates.indexOf(currentDate);
+          setSelectedDate(availableDates[index + 1]);
+        }}
+        className="px-3 py-2 border rounded-lg disabled:opacity-40"
+      >
+        ▶
+      </button>
+      
+      </div>
       <div className="space-y-4">
-        {jornada.matches.length === 0 ? (
+        {filteredMatches.length === 0 ? (
           <div className="text-center p-12 bg-card rounded-xl border border-dashed">
-            <p className="text-muted-foreground">No hay partidos configurados para esta jornada.</p>
+            <p className="text-muted-foreground"
+              >No hay partidos configurados para esta fecha.
+            </p>
           </div>
         ) : (
-          jornada.matches.map((match: any) => {
+          filteredMatches.map((match: any) => {
             const isLocked = isMatchLocked(match);
             const pred = predictions?.find((p: any) => p.matchId === match.id);
             const score = localScores[match.id] || { home: "", away: "" };
@@ -354,72 +414,70 @@ export default function JornadaDetail() {
                     )}
                   </div>
                 </div>
-
-                <div className="p-4 sm:p-6 flex flex-col gap-5">
                 
-                  {/* Resultado oficial */}
-                  {isLocked && hasOfficialResult && (
-                    <div className="text-center bg-primary/5 rounded-lg p-4">
-                      <p className="text-xs uppercase tracking-wide text-muted-foreground font-semibold mb-3">
-                        Resultado Final
-                      </p>
+                  {/* Contenedor del Partido*/}
+                  <div className="p-6 flex flex-col items-center gap-6">
                   
-                      <div className="flex items-center justify-center gap-6 sm:gap-8 flex-wrap">
+                    {/* Equipos y Marcador*/}
+                    <div className="w-full flex items-center justify-center gap-8">
                   
-                        {/* Local */}
-                        <div className="flex items-center gap-2">
-                          <img
-                            src={getTeamLogo(match.homeTeam)}
-                            alt={match.homeTeam}
-                            className="w-8 h-8 object-contain"
-                          />
-                          <span className="font-display font-bold text-lg sm:text-xl">
-                            {match.homeTeam}
-                          </span>
-                        </div>
-                  
-                        {/* Marcador */}
-                        <span className="text-3xl font-bold">
-                          {match.homeScore} - {match.awayScore}
-                        </span>
-                  
-                        {/* Visitante */}
-                        <div className="flex items-center gap-2">
-                          <img
-                            src={getTeamLogo(match.awayTeam)}
-                            alt={match.awayTeam}
-                            className="w-8 h-8 object-contain"
-                          />
-                          <span className="font-display font-bold text-lg sm:text-xl">
-                            {match.awayTeam}
-                          </span>
-                        </div>
-                  
-                      </div>
-                    </div>
-                  )}                  
-                
-                
-                  {/* Tu predicción */}
-                  <div className="text-center">
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground font-semibold mb-3">
-                      Tu Predicción
-                    </p>
-                
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-                
-                      {/* Local */}
-                      <div className="flex items-center gap-3">
+                      {/* LOCAL */}
+                      <div className="flex flex-col items-center w-32 text-center">
                         <img
                           src={getTeamLogo(match.homeTeam)}
                           alt={match.homeTeam}
-                          className="w-8 h-8 object-contain"
+                          className="w-20 h-20 object-contain mb-2"
                         />
-                      
-                        <span className="font-display font-bold text-lg sm:text-xl">
+                  
+                        <span className="font-display font-bold text-sm sm:text-base">
                           {match.homeTeam}
                         </span>
-                      
+                      </div>
+                  
+                  
+                      {/* VS O RESULTADO */}
+                      <div className="flex flex-col items-center justify-center min-w-20 h-24">
+                  
+                        {hasOfficialResult ? (
+                          <span className="text-4xl font-bold">
+                            {match.homeScore} - {match.awayScore}
+                          </span>
+                        ) : (
+                          <span className="text-2xl font-bold text-muted-foreground">
+                            VS
+                          </span>
+                        )}
+                  
+                      </div>
+                  
+                  
+                      {/* VISITANTE */}
+                      <div className="flex flex-col items-center w-32 text-center">
+                        <img
+                          src={getTeamLogo(match.awayTeam)}
+                          alt={match.awayTeam}
+                          className="w-20 h-20 object-contain mb-2"
+                        />
+                  
+                        <span className="font-display font-bold text-sm sm:text-base">
+                          {match.awayTeam}
+                        </span>
+                      </div>
+                  
+                    </div>
+                  
+                  
+                    {/* TU PREDICCION */}
+                    <div className="w-full border-t pt-5 text-center">
+                  
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground font-semibold mb-3">
+                        Tu Predicción
+                      </p>
+                  
+                  
+                      <div className="flex justify-center items-center gap-4">
+                  
+                  
                         <input
                           type="text"
                           inputMode="numeric"
@@ -427,34 +485,20 @@ export default function JornadaDetail() {
                           onChange={(e) => handleScoreChange(match.id, "home", e.target.value)}
                           disabled={isLocked}
                           className={cn(
-                            "w-14 h-14 sm:w-16 sm:h-16 text-center text-2xl font-bold rounded-lg border-2",
+                            "w-16 h-16 text-center text-2xl font-bold rounded-lg border-2",
                             isLocked
-                              ? "bg-muted text-muted-foreground border-border cursor-not-allowed"
-                              : "bg-background focus:border-primary focus:ring-0",
-                            score.home !== "" ? "text-foreground" : "text-muted-foreground/30"
+                              ? "bg-muted text-muted-foreground border-border"
+                              : "bg-background focus:border-primary"
                           )}
                           placeholder="-"
                         />
-                      </div>
                   
-                
-                      <span className="font-bold text-muted-foreground/50">
-                        VS
-                      </span>
-                
-                
-                      {/* Visitante */}
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={getTeamLogo(match.awayTeam)}
-                          alt={match.awayTeam}
-                          className="w-8 h-8 object-contain"
-                        />
-                      
-                        <span className="font-display font-bold text-lg sm:text-xl">
-                          {match.awayTeam}
+                  
+                        <span className="font-bold text-muted-foreground">
+                          -
                         </span>
-                      
+                  
+                  
                         <input
                           type="text"
                           inputMode="numeric"
@@ -462,43 +506,34 @@ export default function JornadaDetail() {
                           onChange={(e) => handleScoreChange(match.id, "away", e.target.value)}
                           disabled={isLocked}
                           className={cn(
-                            "w-14 h-14 sm:w-16 sm:h-16 text-center text-2xl font-bold rounded-lg border-2",
+                            "w-16 h-16 text-center text-2xl font-bold rounded-lg border-2",
                             isLocked
-                              ? "bg-muted text-muted-foreground border-border cursor-not-allowed"
-                              : "bg-background focus:border-primary focus:ring-0",
-                            score.away !== "" ? "text-foreground" : "text-muted-foreground/30"
+                              ? "bg-muted text-muted-foreground border-border"
+                              : "bg-background focus:border-primary"
                           )}
                           placeholder="-"
                         />
-                      </div>                
-                    
+                  
                       </div>
-                
+                  
+                  
+                      {/* PUNTOS DESPUES DEL PARTIDO */}
+                      {match.status === 'finished' && pred?.points !== null && pred?.points !== undefined && (
+                  
+                        <div className="mt-4 text-primary font-bold flex justify-center items-center gap-2">
+                          <Trophy className="h-4 w-4"/>
+                          +{pred.points} puntos
+                        </div>
+              
+                      )}
+              
                     </div>
+              
                   </div>
-                
-                         
-
-                {/* Result summary if finished */}
-                {match.status === 'finished' && (
-                  <div className="bg-primary/5 px-4 py-3 border-t flex flex-wrap justify-between items-center text-sm">
-                    <div className="font-medium text-foreground">
-                      Resultado Oficial: {match.homeScore ?? '-'} - {match.awayScore ?? '-'}
-                    </div>
-                    {pred?.points !== null && pred?.points !== undefined && (
-                      <div className="flex items-center text-primary font-bold">
-                        <Trophy className="h-4 w-4 mr-1.5" />
-                        +{pred.points} pts
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            );
-          })
-        )}
-      </div>
-
+              
+                </div>
+              );                  
+                     
       {/* Match predictions modal */}
       {openMatchId && (
         <MatchPredictionsModal
