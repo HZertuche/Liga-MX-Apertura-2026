@@ -36,6 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     { href: '/standings/weekly', label: 'Premio Semanal', icon: Star },
     { href: '/standings/matchups', label: 'Enfrentamientos', icon: Swords },
     { href: `/history/${user.id}`, label: 'Mi Historial', icon: History },
+    { href: '/hall-of-fame', label: 'Salón de la Fama', icon: Trophy },
   ];
 
   const adminItems = [
