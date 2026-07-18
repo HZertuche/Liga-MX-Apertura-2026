@@ -9,6 +9,8 @@ import matchupsRouter from "./matchups";
 import standingsRouter from "./standings";
 import dashboardRouter from "./dashboard";
 import historyRouter from "./history";
+import hallOfFameRouter from "./hall-of-fame";
+
 
 const router: IRouter = Router();
 
@@ -22,5 +24,6 @@ router.use(matchupsRouter);
 router.use(standingsRouter);
 router.use(dashboardRouter);
 router.use(historyRouter);
+router.use(hallOfFameRouter);
 
 export default router;
