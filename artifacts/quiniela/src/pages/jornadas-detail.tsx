@@ -187,7 +187,7 @@ export default function JornadaDetail() {
   });
 
   const { data: predictions, isLoading: isPredictionsLoading } = useListPredictions(
-    jornadaId ? { jornadaId } : {},
+    jornadaId ? { jornadaId, userId: user?.id } : {},
     { query: { enabled: !!user?.id && !!jornadaId, queryKey: getListPredictionsQueryKey({ userId: user?.id, jornadaId }) } }
   ) as any;
 
