@@ -133,15 +133,15 @@ export default function AdminPredictions() {
                             }`}
                           >
                             {submittedForMatch(match.id)}/{sortedUsers.length}
-                          </span>              
+                          </span>
+                        </div>
                       
                         {hasResult && locked && (
                           <div className="text-xs text-primary font-semibold mt-1">
                             Resultado: {match.homeScore} – {match.awayScore}
                           </div>
                         )}
-                      </td>
-                      
+                      </td>                      
                       {/* Date + status */}
                       <td className="p-3 border-b text-muted-foreground text-xs">
                         <div>{formatDate(match.matchDate)}</div>
