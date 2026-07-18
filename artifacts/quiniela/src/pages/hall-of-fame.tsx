@@ -30,8 +30,14 @@ export default function HallOfFame() {
       descripcion:
         "Jugador con más resultados exactos históricos.",
     },
+    {
+      titulo: "Rey del Resultado",
+      jugador: data?.reyResultado?.jugador ?? "Sin datos",
+      valor: `${data?.reyResultado?.valor ?? 0} resultados`,
+      descripcion:
+        "Jugador con más partidos acertados en ganador, empate o derrota.",
+    },
   ];
-
 
   return (
     <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-6">
