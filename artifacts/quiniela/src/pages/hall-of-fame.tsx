@@ -3,19 +3,17 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function HallOfFame() {
 
-  const { data: awards, isLoading } = useQuery({
+  const { data: awards = [], isLoading } = useQuery({
     queryKey: ["hall-of-fame"],
     queryFn: () =>
-      fetch("/api/hall-of-fame", {
-        credentials: "include",
-      }).then((r) => r.json()),
+      fetch("/api/hall-of-fame").then((r) => r.json()),
   });
 
 
   if (isLoading) {
     return (
-      <div className="p-8 text-center">
-        Cargando salón de la fama...
+      <div className="p-8 flex justify-center">
+        Cargando Salón de la Fama...
       </div>
     );
   }
@@ -37,7 +35,7 @@ export default function HallOfFame() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 
-        {awards?.map((award:any) => (
+        {awards.map((award:any) => (
 
           <div
             key={award.titulo}
@@ -46,26 +44,21 @@ export default function HallOfFame() {
 
             <Trophy className="h-8 w-8 text-primary" />
 
-
             <h2 className="font-bold text-lg">
               {award.titulo}
             </h2>
-
 
             <p className="text-2xl font-bold">
               {award.jugador}
             </p>
 
-
             <p className="text-primary font-semibold">
               {award.valor}
             </p>
 
-
             <p className="text-sm text-muted-foreground">
               {award.descripcion}
             </p>
-
 
           </div>
 
