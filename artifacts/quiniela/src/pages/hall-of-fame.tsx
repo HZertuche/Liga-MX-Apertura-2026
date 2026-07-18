@@ -1,98 +1,24 @@
 import { Trophy } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
-type Award = {
-  titulo: string;
-  jugador: string;
-  valor: string;
-  descripcion: string;
-};
-
 export default function HallOfFame() {
 
-  const { data, isLoading, isError } = useQuery({
+  const { data: awards, isLoading } = useQuery({
     queryKey: ["hall-of-fame"],
-    queryFn: async () => {
-      const res = await fetch("/api/hall-of-fame", {
+    queryFn: () =>
+      fetch("/api/hall-of-fame", {
         credentials: "include",
-      });
-
-      if (!res.ok) {
-        throw new Error("Error cargando Salón de la Fama");
-      }
-
-      return res.json();
-    },
+      }).then((r) => r.json()),
   });
 
 
   if (isLoading) {
     return (
       <div className="p-8 text-center">
-        Cargando Salón de la Fama...
+        Cargando salón de la fama...
       </div>
     );
   }
-
-
-  if (isError || !data) {
-    return (
-      <div className="p-8 text-destructive">
-        No se pudo cargar el Salón de la Fama.
-      </div>
-    );
-  }
-
-
-  const awards: Award[] = [
-    {
-      titulo: "👑 Rey del Exacto",
-      jugador: data.reyExacto?.jugador ?? "-",
-      valor: data.reyExacto?.valor ?? "0 exactos",
-      descripcion:
-        "Jugador con más marcadores exactos acertados en la historia.",
-    },
-
-    {
-      titulo: "🎯 Rey del Resultado",
-      jugador: data.reyResultado?.jugador ?? "-",
-      valor: data.reyResultado?.valor ?? "0 resultados",
-      descripcion:
-        "Jugador con más partidos acertando ganador o empate.",
-    },
-
-    {
-      titulo: "⚡ Cazador de Puntos",
-      jugador: data.cazadorPuntos?.jugador ?? "-",
-      valor: data.cazadorPuntos?.valor ?? "0 puntos",
-      descripcion:
-        "Mayor cantidad de puntos obtenidos en una sola jornada.",
-    },
-
-    {
-      titulo: "🏮 Farol",
-      jugador: data.farol?.jugador ?? "-",
-      valor: data.farol?.valor ?? "0 partidos",
-      descripcion:
-        "Mayor cantidad de partidos consecutivos sin acertar resultado.",
-    },
-
-    {
-      titulo: "🧠 Especialista",
-      jugador: data.especialista?.jugador ?? "-",
-      valor: data.especialista?.valor ?? "0%",
-      descripcion:
-        "Mejor porcentaje de aciertos considerando sus pronósticos.",
-    },
-
-    {
-      titulo: "📉 Descenso",
-      jugador: data.descenso?.jugador ?? "-",
-      valor: data.descenso?.valor ?? "Últimos lugares",
-      descripcion:
-        "Jugadores que actualmente ocupan las posiciones más bajas de la tabla.",
-    },
-  ];
 
 
   return (
@@ -111,7 +37,7 @@ export default function HallOfFame() {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 
-        {awards.map((award) => (
+        {awards?.map((award:any) => (
 
           <div
             key={award.titulo}
