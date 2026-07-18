@@ -516,21 +516,26 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                   
                       </div>
                   
-                  
+
                       {/* PUNTOS DESPUES DEL PARTIDO */}
-                      {match.status === 'finished' && pred?.points !== null && pred?.points !== undefined && (
-                  
-                        <div className="mt-4 text-primary font-bold flex justify-center items-center gap-2">
-                          <Trophy className="h-4 w-4"/>
-                          +{pred.points} puntos
-                        </div>
-                        </div>
-                      </div>
-                    );
-                  })
-                )}
-              </div>              
-                          
+                      {match.status === 'finished' &&
+                        pred?.points !== null &&
+                        pred?.points !== undefined && (
+                          <div className="mt-4 text-primary font-bold flex justify-center items-center gap-2">
+                            <Trophy className="h-4 w-4" />
+                            +{pred.points} puntos
+                          </div>
+                      )}
+  
+                    </div>
+                  </div>
+  
+                </div>
+              );
+            })
+          )}
+        </div>
+      
       {/* Match predictions modal */}
       {openMatchId && (
         <MatchPredictionsModal
