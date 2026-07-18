@@ -1,51 +1,37 @@
 import { Trophy } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 
-const awards = [
-  {
-    titulo: "Rey del Liderato",
-    jugador: "Por definir",
-    valor: "0 jornadas como líder",
-    descripcion:
-      "Jugador que más jornadas ha terminado en la primera posición de la tabla general.",
-  },
-  {
-    titulo: "Rey del Exacto",
-    jugador: "Por definir",
-    valor: "0 resultados exactos",
-    descripcion:
-      "Jugador con más marcadores exactos acertados en la historia de la quiniela.",
-  },
-  {
-    titulo: "Rey del Resultado",
-    jugador: "Por definir",
-    valor: "0 resultados acertados",
-    descripcion:
-      "Jugador con más partidos acertados en ganador, empate o derrota.",
-  },
-  {
-    titulo: "Farol",
-    jugador: "Por definir",
-    valor: "0 errores consecutivos",
-    descripcion:
-      "Mayor racha consecutiva de partidos sin acertar el resultado.",
-  },
-  {
-    titulo: "Cazador de Puntos",
-    jugador: "Por definir",
-    valor: "0 puntos",
-    descripcion:
-      "Mayor cantidad de puntos obtenidos en una sola jornada.",
-  },
-  {
-    titulo: "Campeón Histórico",
-    jugador: "Por definir",
-    valor: "0 puntos acumulados",
-    descripcion:
-      "Jugador con más puntos acumulados desde el inicio de la quiniela.",
-  },
-];
 
 export default function HallOfFame() {
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["hall-of-fame"],
+    queryFn: () =>
+      fetch("/api/hall-of-fame", {
+        credentials: "include",
+      }).then((r) => r.json()),
+  });
+
+
+  if (isLoading) {
+    return (
+      <div className="p-8 text-center">
+        Cargando Salón de la Fama...
+      </div>
+    );
+  }
+
+
+  const awards = [
+    {
+      titulo: "Rey del Exacto",
+      jugador: data?.reyExacto?.jugador ?? "Sin datos",
+      valor: `${data?.reyExacto?.valor ?? 0} exactos`,
+      descripcion:
+        "Jugador con más resultados exactos históricos.",
+    },
+  ];
+
 
   return (
     <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-6">
