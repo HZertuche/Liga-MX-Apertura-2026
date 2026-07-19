@@ -51,6 +51,14 @@ export default function HallOfFame() {
       descripcion:
         "Mayor porcentaje histórico de aciertos entre todos sus pronósticos.",
     },
+    {
+      titulo: "Farol",
+      jugador: data?.farol?.jugador ?? "Sin datos",
+      valor: data?.farol?.valor ?? "0 partidos",
+      descripcion:
+        "Mayor racha histórica de partidos consecutivos sin obtener puntos.",
+    },
+    
   ];
 
   
