@@ -235,6 +235,39 @@ const farol = {
   descripcion:
     "Mayor racha histórica de partidos consecutivos sin obtener puntos.",
 };  
+
+// DESCENSO
+const tablaDescenso = users.map(user => {
+
+  const userPredictions = predictions.filter(
+    p => p.userId === user.id
+  );
+
+  const puntos = userPredictions.reduce(
+    (sum, p) => sum + (p.points ?? 0),
+    0
+  );
+
+  return {
+    jugador: user.displayName,
+    puntos,
+  };
+
+});
+
+
+tablaDescenso.sort(
+  (a, b) => a.puntos - b.puntos
+);
+
+
+const descenso = tablaDescenso
+  .slice(0, 3)
+  .map((jugador, index) => ({
+    posicion: index + 1,
+    jugador: jugador.jugador,
+    valor: `${jugador.puntos} puntos`,
+  }));
   
   res.json({
     reyExacto,
@@ -245,7 +278,7 @@ const farol = {
     cazadorPuntos,
     muro: {},
     sobreviviente: {},
-    descenso: {}
+    descenso,
   });  
     
 });
