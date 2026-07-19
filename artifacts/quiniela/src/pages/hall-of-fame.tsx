@@ -23,7 +23,6 @@ export default function HallOfFame() {
 
 
   const awards = [
-  const awards = [
     {
       titulo: "Rey del Exacto",
       jugador: data?.reyExacto?.jugador ?? "Sin datos",
