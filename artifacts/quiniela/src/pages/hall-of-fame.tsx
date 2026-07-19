@@ -58,7 +58,23 @@ export default function HallOfFame() {
       descripcion:
         "Mayor racha histórica de partidos consecutivos sin obtener puntos.",
     },
-    
+    {
+      titulo: "Zona de Descenso",
+      jugador: data?.descenso
+        ?.map(
+          (j: any) =>
+            `${j.posicion}. 🔻 ${j.jugador}`
+        )
+        .join("\n") ?? "Sin datos",
+      valor: data?.descenso
+        ?.map(
+          (j: any) =>
+            `${j.valor}`
+        )
+        .join(" | ") ?? "",
+      descripcion:
+        "Los jugadores con menor puntuación actual en la competencia.",
+    },
   ];
 
   
