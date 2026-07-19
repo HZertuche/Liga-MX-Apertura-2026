@@ -120,12 +120,43 @@ const cazadorPuntos = {
   descripcion: `Mayor cantidad de puntos logrados en una sola jornada (Jornada ${mejorJornada.jornada}).`,
 };  
 
+const especialistas = users.map(user => {
+
+  const userPredictions = predictions.filter(
+    p => p.userId === user.id
+  );
+
+  const totalPronosticos = userPredictions.length;
+
+  const aciertos = userPredictions.filter(
+    p => p.points === 5 || p.points === 3
+  ).length;
+
+  const porcentaje =
+    totalPronosticos === 0
+      ? 0
+      : (aciertos / totalPronosticos) * 100;
+
+  return {
+    jugador: user.displayName,
+    valor: porcentaje
+  };
+
+});
+
+especialistas.sort(
+  (a, b) => b.valor - a.valor
+);
+
+const especialista = especialistas[0];
+
+  
   res.json({
     reyExacto,
     reyResultado,
     reyLiderato: {},
     farol: {},
-    especialista: {},
+    especialista,
     cazadorPuntos,
     muro: {},
     sobreviviente: {},
