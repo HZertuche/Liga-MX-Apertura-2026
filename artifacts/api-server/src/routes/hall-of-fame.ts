@@ -228,6 +228,73 @@ for (const user of users) {
 
 }
 
+// EL CANDADO
+let mejorRachaAciertos = {
+  jugador: "",
+  partidos: 0,
+};
+
+
+const partidosOrdenados = [...matches].sort(
+  (a, b) =>
+    new Date(a.matchDate ?? 0).getTime() -
+    new Date(b.matchDate ?? 0).getTime()
+);
+
+
+for (const user of users) {
+
+  let rachaActual = 0;
+  let rachaMaxima = 0;
+
+
+  for (const match of partidosOrdenados) {
+
+    const prediction = predictions.find(
+      p =>
+        p.userId === user.id &&
+        p.matchId === match.id
+    );
+
+
+    if (!prediction) continue;
+
+
+    if ((prediction.points ?? 0) >= 3) {
+
+      rachaActual++;
+
+      if (rachaActual > rachaMaxima) {
+        rachaMaxima = rachaActual;
+      }
+
+    } else {
+
+      rachaActual = 0;
+
+    }
+
+  }
+
+
+  if (rachaMaxima > mejorRachaAciertos.partidos) {
+
+    mejorRachaAciertos = {
+      jugador: user.displayName,
+      partidos: rachaMaxima,
+    };
+
+  }
+
+}
+
+
+const candado = {
+  jugador: mejorRachaAciertos.jugador,
+  valor: `${mejorRachaAciertos.partidos} partidos`,
+  descripcion:
+    "Mayor racha histórica de partidos acertando el resultado (3 puntos o más) sin fallar.",
+};  
 
 const farol = {
   jugador: peorRacha.jugador,
@@ -236,6 +303,10 @@ const farol = {
     "Mayor racha histórica de partidos consecutivos sin obtener puntos.",
 };  
 
+
+
+
+  
 // DESCENSO
 const tablaDescenso = users.map(user => {
 
@@ -276,7 +347,7 @@ const descenso = tablaDescenso
     farol,
     especialista,
     cazadorPuntos,
-    muro: {},
+    candado,
     sobreviviente: {},
     descenso,
   });  
