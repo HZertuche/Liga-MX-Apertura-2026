@@ -4,7 +4,8 @@ import {
   usersTable,
   predictionsTable,
   matchesTable,
-  jornadasTable
+  jornadasTable,
+  matchupsTable
 } from "@workspace/db";
 import { eq } from "drizzle-orm";
 import { requireAuth } from "../lib/auth";
@@ -18,6 +19,7 @@ router.get("/hall-of-fame", requireAuth, async (_req, res) => {
   const predictions = await db.select().from(predictionsTable);
   const matches = await db.select().from(matchesTable);
   const jornadas = await db.select().from(jornadasTable);
+  const matchups = await db.select().from(matchupsTable);
 
   
 
