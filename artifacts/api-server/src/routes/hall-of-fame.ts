@@ -3,7 +3,8 @@ import { db } from "@workspace/db";
 import {
   usersTable,
   predictionsTable,
-  matchesTable
+  matchesTable,
+  jornadasTable
 } from "@workspace/db";
 import { eq } from "drizzle-orm";
 import { requireAuth } from "../lib/auth";
@@ -16,6 +17,7 @@ router.get("/hall-of-fame", requireAuth, async (_req, res) => {
   const users = await db.select().from(usersTable);
   const predictions = await db.select().from(predictionsTable);
   const matches = await db.select().from(matchesTable);
+  const jornadas = await db.select().from(jornadasTable);
 
 
   // aquí calcularemos los premios
