@@ -44,6 +44,13 @@ export default function HallOfFame() {
       descripcion:
         "Mayor cantidad de puntos obtenidos en una sola jornada.",
     },
+    {
+      titulo: "Especialista",
+      jugador: data?.especialista?.jugador ?? "Sin datos",
+      valor: `${(data?.especialista?.valor ?? 0).toFixed(1)}%`,
+      descripcion:
+        "Mayor porcentaje histórico de aciertos entre todos sus pronósticos.",
+    },
   ];
 
   
