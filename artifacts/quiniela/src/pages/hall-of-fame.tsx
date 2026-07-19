@@ -23,6 +23,7 @@ export default function HallOfFame() {
 
 
   const awards = [
+  const awards = [
     {
       titulo: "Rey del Exacto",
       jugador: data?.reyExacto?.jugador ?? "Sin datos",
@@ -37,8 +38,16 @@ export default function HallOfFame() {
       descripcion:
         "Jugador con más partidos acertados en ganador, empate o derrota.",
     },
+    {
+      titulo: "Cazador de Puntos",
+      jugador: data?.cazadorPuntos?.jugador ?? "Sin datos",
+      valor: data?.cazadorPuntos?.valor ?? "0 puntos",
+      descripcion:
+        "Mayor cantidad de puntos obtenidos en una sola jornada.",
+    },
   ];
 
+  
   return (
     <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-6">
 
