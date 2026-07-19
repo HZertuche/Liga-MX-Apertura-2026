@@ -75,6 +75,13 @@ export default function HallOfFame() {
       descripcion:
         "Los jugadores con menor puntuación actual en la competencia.",
     },
+    {
+      titulo: "El Candado",
+      jugador: data?.candado?.jugador ?? "Sin datos",
+      valor: data?.candado?.valor ?? "0 partidos",
+      descripcion:
+        "Mayor racha histórica de partidos acertando el resultado (3 puntos o más) sin fallar.",
+    },    
   ];
 
   
