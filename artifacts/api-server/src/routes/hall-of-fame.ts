@@ -20,6 +20,21 @@ router.get("/hall-of-fame", requireAuth, async (_req, res) => {
   const matches = await db.select().from(matchesTable);
   const jornadas = await db.select().from(jornadasTable);
   const matchups = await db.select().from(matchupsTable);
+  
+  const predictionsByUser = new Map<number, typeof predictions>();
+  
+  for (const prediction of predictions) {
+  
+    const list = predictionsByUser.get(prediction.userId);
+  
+    if (list) {
+      list.push(prediction);
+    } else {
+      predictionsByUser.set(prediction.userId, [prediction]);
+    }
+  
+  }
+    
 
   
 
@@ -152,12 +167,80 @@ especialistas.sort(
 
 const especialista = especialistas[0];
 
+// FAROL
+let peorRacha = {
+  jugador: "",
+  partidos: 0,
+};
+
+
+const matchesOrdenados = [...matches].sort(
+  (a, b) =>
+    new Date(a.matchDate ?? 0).getTime() -
+    new Date(b.matchDate ?? 0).getTime()
+);
+
+
+for (const user of users) {
+
+  let rachaActual = 0;
+  let rachaMaxima = 0;
+
+
+  for (const match of matchesOrdenados) {
+
+    const prediction = predictions.find(
+      p =>
+        p.userId === user.id &&
+        p.matchId === match.id
+    );
+
+
+    // Si no hay predicción no contamos el partido
+    if (!prediction) continue;
+
+
+    if ((prediction.points ?? 0) === 0) {
+
+      rachaActual++;
+
+      if (rachaActual > rachaMaxima) {
+        rachaMaxima = rachaActual;
+      }
+
+    } else {
+
+      rachaActual = 0;
+
+    }
+
+  }
+
+
+  if (rachaMaxima > peorRacha.partidos) {
+
+    peorRacha = {
+      jugador: user.displayName,
+      partidos: rachaMaxima,
+    };
+
+  }
+
+}
+
+
+const farol = {
+  jugador: peorRacha.jugador,
+  valor: `${peorRacha.partidos} partidos`,
+  descripcion:
+    "Mayor racha histórica de partidos consecutivos sin obtener puntos.",
+};  
   
   res.json({
     reyExacto,
     reyResultado,
     reyLiderato: {},
-    farol: {},
+    farol,
     especialista,
     cazadorPuntos,
     muro: {},
