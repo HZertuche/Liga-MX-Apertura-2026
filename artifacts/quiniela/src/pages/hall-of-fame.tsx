@@ -82,6 +82,14 @@ export default function HallOfFame() {
       descripcion:
         "Mayor racha histórica de partidos acertando el resultado (3 puntos o más) sin fallar.",
     },    
+    {
+      titulo: "Rey del Liderato",
+      jugador: data?.reyLiderato?.jugador ?? "Sin datos",
+      valor: data?.reyLiderato?.valor ?? "0 días",
+      descripcion:
+        "Jugador que más días ha permanecido como líder de la tabla general.",
+    },
+    
   ];
 
   
