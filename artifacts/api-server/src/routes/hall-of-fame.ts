@@ -19,6 +19,7 @@ router.get("/hall-of-fame", requireAuth, async (_req, res) => {
   const matches = await db.select().from(matchesTable);
   const jornadas = await db.select().from(jornadasTable);
 
+  
 
   // aquí calcularemos los premios
 const exactos = users.map(user => {
@@ -66,8 +67,58 @@ const resultados = users.map(user => {
 
 resultados.sort((a,b)=> b.valor - a.valor);  
 
+  
 const reyResultado = resultados[0];
 
+  // cazapuntos
+let mejorJornada = {
+  jugador: "",
+  puntos: -1,
+  jornada: 0,
+};
+
+for (const jornada of jornadas) {
+
+  const partidosJornada = matches.filter(
+    m => m.jornadaId === jornada.id
+  );
+
+  const idsPartidos = partidosJornada.map(
+    p => p.id
+  );
+
+  for (const user of users) {
+
+    const puntos = predictions
+      .filter(
+        p =>
+          p.userId === user.id &&
+          idsPartidos.includes(p.matchId)
+      )
+      .reduce(
+        (sum, p) => sum + (p.points ?? 0),
+        0
+      );
+
+    if (puntos > mejorJornada.puntos) {
+
+      mejorJornada = {
+        jugador: user.displayName,
+        puntos,
+        jornada: jornada.number,
+      };
+
+    }
+
+  }
+
+}  
+ 
+const cazadorPuntos = {
+  jugador: mejorJornada.jugador,
+  valor: `${mejorJornada.puntos} puntos`,
+  descripcion: `Mayor cantidad de puntos logrados en una sola jornada (Jornada ${mejorJornada.jornada}).`,
+};  
 
   res.json({
     reyExacto,
@@ -75,7 +126,7 @@ const reyResultado = resultados[0];
     reyLiderato: {},
     farol: {},
     especialista: {},
-    cazadorPuntos: {},
+    cazadorPuntos,
     muro: {},
     sobreviviente: {},
     descenso: {}
