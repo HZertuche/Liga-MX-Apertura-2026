@@ -145,74 +145,70 @@ export default function Profile() {
 
       </div>
 
-      {/* Medallas */}
+      {/* Logros */}
       <div className="space-y-4">
-
+      
         <h2 className="text-xl font-bold">
-          Mis Medallas
+          Mis Logros
         </h2>
-
+      
         <div className="grid md:grid-cols-2 gap-4">
-
+      
+      
           <div className="border rounded-xl p-4">
             <p className="text-sm text-muted-foreground">
               🔒 Candado
             </p>
-
+      
             <p className="text-2xl font-bold">
-              {data.medallas.candado}
+              {data.logros.candado}
             </p>
-
+      
             <p className="text-sm text-muted-foreground">
-              partidos consecutivos con acierto
+              partidos consecutivos acertando
             </p>
           </div>
-
-          <div className="border rounded-xl p-4">
-            <p className="text-sm text-muted-foreground">
-              🎯 Francotirador
-            </p>
-
-            <p className="text-2xl font-bold">
-              {data.medallas.francotirador}
-            </p>
-
-            <p className="text-sm text-muted-foreground">
-              exactos consecutivos
-            </p>
-          </div>
-
+      
+      
+      
           <div className="border rounded-xl p-4">
             <p className="text-sm text-muted-foreground">
               💥 Farol
             </p>
-
+      
             <p className="text-2xl font-bold">
-              {data.medallas.farol}
+              {data.logros.farol}
             </p>
-
+      
             <p className="text-sm text-muted-foreground">
-              partidos sin sumar puntos
+              partidos consecutivos sin puntos
             </p>
           </div>
-
+      
+      
+      
           <div className="border rounded-xl p-4">
+      
             <p className="text-sm text-muted-foreground">
-              ⭐ Mejor Jornada
+              🎯 Cazador de Puntos
             </p>
-
+      
             <p className="text-2xl font-bold">
-              J{data.medallas.mejorJornada.jornada}
+              J{data.logros.cazadorPuntos.jornada}
             </p>
-
+      
             <p className="text-sm text-muted-foreground">
-              {data.medallas.mejorJornada.puntos} puntos
+              {data.logros.cazadorPuntos.puntos} puntos
             </p>
+      
           </div>
-
+      
+      
         </div>
-
+      
       </div>
+
+   
       
       {/* Estilo de Juego */}
       <div className="space-y-4">
