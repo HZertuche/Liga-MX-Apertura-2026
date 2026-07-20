@@ -91,7 +91,7 @@ function Router() {
           </ProtectedRoute>
         </Route>
 
-        <Route path="/profile/:userId">
+        <Route path="/profile">
           <ProtectedRoute>
             <Profile />
           </ProtectedRoute>
