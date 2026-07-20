@@ -297,7 +297,91 @@ const maestroEmpate =
     .filter(e => e.empate.intentos >= 5)
     .sort((a, b) => b.empate.efectividad - a.empate.efectividad)[0] ?? null;
 
+// =====================================
+// CAZADOR DE SORPRESAS
+// =====================================
 
+const cazadoresSorpresas = users.map(user => {
+
+  let sorpresas = 0;
+
+  for (const match of finishedMatches) {
+
+    const matchPredictions =
+      finishedPredictions.filter(
+        p => p.matchId === match.id
+      );
+
+    if (matchPredictions.length === 0) continue;
+
+    let local = 0;
+    let visitante = 0;
+    let empate = 0;
+
+    for (const prediction of matchPredictions) {
+
+      if (prediction.homeScore! > prediction.awayScore!) {
+        local++;
+      }
+      else if (prediction.awayScore! > prediction.homeScore!) {
+        visitante++;
+      }
+      else {
+        empate++;
+      }
+
+    }
+
+    const total = matchPredictions.length;
+
+    const resultadoReal =
+      match.homeScore! > match.awayScore!
+        ? "local"
+        : match.awayScore! > match.homeScore!
+        ? "visitante"
+        : "empate";
+
+    const votosResultado =
+      resultadoReal === "local"
+        ? local
+        : resultadoReal === "visitante"
+        ? visitante
+        : empate;
+
+    const porcentaje =
+      (votosResultado / total) * 100;
+
+    if (porcentaje > 20) continue;
+
+    const miPrediccion =
+      finishedPredictions.find(
+        p =>
+          p.userId === user.id &&
+          p.matchId === match.id
+      );
+
+    if (
+      miPrediccion &&
+      (miPrediccion.points ?? 0) >= 3
+    ) {
+      sorpresas++;
+    }
+
+  }
+
+  return {
+    jugador: user.displayName,
+    valor: sorpresas,
+  };
+
+});
+
+cazadoresSorpresas.sort(
+  (a, b) => b.valor - a.valor
+);
+
+const cazadorSorpresas =
+  cazadoresSorpresas[0];
 
   
 // FAROL
@@ -575,6 +659,7 @@ const descenso = tablaGeneral
     especialistaLocal,
     especialistaVisitante,
     maestroEmpate,
+    cazadorSorpresas,
     cazadorPuntos,
     candado,
     campeonJornadas,
