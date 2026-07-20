@@ -95,6 +95,34 @@ export default function HallOfFame() {
     },
     
     {
+      titulo: "Cazador de Sorpresas",
+      icono: "💥",
+      jugador: data?.cazadorSorpresas?.jugador ?? "Sin datos",
+      valor: `${data?.cazadorSorpresas?.valor ?? 0} sorpresas`,
+      descripcion:
+        "Jugador que más veces acertó resultados elegidos por menos del 20% de los participantes.",
+    },
+
+    {
+      titulo: "Conservador del Año",
+      icono: "🛡️",
+      jugador: data?.conservadorDelAno?.jugador ?? "Sin datos",
+      valor: `${data?.conservadorDelAno?.conservador ?? 0}%`,
+      descripcion:
+        "Jugador que más confía en las victorias del equipo local.",
+    },
+
+    {
+      titulo: "Rey del Riesgo",
+      icono: "🎲",
+      jugador: data?.reyRiesgo?.jugador ?? "Sin datos",
+      valor: `${data?.reyRiesgo?.riesgo ?? 0}%`,
+      descripcion:
+        "Jugador que más apuesta por victorias visitantes y empates.",
+    },
+
+    
+    {
       titulo: "Rey del Exacto",
       jugador: data?.reyExacto?.jugador ?? "Sin datos",
       icono: "🎯",
