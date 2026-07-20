@@ -46,7 +46,13 @@ router.get("/profile/:userId", async (req, res) => {
   const matches = await db
     .select()
     .from(matchesTable);
-
+  
+  // Solo partidos finalizados
+  const finishedPredictions = predictions.filter((prediction) => {
+    const match = matches.find((m) => m.id === prediction.matchId);
+  
+    return match?.status === "finished";
+  });
 
   const jornadas = await db
     .select()
@@ -58,29 +64,29 @@ router.get("/profile/:userId", async (req, res) => {
   // RESUMEN
   // ===============================
 
-  const puntos = predictions.reduce(
+  const puntos = finishedPredictions.reduce(
     (sum, p) => sum + (p.points ?? 0),
     0
   );
 
 
-  const exactos = predictions.filter(
+  const exactos = finishedPredictions.filter(
     p => p.points === 5
   ).length;
 
 
-  const aciertos = predictions.filter(
+  const aciertos = finishedPredictions.filter(
     p => p.points === 3
   ).length;
 
 
   const efectividad =
-    predictions.length === 0
+    finishedPredictions.length === 0
       ? 0
       : Number(
           (
             ((exactos + aciertos) /
-              predictions.length) *
+              finishedPredictions.length) *
             100
           ).toFixed(1)
         );
