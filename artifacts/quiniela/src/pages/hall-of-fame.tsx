@@ -1,4 +1,4 @@
-import { Trophy } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 
 
@@ -25,6 +25,7 @@ export default function HallOfFame() {
   const awards = [
     {
       titulo: "Campeón de Jornadas",
+      icono: "👑",
       jugador: data?.campeonJornadas?.jugador ?? "Sin datos",
       valor: `${data?.campeonJornadas?.valor ?? 0} jornadas`,
       descripcion:
@@ -33,6 +34,7 @@ export default function HallOfFame() {
   
     {
       titulo: "Rey del Liderato",
+      icono: "👑",
       jugador: data?.reyLiderato?.jugador ?? "Sin datos",
       valor: `${data?.reyLiderato?.valor ?? 0} días`,
       descripcion:
@@ -42,6 +44,7 @@ export default function HallOfFame() {
     {
       titulo: "Cazador de Puntos",
       jugador: data?.cazadorPuntos?.jugador ?? "Sin datos",
+      icono: "🎯",
       valor: data?.cazadorPuntos?.valor ?? "0 puntos",
       descripcion:
         "Mayor cantidad de puntos obtenidos en una sola jornada.",
@@ -50,6 +53,7 @@ export default function HallOfFame() {
     {
       titulo: "Especialista",
       jugador: data?.especialista?.jugador ?? "Sin datos",
+      icono: "📈",
       valor: `${(data?.especialista?.valor ?? 0).toFixed(1)}%`,
       descripcion:
         "Mayor porcentaje histórico de aciertos entre todos sus pronósticos.",
@@ -58,6 +62,7 @@ export default function HallOfFame() {
     {
       titulo: "Rey del Exacto",
       jugador: data?.reyExacto?.jugador ?? "Sin datos",
+      icono: "🎯",
       valor: `${data?.reyExacto?.valor ?? 0} exactos`,
       descripcion:
         "Jugador con más resultados exactos históricos.",
@@ -65,6 +70,7 @@ export default function HallOfFame() {
   
     {
       titulo: "Rey del Resultado",
+      icono: "⚽",
       jugador: data?.reyResultado?.jugador ?? "Sin datos",
       valor: `${data?.reyResultado?.valor ?? 0} resultados`,
       descripcion:
@@ -73,6 +79,7 @@ export default function HallOfFame() {
   
     {
       titulo: "El Candado",
+      icono: "🔒",
       jugador: data?.candado?.jugador ?? "Sin datos",
       valor: data?.candado?.valor ?? "0 partidos",
       descripcion:
@@ -81,6 +88,7 @@ export default function HallOfFame() {
   
     {
       titulo: "Farol",
+      icono: "🤡",
       jugador: data?.farol?.jugador ?? "Sin datos",
       valor: data?.farol?.valor ?? "0 partidos",
       descripcion:
@@ -113,7 +121,9 @@ export default function HallOfFame() {
             className="bg-card border rounded-xl p-3 space-y-2"
           >
 
-            <Trophy className="h-5 w-5 text-primary" />
+            <div className="text-2xl">
+              {award.icono}
+            </div>            
 
             <h2 className="font-bold text-sm">
               {award.titulo}
@@ -142,7 +152,9 @@ export default function HallOfFame() {
 
         <div className="flex items-center gap-2 mb-3">
 
-          <Trophy className="h-5 w-5 text-primary" />
+          <div className="text-2xl">
+            🔻
+          </div>          
 
           <h2 className="font-bold text-sm">
             🔻 Zona de Descenso
