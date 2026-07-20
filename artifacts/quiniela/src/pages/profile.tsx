@@ -307,6 +307,72 @@ export default function Profile() {
         </div>
 
       </div> 
+
+
+      {/* Perfil de Riesgo */}
+      <div className="space-y-4">
+
+        <h2 className="text-xl font-bold">
+          🎲 Perfil de Riesgo
+        </h2>
+
+
+        <div className="border rounded-xl p-4">
+
+          <p className="text-2xl font-bold">
+            {data.riesgo.perfil.nivel}
+          </p>
+
+
+          <p className="text-muted-foreground mt-2">
+            {data.riesgo.perfil.descripcion}
+          </p>
+
+
+          <div className="grid grid-cols-3 gap-4 mt-6">
+
+
+            <div>
+              <p className="text-sm text-muted-foreground">
+                🏟️ Local
+              </p>
+
+              <p className="text-xl font-bold">
+                {data.riesgo.distribucion.local}%
+              </p>
+            </div>
+
+
+            <div>
+              <p className="text-sm text-muted-foreground">
+                ✈️ Visitante
+              </p>
+
+              <p className="text-xl font-bold">
+                {data.riesgo.distribucion.visitante}%
+              </p>
+            </div>
+
+
+            <div>
+              <p className="text-sm text-muted-foreground">
+                🤝 Empate
+              </p>
+
+              <p className="text-xl font-bold">
+                {data.riesgo.distribucion.empate}%
+              </p>
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
       
       {/* Equipos */}
       <div className="space-y-4">
