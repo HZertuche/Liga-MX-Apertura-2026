@@ -335,6 +335,84 @@ const reyLiderato = rankingLideres[0] ?? {
   valor: 0,
 };
 
+// CAMPEÓN DE JORNADAS
+const jornadasGanadas = new Map<string, number>();
+
+
+for (const jornada of jornadas) {
+
+  // Solo jornadas terminadas
+  if (jornada.status !== "finished") {
+    continue;
+  }
+
+
+  const partidosJornada = matches.filter(
+    m => m.jornadaId === jornada.id
+  );
+
+
+  const idsPartidos = partidosJornada.map(
+    m => m.id
+  );
+
+
+  const tablaJornada = users.map(user => {
+
+    const puntos = predictions
+      .filter(
+        p =>
+          p.userId === user.id &&
+          idsPartidos.includes(p.matchId)
+      )
+      .reduce(
+        (sum, p) => sum + (p.points ?? 0),
+        0
+      );
+
+
+    return {
+      jugador: user.displayName,
+      puntos,
+    };
+
+  });
+
+
+  tablaJornada.sort(
+    (a, b) => b.puntos - a.puntos
+  );
+
+
+  const ganador = tablaJornada[0];
+
+
+  if (ganador) {
+
+    jornadasGanadas.set(
+      ganador.jugador,
+      (jornadasGanadas.get(ganador.jugador) ?? 0) + 1
+    );
+
+  }
+
+}
+
+
+const campeonJornadasRanking = [...jornadasGanadas.entries()]
+  .map(([jugador, jornadas]) => ({
+    jugador,
+    valor: jornadas,
+  }))
+  .sort((a, b) => b.valor - a.valor);
+
+
+const campeonJornadas = campeonJornadasRanking[0] ?? {
+  jugador: "Sin datos",
+  valor: 0,
+};  
+
+
   
 // ZONA DE DESCENSO
 
@@ -369,7 +447,7 @@ const descenso = tablaGeneral
     especialista,
     cazadorPuntos,
     candado,
-    sobreviviente: {},
+    campeonJornadas,
     descenso,
   });  
     
