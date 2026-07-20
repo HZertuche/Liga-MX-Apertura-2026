@@ -298,6 +298,73 @@ const maestroEmpate =
     .sort((a, b) => b.empate.efectividad - a.empate.efectividad)[0] ?? null;
 
 // =====================================
+// CONSERVADOR DEL AÑO Y REY DEL RIESGO
+// =====================================
+
+const perfiles = users.map(user => {
+
+  const userPredictions =
+    predictionsByUser.get(user.id) ?? [];
+
+  let local = 0;
+  let visitante = 0;
+  let empate = 0;
+
+  for (const prediction of userPredictions) {
+
+    if (prediction.homeScore! > prediction.awayScore!) {
+      local++;
+    }
+    else if (prediction.awayScore! > prediction.homeScore!) {
+      visitante++;
+    }
+    else {
+      empate++;
+    }
+
+  }
+
+  const total =
+    local + visitante + empate;
+
+  return {
+
+    jugador: user.displayName,
+
+    conservador:
+      total === 0
+        ? 0
+        : Number(
+            ((local / total) * 100).toFixed(1)
+          ),
+
+    riesgo:
+      total === 0
+        ? 0
+        : Number(
+            (((visitante + empate) / total) * 100).toFixed(1)
+          ),
+
+  };
+
+});
+
+const conservadorDelAno =
+  [...perfiles]
+    .sort(
+      (a, b) =>
+        b.conservador - a.conservador
+    )[0];
+
+const reyRiesgo =
+  [...perfiles]
+    .sort(
+      (a, b) =>
+        b.riesgo - a.riesgo
+    )[0];
+
+  
+// =====================================
 // CAZADOR DE SORPRESAS
 // =====================================
 
@@ -659,6 +726,10 @@ const descenso = tablaGeneral
     especialistaLocal,
     especialistaVisitante,
     maestroEmpate,
+
+    conservadorDelAno,
+    reyRiesgo,
+    
     cazadorSorpresas,
     cazadorPuntos,
     candado,
