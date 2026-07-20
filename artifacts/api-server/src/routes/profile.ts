@@ -535,7 +535,7 @@ router.get("/profile/:userId", async (req, res) => {
       );
 
 
-    if (puntosJornada > mejorJornada.puntos) {
+    if (puntosJornada > cazadorPuntos.puntos) {
 
       cazadorPuntos = {
         jornada: jornada.number,
