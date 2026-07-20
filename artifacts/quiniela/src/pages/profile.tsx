@@ -213,6 +213,84 @@ export default function Profile() {
         </div>
 
       </div>
+      
+      {/* Estilo de Juego */}
+      <div className="space-y-4">
+
+        <h2 className="text-xl font-bold">
+          📊 Mi Estilo de Juego
+        </h2>
+
+
+        <div className="grid md:grid-cols-3 gap-4">
+
+
+          {/* Local */}
+          <div className="border rounded-xl p-4">
+
+            <p className="text-sm text-muted-foreground">
+              🏟️ Especialista Local
+            </p>
+
+            <p className="text-3xl font-bold mt-2">
+              {data.estilo.local.efectividad}%
+            </p>
+
+            <p className="text-sm">
+              {data.estilo.local.aciertos} de{" "}
+              {data.estilo.local.intentos}
+              {" "}aciertos
+            </p>
+
+          </div>
+
+
+
+          {/* Visitante */}
+          <div className="border rounded-xl p-4">
+
+            <p className="text-sm text-muted-foreground">
+              ✈️ Especialista Visitante
+            </p>
+
+            <p className="text-3xl font-bold mt-2">
+              {data.estilo.visitante.efectividad}%
+            </p>
+
+            <p className="text-sm">
+              {data.estilo.visitante.aciertos} de{" "}
+              {data.estilo.visitante.intentos}
+              {" "}aciertos
+            </p>
+
+          </div>
+
+
+
+          {/* Empate */}
+          <div className="border rounded-xl p-4">
+
+            <p className="text-sm text-muted-foreground">
+              🤝 Especialista Empates
+            </p>
+
+            <p className="text-3xl font-bold mt-2">
+              {data.estilo.empate.efectividad}%
+            </p>
+
+            <p className="text-sm">
+              {data.estilo.empate.aciertos} de{" "}
+              {data.estilo.empate.intentos}
+              {" "}aciertos
+            </p>
+
+          </div>
+
+
+        </div>
+
+      </div> 
+      
       {/* Equipos */}
       <div className="space-y-4">
 
