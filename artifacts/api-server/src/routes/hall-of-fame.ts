@@ -186,6 +186,58 @@ especialistas.sort(
 
 const especialista = especialistas[0];
 
+const estilos = users.map(user => {
+
+  const userPredictions =
+    predictionsByUser.get(user.id) ?? [];
+
+  let intentosLocal = 0;
+  let aciertosLocal = 0;
+
+  for (const prediction of userPredictions) {
+
+    const match = finishedMatches.find(
+      m => m.id === prediction.matchId
+    );
+
+    if (!match) continue;
+
+    const predijoLocal =
+      prediction.homeScore! > prediction.awayScore!;
+
+    if (!predijoLocal) continue;
+
+    intentosLocal++;
+
+    const ganoLocal =
+      match.homeScore! > match.awayScore!;
+
+    if (ganoLocal) {
+      aciertosLocal++;
+    }
+
+  }
+
+  return {
+    jugador: user.displayName,
+    local: {
+      efectividad:
+        intentosLocal === 0
+          ? 0
+          : Number(
+              (
+                (aciertosLocal / intentosLocal) *
+                100
+              ).toFixed(1)
+            ),
+      aciertos: aciertosLocal,
+      intentos: intentosLocal,
+    }
+  };
+
+});
+
+  
 // FAROL
 let peorRacha = {
   jugador: "",
