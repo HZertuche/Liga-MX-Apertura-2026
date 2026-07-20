@@ -1,14 +1,33 @@
+import { useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Profile() {
   const { user } = useAuth();
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["profile", user?.id],
+  const { data: users } = useQuery({
+    queryKey: ["users"],
     enabled: !!user,
     queryFn: async () => {
-      const response = await fetch(`/api/profile/${user!.id}`, {
+      const response = await fetch("/api/users", {
+        credentials: "include",
+      });
+  
+      if (!response.ok) {
+        throw new Error("No se pudieron cargar los usuarios");
+      }
+  
+      return response.json();
+    },
+  });  
+  
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["profile", selectedUserId ?? user?.id],
+    enabled: !!user,
+    queryFn: async () => {
+      const profileUserId = selectedUserId ?? user!.id;
+      const response = await fetch(`/api/profile/${profileUserId}`, {
         credentials: "include",
       });
 
@@ -43,16 +62,43 @@ export default function Profile() {
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-8">
 
+      {/* Selector */}
+      <div className="space-y-2">
+      
+        <label className="text-sm font-medium">
+          Ver perfil de
+        </label>
+      
+        <select
+          className="w-full max-w-sm rounded-lg border p-2"
+          value={selectedUserId ?? user!.id}
+          onChange={(e) => setSelectedUserId(Number(e.target.value))}
+        >
+          {users?.map((u: any) => (
+            <option
+              key={u.id}
+              value={u.id}
+            >
+              {u.displayName}
+            </option>
+          ))}
+        </select>
+      
+      </div>
+      
       {/* Encabezado */}
       <div>
         <h1 className="text-3xl font-bold">
           {data.jugador}
         </h1>
-
+      
         <p className="text-muted-foreground">
           Estadísticas del torneo
         </p>
       </div>
+
+
+
 
       {/* Resumen */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
