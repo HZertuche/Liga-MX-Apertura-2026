@@ -35,7 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     { href: '/standings/general', label: 'Tabla General', icon: Trophy },
     { href: '/standings/weekly', label: 'Premio Semanal', icon: Star },
     { href: '/standings/matchups', label: 'Enfrentamientos', icon: Swords },
-    { href: `/profile/${user.id}`, label: 'Mi Perfil', icon: User },
+    { href: '/profile', label: 'Mi Perfil', icon: User },
     { href: `/history/${user.id}`, label: 'Mi Historial', icon: History },
     { href: '/hall-of-fame', label: 'Salón de la Fama', icon: Trophy },
   ];
