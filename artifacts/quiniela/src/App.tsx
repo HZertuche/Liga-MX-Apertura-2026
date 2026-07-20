@@ -91,11 +91,11 @@ function Router() {
           </ProtectedRoute>
         </Route>
 
-        <Route path="/profile">
+        <Route path="/profile/:userId">
           <ProtectedRoute>
             <Profile />
           </ProtectedRoute>
-        </Route>        
+        </Route>      
 
         {/* Protected Admin Routes */}
         <Route path="/admin/users">
