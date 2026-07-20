@@ -1,7 +1,7 @@
 import { useAuth } from '@/contexts/auth-context';
 import { useLogout } from '@workspace/api-client-react';
 import { Link, useLocation } from 'wouter';
-import { LayoutDashboard, CalendarDays, Trophy, Swords, History, Users, Settings, LogOut, ChevronLeft, Menu, ClipboardList, Star } from 'lucide-react';
+import { LayoutDashboard, CalendarDays, Trophy, Swords, History, Users, User, Settings, LogOut, ChevronLeft, Menu, ClipboardList, Star } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
