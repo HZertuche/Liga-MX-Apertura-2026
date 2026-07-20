@@ -17,6 +17,7 @@ import MatchupStandings from '@/pages/standings-matchups';
 import PlayerHistory from '@/pages/history';
 import AdminUsers from '@/pages/admin-users';
 import HallOfFame from '@/pages/hall-of-fame';
+import Profile from '@/pages/profile';
 import AdminJornadas from '@/pages/admin-jornadas';
 import AdminMatches from '@/pages/admin-matches';
 import AdminMatchups from '@/pages/admin-matchups';
@@ -89,6 +90,12 @@ function Router() {
             <HallOfFame />
           </ProtectedRoute>
         </Route>
+
+        <Route path="/profile">
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        </Route>        
 
         {/* Protected Admin Routes */}
         <Route path="/admin/users">
