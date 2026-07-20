@@ -24,19 +24,21 @@ export default function HallOfFame() {
 
   const awards = [
     {
-      titulo: "Rey del Exacto",
-      jugador: data?.reyExacto?.jugador ?? "Sin datos",
-      valor: `${data?.reyExacto?.valor ?? 0} exactos`,
+      titulo: "Campeón de Jornadas",
+      jugador: data?.campeonJornadas?.jugador ?? "Sin datos",
+      valor: `${data?.campeonJornadas?.valor ?? 0} jornadas`,
       descripcion:
-        "Jugador con más resultados exactos históricos.",
+        "Jugador que más veces ha terminado una jornada en primer lugar.",
     },
+  
     {
-      titulo: "Rey del Resultado",
-      jugador: data?.reyResultado?.jugador ?? "Sin datos",
-      valor: `${data?.reyResultado?.valor ?? 0} resultados`,
+      titulo: "Rey del Liderato",
+      jugador: data?.reyLiderato?.jugador ?? "Sin datos",
+      valor: `${data?.reyLiderato?.valor ?? 0} días`,
       descripcion:
-        "Jugador con más partidos acertados en ganador, empate o derrota.",
+        "Jugador que más días ha permanecido como líder de la tabla general.",
     },
+  
     {
       titulo: "Cazador de Puntos",
       jugador: data?.cazadorPuntos?.jugador ?? "Sin datos",
@@ -44,6 +46,7 @@ export default function HallOfFame() {
       descripcion:
         "Mayor cantidad de puntos obtenidos en una sola jornada.",
     },
+  
     {
       titulo: "Especialista",
       jugador: data?.especialista?.jugador ?? "Sin datos",
@@ -51,6 +54,31 @@ export default function HallOfFame() {
       descripcion:
         "Mayor porcentaje histórico de aciertos entre todos sus pronósticos.",
     },
+  
+    {
+      titulo: "Rey del Exacto",
+      jugador: data?.reyExacto?.jugador ?? "Sin datos",
+      valor: `${data?.reyExacto?.valor ?? 0} exactos`,
+      descripcion:
+        "Jugador con más resultados exactos históricos.",
+    },
+  
+    {
+      titulo: "Rey del Resultado",
+      jugador: data?.reyResultado?.jugador ?? "Sin datos",
+      valor: `${data?.reyResultado?.valor ?? 0} resultados`,
+      descripcion:
+        "Jugador con más partidos acertados en ganador, empate o derrota.",
+    },
+  
+    {
+      titulo: "El Candado",
+      jugador: data?.candado?.jugador ?? "Sin datos",
+      valor: data?.candado?.valor ?? "0 partidos",
+      descripcion:
+        "Mayor racha histórica de partidos acertando el resultado (3 puntos o más) sin fallar.",
+    },
+  
     {
       titulo: "Farol",
       jugador: data?.farol?.jugador ?? "Sin datos",
@@ -58,47 +86,8 @@ export default function HallOfFame() {
       descripcion:
         "Mayor racha histórica de partidos consecutivos sin obtener puntos.",
     },
-    {
-      titulo: "Zona de Descenso",
-      jugador: data?.descenso
-        ?.map(
-          (j: any) =>
-            `${j.posicion}. 🔻 ${j.jugador}`
-        )
-        .join("\n") ?? "Sin datos",
-      valor: data?.descenso
-        ?.map(
-          (j: any) =>
-            `${j.valor}`
-        )
-        .join(" | ") ?? "",
-      descripcion:
-        "Los jugadores con menor puntuación actual en la competencia.",
-    },
-    {
-      titulo: "El Candado",
-      jugador: data?.candado?.jugador ?? "Sin datos",
-      valor: data?.candado?.valor ?? "0 partidos",
-      descripcion:
-        "Mayor racha histórica de partidos acertando el resultado (3 puntos o más) sin fallar.",
-    },    
-    {
-      titulo: "Rey del Liderato",
-      jugador: data?.reyLiderato?.jugador ?? "Sin datos",
-      valor: data?.reyLiderato?.valor ?? "0 días",
-      descripcion:
-        "Jugador que más días ha permanecido como líder de la tabla general.",
-    },
-    {
-      titulo: "Campeón de Jornadas",
-      jugador: data?.campeonJornadas?.jugador ?? "Sin datos",
-      valor: `${data?.campeonJornadas?.valor ?? 0} jornadas`,
-      descripcion:
-        "Jugador que más veces ha terminado una jornada en primer lugar.",
-    },
-    
-    
-  ];
+  ];    
+
 
 
   return (
