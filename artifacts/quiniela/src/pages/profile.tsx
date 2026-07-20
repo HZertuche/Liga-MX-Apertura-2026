@@ -371,7 +371,34 @@ export default function Profile() {
 
       </div>
 
+      {/* Detector de Sorpresas */}
+      <div className="space-y-4">
 
+        <h2 className="text-xl font-bold">
+          💥 Detector de Sorpresas
+        </h2>
+
+
+        <div className="border rounded-xl p-4">
+
+          <p className="text-3xl font-bold">
+            {data.detectorSorpresas.aciertos}
+          </p>
+
+
+          <p className="text-muted-foreground">
+            resultados inesperados acertados
+          </p>
+
+
+          <p className="text-sm mt-3">
+            Especialista encontrando resultados
+            que pocos jugadores esperaban.
+          </p>
+
+        </div>
+
+      </div>
 
       
       {/* Equipos */}
