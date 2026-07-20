@@ -184,6 +184,116 @@ router.get("/profile/:userId", async (req, res) => {
 
   };
 
+  // ===============================
+  // PERFIL DE RIESGO
+  // ===============================
+  
+  let apuestasLocal = 0;
+  let apuestasVisitante = 0;
+  let apuestasEmpate = 0;
+  
+  
+  for (const prediction of finishedPredictions) {
+  
+    if (
+      prediction.homeScore! >
+      prediction.awayScore!
+    ) {
+      apuestasLocal++;
+    }
+    else if (
+      prediction.awayScore! >
+      prediction.homeScore!
+    ) {
+      apuestasVisitante++;
+    }
+    else {
+      apuestasEmpate++;
+    }
+  
+  }
+  
+  
+  const totalPronosticos =
+    apuestasLocal +
+    apuestasVisitante +
+    apuestasEmpate;
+  
+  
+  const distribucion = {
+  
+    local:
+      totalPronosticos === 0
+        ? 0
+        :
+        Number(
+          (
+            (apuestasLocal / totalPronosticos) *
+            100
+          ).toFixed(1)
+        ),
+  
+    visitante:
+      totalPronosticos === 0
+        ? 0
+        :
+        Number(
+          (
+            (apuestasVisitante / totalPronosticos) *
+            100
+          ).toFixed(1)
+        ),
+  
+    empate:
+      totalPronosticos === 0
+        ? 0
+        :
+        Number(
+          (
+            (apuestasEmpate / totalPronosticos) *
+            100
+          ).toFixed(1)
+        ),
+  
+  };
+  
+  
+  let perfilRiesgo = {
+    nivel: "Balanceado",
+    descripcion:
+      "Distribuye sus pronósticos entre diferentes resultados."
+  };
+  
+  
+  if (distribucion.local >= 60) {
+  
+    perfilRiesgo = {
+      nivel: "Conservador",
+      descripcion:
+        "Confía principalmente en victorias locales."
+    };
+  
+  }
+  
+  
+  if (
+    distribucion.visitante +
+    distribucion.empate >= 40
+  ) {
+  
+    perfilRiesgo = {
+      nivel: "Arriesgado",
+      descripcion:
+        "Busca resultados menos esperados."
+    };
+  
+  }
+  
+  
+  const riesgo = {
+    perfil: perfilRiesgo,
+    distribucion
+  };  
 
   
 
@@ -485,7 +595,8 @@ router.get("/profile/:userId", async (req, res) => {
       pesadilla
     },
 
-    estilo
+    estilo,
+    riesgo
 
   });
 
