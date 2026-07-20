@@ -501,39 +501,6 @@ router.get("/profile/:userId", async (req, res) => {
 
 
 
-  // ===============================
-  // FRANCOTIRADOR
-  // ===============================
-
-  let francotirador = 0;
-  let mejorFrancotirador = 0;
-
-
-  for (const match of partidosOrdenados) {
-
-    const prediction = predictions.find(
-      p => p.matchId === match.id
-    );
-
-
-    if (!prediction) continue;
-
-
-    if (prediction.points === 5) {
-
-      francotirador++;
-
-      if (francotirador > mejorFrancotirador) {
-        mejorFrancotirador = francotirador;
-      }
-
-    } else {
-
-      francotirador = 0;
-
-    }
-
-  }
 
 
 
@@ -541,7 +508,7 @@ router.get("/profile/:userId", async (req, res) => {
   // MEJOR JORNADA
   // ===============================
 
-  let mejorJornada = {
+  let cazadorPuntos = {
     jornada: 0,
     puntos: 0,
   };
@@ -570,7 +537,7 @@ router.get("/profile/:userId", async (req, res) => {
 
     if (puntosJornada > mejorJornada.puntos) {
 
-      mejorJornada = {
+      cazadorPuntos = {
         jornada: jornada.number,
         puntos: puntosJornada,
       };
@@ -689,11 +656,10 @@ router.get("/profile/:userId", async (req, res) => {
     },
 
 
-    medallas:{
+    logros:{
       candado: mejorCandado,
-      francotirador: mejorFrancotirador,
       farol: peorFarol,
-      mejorJornada
+      cazadorPuntos
     },
 
 
