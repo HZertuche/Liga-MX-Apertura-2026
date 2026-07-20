@@ -296,7 +296,114 @@ router.get("/profile/:userId", async (req, res) => {
   };  
 
   
-
+  // ===============================
+  // DETECTOR DE SORPRESAS
+  // ===============================
+  
+  let sorpresas = 0;
+  
+  
+  for (const match of matches.filter(
+    m => m.status === "finished"
+  )) {
+  
+    const matchPredictions =
+      await db
+        .select()
+        .from(predictionsTable)
+        .where(
+          eq(
+            predictionsTable.matchId,
+            match.id
+          )
+        );
+  
+  
+    if (matchPredictions.length === 0)
+      continue;
+  
+  
+    let local = 0;
+    let visitante = 0;
+    let empate = 0;
+  
+  
+    for (const prediction of matchPredictions) {
+  
+      if (
+        prediction.homeScore! >
+        prediction.awayScore!
+      ) {
+        local++;
+      }
+      else if (
+        prediction.awayScore! >
+        prediction.homeScore!
+      ) {
+        visitante++;
+      }
+      else {
+        empate++;
+      }
+  
+    }
+  
+  
+    const total =
+      local +
+      visitante +
+      empate;
+  
+  
+    const resultadoReal =
+      match.homeScore! >
+      match.awayScore!
+        ? "local"
+        :
+      match.awayScore! >
+      match.homeScore!
+        ? "visitante"
+        :
+        "empate";
+  
+  
+    const elegidoPor =
+      resultadoReal === "local"
+        ? local
+        :
+      resultadoReal === "visitante"
+        ? visitante
+        :
+        empate;
+  
+  
+    const porcentaje =
+      (elegidoPor / total) * 100;
+  
+  
+    const miPrediccion =
+      finishedPredictions.find(
+        p => p.matchId === match.id
+      );
+  
+  
+    if (
+      miPrediccion &&
+      miPrediccion.points &&
+      miPrediccion.points >= 3 &&
+      porcentaje <= 20
+    ) {
+  
+      sorpresas++;
+  
+    }
+  
+  }
+  
+  
+  const detectorSorpresas = {
+    aciertos: sorpresas
+  };
 
 
   // ===============================
@@ -596,7 +703,8 @@ router.get("/profile/:userId", async (req, res) => {
     },
 
     estilo,
-    riesgo
+    riesgo,
+    detectorSorpresas
 
   });
 
