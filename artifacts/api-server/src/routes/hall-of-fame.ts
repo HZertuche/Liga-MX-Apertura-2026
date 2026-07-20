@@ -193,7 +193,7 @@ let peorRacha = {
 };
 
 
-const matchesOrdenados = [...matches].sort(
+const matchesOrdenados = [...finishedMatches].sort(
   (a, b) =>
     new Date(a.matchDate ?? 0).getTime() -
     new Date(b.matchDate ?? 0).getTime()
@@ -254,7 +254,7 @@ let mejorRachaAciertos = {
 };
 
 
-const partidosOrdenados = [...matches].sort(
+const partidosOrdenados = [...finishedMatches].sort(
   (a, b) =>
     new Date(a.matchDate ?? 0).getTime() -
     new Date(b.matchDate ?? 0).getTime()
