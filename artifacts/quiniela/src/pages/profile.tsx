@@ -227,21 +227,27 @@ export default function Profile() {
 
           {/* Local */}
           <div className="border rounded-xl p-4">
-
+          
             <p className="text-sm text-muted-foreground">
               🏟️ Especialista Local
             </p>
-
+          
             <p className="text-3xl font-bold mt-2">
               {data.estilo.local.efectividad}%
             </p>
-
+          
             <p className="text-sm">
               {data.estilo.local.aciertos} de{" "}
               {data.estilo.local.intentos}
               {" "}aciertos
             </p>
-
+          
+            {!data.estilo.local.muestraSuficiente && (
+              <p className="text-sm text-muted-foreground mt-2">
+                ⚠️ Muestra pequeña
+              </p>
+            )}
+          
           </div>
 
 
@@ -263,6 +269,12 @@ export default function Profile() {
               {" "}aciertos
             </p>
 
+            {!data.estilo.visitante.muestraSuficiente && (
+              <p className="text-sm text-muted-foreground mt-2">
+                ⚠️ Muestra pequeña
+              </p>
+            )}            
+
           </div>
 
 
@@ -283,9 +295,14 @@ export default function Profile() {
               {data.estilo.empate.intentos}
               {" "}aciertos
             </p>
-
+            
+            {!data.estilo.empate.muestraSuficiente && (
+              <p className="text-sm text-muted-foreground mt-2">
+                ⚠️ Muestra pequeña
+              </p>
+            )}
+            
           </div>
-
 
         </div>
 
