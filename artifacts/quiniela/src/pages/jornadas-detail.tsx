@@ -345,7 +345,7 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
 </button>
 
 
-      <div className="font-bold text-lg">
+      <div className="font-bold text-sm sm:text-lg text-center">
         {new Date(currentDate + "T12:00:00").toLocaleDateString("es-MX", {
           weekday: "long",
           day: "numeric",
@@ -382,10 +382,10 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
 
             return (
               <div key={match.id} className={cn(
-                "bg-card border rounded-xl overflow-hidden transition-all",
+                "bg-card border rounded-lg overflow-hidden transition-all",
                 isLocked ? "bg-muted/30 opacity-90" : "hover:border-primary/30"
               )}>
-                <div className="flex flex-col sm:flex-row border-b border-border/50 bg-muted/20 px-4 py-2 sm:items-center justify-between text-xs text-muted-foreground">
+                <div className="flex flex-col sm:flex-row border-b border-border/50 bg-muted/20 px-3 py-1.5 sm:items-center justify-between text-xs text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <span className="font-medium text-foreground">{formatDate(match.matchDate)}</span>
                     <span className="hidden sm:inline">•</span>
@@ -418,20 +418,20 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                 </div>
                 
                   {/* Contenedor del Partido*/}
-                  <div className="p-6 flex flex-col items-center gap-6">
+                  <div className="p-3 flex flex-col items-center gap-4">
                   
                     {/* Equipos y Marcador*/}
-                    <div className="w-full flex items-center justify-center gap-8">
+                    <div className="w-full flex items-center justify-center gap-3 sm:gap-8">
                   
                       {/* LOCAL */}
-                      <div className="flex flex-col items-center w-32 text-center">
+                      <div className="flex flex-col items-center w-24 sm:w-32 text-center">
                         <img
                           src={getTeamLogo(match.homeTeam)}
                           alt={match.homeTeam}
-                          className="w-20 h-20 object-contain mb-2"
+                          className="w-14 h-14 sm:w-20 sm:h-20 object-contain mb-1"
                         />
                   
-                        <span className="font-display font-bold text-sm sm:text-base">
+                        <span className="font-display font-bold text-xs sm:text-base">
                           {match.homeTeam}
                         </span>
                       </div>
@@ -445,7 +445,7 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                             {match.homeScore} - {match.awayScore}
                           </span>
                         ) : (
-                          <span className="text-2xl font-bold text-muted-foreground">
+                          <span className="text-xl sm:text-2xl font-bold text-muted-foreground">
                             VS
                           </span>
                         )}
@@ -454,14 +454,14 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                   
                   
                       {/* VISITANTE */}
-                      <div className="flex flex-col items-center w-32 text-center">
+                      <div className="flex flex-col items-center w-24 sm:w-32 text-center">
                         <img
                           src={getTeamLogo(match.awayTeam)}
                           alt={match.awayTeam}
-                          className="w-20 h-20 object-contain mb-2"
+                          className="w-14 h-14 sm:w-20 sm:h-20 object-contain mb-1"
                         />
                   
-                        <span className="font-display font-bold text-sm sm:text-base">
+                        <span className="font-display font-bold text-xs sm:text-base">
                           {match.awayTeam}
                         </span>
                       </div>
@@ -487,7 +487,7 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                           onChange={(e) => handleScoreChange(match.id, "home", e.target.value)}
                           disabled={isLocked}
                           className={cn(
-                            "w-16 h-16 text-center text-2xl font-bold rounded-lg border-2",
+                            "w-12 h-12 sm:w-16 sm:h-16 text-center text-xl sm:text-2xl font-bold rounded-lg border-2",
                             isLocked
                               ? "bg-muted text-muted-foreground border-border"
                               : "bg-background focus:border-primary"
