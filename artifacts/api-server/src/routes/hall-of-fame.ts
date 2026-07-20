@@ -298,26 +298,6 @@ const maestroEmpate =
     .sort((a, b) => b.empate.efectividad - a.empate.efectividad)[0] ?? null;
 
 
-  
-
-  return {
-    jugador: user.displayName,
-    local: {
-      efectividad:
-        intentosLocal === 0
-          ? 0
-          : Number(
-              (
-                (aciertosLocal / intentosLocal) *
-                100
-              ).toFixed(1)
-            ),
-      aciertos: aciertosLocal,
-      intentos: intentosLocal,
-    }
-  };
-
-});
 
   
 // FAROL
