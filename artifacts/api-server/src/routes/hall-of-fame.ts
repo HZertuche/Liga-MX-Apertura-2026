@@ -355,9 +355,8 @@ tablaGeneral.sort((a, b) => b.puntos - a.puntos);
 
 const descenso = tablaGeneral
   .slice(-3)
-  .reverse()
   .map((jugador, index) => ({
-    posicion: tablaGeneral.length - index,
+    posicion: tablaGeneral.length - 2 + index,
     jugador: jugador.jugador,
     valor: `${jugador.puntos} pts`,
   }));
