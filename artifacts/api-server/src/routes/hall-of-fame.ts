@@ -175,7 +175,7 @@ const especialistas = users.map(user => {
 
   return {
     jugador: user.displayName,
-    valor: porcentaje
+    valor: Number(porcentaje.toFixed(1))
   };
 
 });
