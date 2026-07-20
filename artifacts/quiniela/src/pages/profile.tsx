@@ -99,6 +99,75 @@ export default function Profile() {
 
       </div>
 
+      {/* Medallas */}
+      <div className="space-y-4">
+
+        <h2 className="text-xl font-bold">
+          Mis Medallas
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-4">
+
+          <div className="border rounded-xl p-4">
+            <p className="text-sm text-muted-foreground">
+              🔒 Candado
+            </p>
+
+            <p className="text-2xl font-bold">
+              {data.medallas.candado}
+            </p>
+
+            <p className="text-sm text-muted-foreground">
+              partidos consecutivos con acierto
+            </p>
+          </div>
+
+          <div className="border rounded-xl p-4">
+            <p className="text-sm text-muted-foreground">
+              🎯 Francotirador
+            </p>
+
+            <p className="text-2xl font-bold">
+              {data.medallas.francotirador}
+            </p>
+
+            <p className="text-sm text-muted-foreground">
+              exactos consecutivos
+            </p>
+          </div>
+
+          <div className="border rounded-xl p-4">
+            <p className="text-sm text-muted-foreground">
+              💥 Farol
+            </p>
+
+            <p className="text-2xl font-bold">
+              {data.medallas.farol}
+            </p>
+
+            <p className="text-sm text-muted-foreground">
+              partidos sin sumar puntos
+            </p>
+          </div>
+
+          <div className="border rounded-xl p-4">
+            <p className="text-sm text-muted-foreground">
+              ⭐ Mejor Jornada
+            </p>
+
+            <p className="text-2xl font-bold">
+              J{data.medallas.mejorJornada.jornada}
+            </p>
+
+            <p className="text-sm text-muted-foreground">
+              {data.medallas.mejorJornada.puntos} puntos
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
   );
 }
