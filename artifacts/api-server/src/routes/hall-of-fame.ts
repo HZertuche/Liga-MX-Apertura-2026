@@ -186,6 +186,10 @@ especialistas.sort(
 
 const especialista = especialistas[0];
 
+// =====================================
+// ESPECIALISTAS POR TIPO DE PRONÓSTICO
+// =====================================
+
 const estilos = users.map(user => {
 
   const userPredictions =
@@ -193,6 +197,12 @@ const estilos = users.map(user => {
 
   let intentosLocal = 0;
   let aciertosLocal = 0;
+
+  let intentosVisitante = 0;
+  let aciertosVisitante = 0;
+
+  let intentosEmpate = 0;
+  let aciertosEmpate = 0;
 
   for (const prediction of userPredictions) {
 
@@ -202,21 +212,93 @@ const estilos = users.map(user => {
 
     if (!match) continue;
 
-    const predijoLocal =
-      prediction.homeScore! > prediction.awayScore!;
+    // Pronosticó local
+    if (prediction.homeScore! > prediction.awayScore!) {
 
-    if (!predijoLocal) continue;
+      intentosLocal++;
 
-    intentosLocal++;
+      if (match.homeScore! > match.awayScore!) {
+        aciertosLocal++;
+      }
 
-    const ganoLocal =
-      match.homeScore! > match.awayScore!;
+    }
 
-    if (ganoLocal) {
-      aciertosLocal++;
+    // Pronosticó visitante
+    else if (prediction.awayScore! > prediction.homeScore!) {
+
+      intentosVisitante++;
+
+      if (match.awayScore! > match.homeScore!) {
+        aciertosVisitante++;
+      }
+
+    }
+
+    // Pronosticó empate
+    else {
+
+      intentosEmpate++;
+
+      if (match.homeScore === match.awayScore) {
+        aciertosEmpate++;
+      }
+
     }
 
   }
+
+  return {
+
+    jugador: user.displayName,
+
+    local: {
+      efectividad:
+        intentosLocal === 0
+          ? 0
+          : Number(((aciertosLocal / intentosLocal) * 100).toFixed(1)),
+      aciertos: aciertosLocal,
+      intentos: intentosLocal,
+    },
+
+    visitante: {
+      efectividad:
+        intentosVisitante === 0
+          ? 0
+          : Number(((aciertosVisitante / intentosVisitante) * 100).toFixed(1)),
+      aciertos: aciertosVisitante,
+      intentos: intentosVisitante,
+    },
+
+    empate: {
+      efectividad:
+        intentosEmpate === 0
+          ? 0
+          : Number(((aciertosEmpate / intentosEmpate) * 100).toFixed(1)),
+      aciertos: aciertosEmpate,
+      intentos: intentosEmpate,
+    },
+
+  };
+
+});
+
+const especialistaLocal =
+  [...estilos]
+    .filter(e => e.local.intentos >= 5)
+    .sort((a, b) => b.local.efectividad - a.local.efectividad)[0] ?? null;
+
+const especialistaVisitante =
+  [...estilos]
+    .filter(e => e.visitante.intentos >= 5)
+    .sort((a, b) => b.visitante.efectividad - a.visitante.efectividad)[0] ?? null;
+
+const maestroEmpate =
+  [...estilos]
+    .filter(e => e.empate.intentos >= 5)
+    .sort((a, b) => b.empate.efectividad - a.empate.efectividad)[0] ?? null;
+
+
+  
 
   return {
     jugador: user.displayName,
@@ -510,6 +592,9 @@ const descenso = tablaGeneral
     reyLiderato,
     farol,
     especialista,
+    especialistaLocal,
+    especialistaVisitante,
+    maestroEmpate,
     cazadorPuntos,
     candado,
     campeonJornadas,
