@@ -53,15 +53,15 @@ export default function Jornadas() {
             return (
               <Link key={jornada.id} href={`/jornadas/${jornada.id}`}>
                 <div className={cn(
-                  "group flex items-center justify-between p-4 sm:p-6 bg-card rounded-xl border transition-all duration-200 hover:shadow-md cursor-pointer",
+                  "group flex items-center justify-between p-3 sm:p-5 bg-card rounded-lg border transition-all duration-200 hover:shadow-md cursor-pointer",
                   jornada.status === 'active' ? "border-primary/30 hover:border-primary/60" : "border-card-border hover:border-foreground/20"
                 )}>
-                  <div className="flex items-center gap-4 sm:gap-6">
+                  <div className="flex items-center gap-3 sm:gap-5">
                     <div className="hidden sm:flex h-12 w-12 rounded-full bg-muted items-center justify-center font-display font-bold text-xl text-foreground">
                       {jornada.number}
                     </div>
                     <div>
-                      <h3 className="font-display font-bold text-lg sm:text-xl text-foreground group-hover:text-primary transition-colors">
+                      <h3 className="font-display font-bold text-base sm:text-xl text-foreground group-hover:text-primary transition-colors">
                         {jornada.name}
                       </h3>
                       <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-muted-foreground">
