@@ -10,6 +10,7 @@ import standingsRouter from "./standings";
 import dashboardRouter from "./dashboard";
 import historyRouter from "./history";
 import hallOfFameRouter from "./hall-of-fame";
+import profileRouter from "./profile";
 
 
 const router: IRouter = Router();
@@ -25,5 +26,6 @@ router.use(standingsRouter);
 router.use(dashboardRouter);
 router.use(historyRouter);
 router.use(hallOfFameRouter);
+router.use(profileRouter);
 
 export default router;
