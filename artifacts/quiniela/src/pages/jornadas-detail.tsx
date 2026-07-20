@@ -508,7 +508,7 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                           onChange={(e) => handleScoreChange(match.id, "away", e.target.value)}
                           disabled={isLocked}
                           className={cn(
-                            "w-16 h-16 text-center text-2xl font-bold rounded-lg border-2",
+                            "w-12 h-12 sm:w-16 sm:h-16 text-center text-xl sm:text-2xl font-bold rounded-lg border-2",
                             isLocked
                               ? "bg-muted text-muted-foreground border-border"
                               : "bg-background focus:border-primary"
