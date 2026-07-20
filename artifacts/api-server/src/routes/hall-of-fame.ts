@@ -336,17 +336,13 @@ const reyLiderato = rankingLideres[0] ?? {
 };
 
   
-// DESCENSO
-const tablaDescenso = users.map(user => {
+// ZONA DE DESCENSO
 
-  const userPredictions = predictions.filter(
-    p => p.userId === user.id
-  );
+const tablaGeneral = users.map(user => {
 
-  const puntos = userPredictions.reduce(
-    (sum, p) => sum + (p.points ?? 0),
-    0
-  );
+  const puntos = predictions
+    .filter(p => p.userId === user.id)
+    .reduce((sum, p) => sum + (p.points ?? 0), 0);
 
   return {
     jugador: user.displayName,
@@ -355,18 +351,15 @@ const tablaDescenso = users.map(user => {
 
 });
 
+tablaGeneral.sort((a, b) => b.puntos - a.puntos);
 
-tablaDescenso.sort(
-  (a, b) => a.puntos - b.puntos
-);
-
-
-const descenso = tablaDescenso
-  .slice(0, 3)
+const descenso = tablaGeneral
+  .slice(-3)
+  .reverse()
   .map((jugador, index) => ({
-    posicion: index + 1,
+    posicion: tablaGeneral.length - index,
     jugador: jugador.jugador,
-    valor: `${jugador.puntos} puntos`,
+    valor: `${jugador.puntos} pts`,
   }));
   
   res.json({
