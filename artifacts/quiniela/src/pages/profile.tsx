@@ -167,7 +167,84 @@ export default function Profile() {
         </div>
 
       </div>
+      {/* Equipos */}
+      <div className="space-y-4">
+
+        <h2 className="text-xl font-bold">
+          Mis Equipos
+        </h2>
+
+
+        <div className="grid md:grid-cols-2 gap-4">
+
+
+          <div className="border rounded-xl p-4">
+
+            <p className="text-sm text-muted-foreground">
+              🟢 Especialista
+            </p>
+
+
+            {data.equipos.especialista ? (
+              <>
+                <p className="text-2xl font-bold mt-2">
+                  {data.equipos.especialista.equipo}
+                </p>
+
+                <p className="text-muted-foreground">
+                  {data.equipos.especialista.efectividad}% efectividad
+                </p>
+
+                <p className="text-sm">
+                  {data.equipos.especialista.aciertos} de {data.equipos.especialista.partidos} aciertos
+                </p>
+              </>
+            ) : (
+              <p className="text-muted-foreground mt-2">
+                Aún no hay suficientes datos
+              </p>
+            )}
+
+          </div>
+
+
+
+          <div className="border rounded-xl p-4">
+
+            <p className="text-sm text-muted-foreground">
+              🔴 Tu pesadilla
+            </p>
+
+
+            {data.equipos.pesadilla ? (
+              <>
+                <p className="text-2xl font-bold mt-2">
+                  {data.equipos.pesadilla.equipo}
+                </p>
+
+                <p className="text-muted-foreground">
+                  {data.equipos.pesadilla.efectividad}% efectividad
+                </p>
+
+                <p className="text-sm">
+                  {data.equipos.pesadilla.aciertos} de {data.equipos.pesadilla.partidos} aciertos
+                </p>
+              </>
+            ) : (
+              <p className="text-muted-foreground mt-2">
+                Aún no hay suficientes datos
+              </p>
+            )}
+
+          </div>
+
+
+        </div>
+
+      </div>
+
 
     </div>
   );
 }
+
