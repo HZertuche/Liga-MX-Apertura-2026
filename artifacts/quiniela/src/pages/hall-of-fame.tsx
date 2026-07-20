@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useQuery } from "@tanstack/react-query";
 
 
 export default function HallOfFame() {
@@ -58,7 +57,43 @@ export default function HallOfFame() {
       descripcion:
         "Mayor porcentaje histórico de aciertos entre todos sus pronósticos.",
     },
-  
+
+    {
+      titulo: "Especialista Local",
+      jugador: data?.especialistaLocal?.jugador ?? "Sin datos",
+      icono: "🏟️",
+      valor:
+        data?.especialistaLocal
+          ? `${data.especialistaLocal.local.efectividad}%`
+          : "Sin datos",
+      descripcion:
+        "Mayor efectividad histórica al pronosticar victorias del equipo local.",
+    },    
+
+    {
+      titulo: "Especialista Visitante",
+      jugador: data?.especialistaVisitante?.jugador ?? "Sin datos",
+      icono: "✈️",
+      valor:
+        data?.especialistaVisitante
+          ? `${data.especialistaVisitante.visitante.efectividad}%`
+          : "Sin datos",
+      descripcion:
+        "Mayor efectividad histórica al pronosticar victorias del visitante.",
+    },
+
+    {
+      titulo: "Maestro del Empate",
+      jugador: data?.maestroEmpate?.jugador ?? "Sin datos",
+      icono: "🤝",
+      valor:
+        data?.maestroEmpate
+          ? `${data.maestroEmpate.empate.efectividad}%`
+          : "Sin datos",
+      descripcion:
+        "Mayor efectividad histórica al pronosticar empates.",
+    },
+    
     {
       titulo: "Rey del Exacto",
       jugador: data?.reyExacto?.jugador ?? "Sin datos",
