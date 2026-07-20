@@ -121,6 +121,25 @@ export default function HallOfFame() {
         "Jugador que más apuesta por victorias visitantes y empates.",
     },
 
+    {
+      titulo: "🤝 Mejor Aliado",
+      jugador: data?.mejorAliado?.jugador ?? "Sin datos",
+      icono: "🤝",
+      valor:
+        data?.mejorAliado?.valor ?? "0%",
+      descripcion:
+        "Jugador con mejor rendimiento histórico contra un equipo específico.",
+    },
+    
+    {
+      titulo: "😈 Pesadilla",
+      jugador: data?.pesadilla?.jugador ?? "Sin datos",
+      icono: "😈",
+      valor:
+        data?.pesadilla?.valor ?? "0%",
+      descripcion:
+        "Equipo contra el que más ha sufrido históricamente un jugador.",
+    },
     
     {
       titulo: "Rey del Exacto",
