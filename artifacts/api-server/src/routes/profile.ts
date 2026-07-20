@@ -57,6 +57,132 @@ router.get("/profile/:userId", async (req, res) => {
   const jornadas = await db
     .select()
     .from(jornadasTable);
+  // ===============================
+  // ESTILO DE JUEGO
+  // ===============================
+
+  const calcularEspecialidad = (
+    tipo: "local" | "visitante" | "empate"
+  ) => {
+
+    let intentos = 0;
+    let aciertos = 0;
+
+
+    for (const prediction of finishedPredictions) {
+
+      const match = matches.find(
+        m => m.id === prediction.matchId
+      );
+
+
+      if (!match) continue;
+
+
+      const predijoLocal =
+        prediction.homeScore! > prediction.awayScore!;
+
+
+      const predijoVisitante =
+        prediction.awayScore! > prediction.homeScore!;
+
+
+      const predijoEmpate =
+        prediction.homeScore === prediction.awayScore;
+
+
+      let predijoEsteResultado = false;
+
+
+      if (
+        tipo === "local" &&
+        predijoLocal
+      ) {
+        predijoEsteResultado = true;
+      }
+
+
+      if (
+        tipo === "visitante" &&
+        predijoVisitante
+      ) {
+        predijoEsteResultado = true;
+      }
+
+
+      if (
+        tipo === "empate" &&
+        predijoEmpate
+      ) {
+        predijoEsteResultado = true;
+      }
+
+
+      if (!predijoEsteResultado) continue;
+
+
+      intentos++;
+
+
+      const resultadoLocal =
+        match.homeScore! > match.awayScore!;
+
+
+      const resultadoVisitante =
+        match.awayScore! > match.homeScore!;
+
+
+      const resultadoEmpate =
+        match.homeScore === match.awayScore;
+
+
+      const acertado =
+        (tipo === "local" && resultadoLocal) ||
+        (tipo === "visitante" && resultadoVisitante) ||
+        (tipo === "empate" && resultadoEmpate);
+
+
+      if (acertado) {
+        aciertos++;
+      }
+
+    }
+
+
+    return {
+      efectividad:
+        intentos === 0
+          ? 0
+          :
+          Number(
+            (
+              (aciertos / intentos) *
+              100
+            ).toFixed(1)
+          ),
+
+      aciertos,
+      intentos,
+    };
+
+  };
+
+
+  const estilo = {
+
+    local:
+      calcularEspecialidad("local"),
+
+    visitante:
+      calcularEspecialidad("visitante"),
+
+    empate:
+      calcularEspecialidad("empate"),
+
+  };
+
+
+  
 
 
 
@@ -354,7 +480,9 @@ router.get("/profile/:userId", async (req, res) => {
     equipos:{
       especialista,
       pesadilla
-    }
+    },
+
+    estilo
 
   });
 
