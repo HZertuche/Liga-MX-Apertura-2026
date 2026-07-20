@@ -27,9 +27,25 @@ router.get("/hall-of-fame", requireAuth, async (_req, res) => {
     predictions,
   );  
   
-  const predictionsByUser = new Map<number, typeof predictions>();
+// ===============================
+  // Datos base para estadísticas
+  // ===============================
   
-  for (const prediction of predictions) {
+  const finishedMatches = matches.filter(
+    match => match.status === "finished"
+  );
+  
+  const finishedMatchIds = new Set(
+    finishedMatches.map(match => match.id)
+  );
+  
+  const finishedPredictions = predictions.filter(
+    prediction => finishedMatchIds.has(prediction.matchId)
+  );
+  
+  const predictionsByUser = new Map<number, typeof finishedPredictions>();
+  
+  for (const prediction of finishedPredictions) {
   
     const list = predictionsByUser.get(prediction.userId);
   
@@ -39,17 +55,16 @@ router.get("/hall-of-fame", requireAuth, async (_req, res) => {
       predictionsByUser.set(prediction.userId, [prediction]);
     }
   
-  }
-    
+  }  
 
   
 
   // aquí calcularemos los premios
 const exactos = users.map(user => {
 
-  const userPredictions = predictions.filter(
-    p => p.userId === user.id
-  );
+  const userPredictions =
+    predictionsByUser.get(user.id) ?? [];    
+
 
   const totalExactos = userPredictions.filter(
     p => p.points === 5
@@ -71,9 +86,8 @@ const reyExacto = exactos[0];
   
 const resultados = users.map(user => {
 
-  const userPredictions = predictions.filter(
-    p => p.userId === user.id
-  );
+  const userPredictions =
+    predictionsByUser.get(user.id) ?? [];    
 
   const totalResultados = userPredictions.filter(
     p => p.points === 3
@@ -145,9 +159,8 @@ const cazadorPuntos = {
 
 const especialistas = users.map(user => {
 
-  const userPredictions = predictions.filter(
-    p => p.userId === user.id
-  );
+  const userPredictions =
+    predictionsByUser.get(user.id) ?? [];
 
   const totalPronosticos = userPredictions.length;
 
