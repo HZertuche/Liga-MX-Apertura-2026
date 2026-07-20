@@ -512,6 +512,158 @@ for (const user of users) {
 
 }
 
+
+// =====================================
+// MEJOR ALIADO Y PEOR PESADILLA
+// =====================================
+
+const rendimientoEquiposPorJugador = users.map(user => {
+
+  const userPredictions =
+    predictionsByUser.get(user.id) ?? [];
+
+
+  const equipos: Record<string, {
+    partidos:number;
+    aciertos:number;
+  }> = {};
+
+
+  for (const prediction of userPredictions) {
+
+    const match = finishedMatches.find(
+      m => m.id === prediction.matchId
+    );
+
+
+    if (!match) continue;
+
+
+    const nombres = [
+      match.homeTeam,
+      match.awayTeam
+    ];
+
+
+    for (const equipo of nombres) {
+
+      if (!equipos[equipo]) {
+
+        equipos[equipo] = {
+          partidos: 0,
+          aciertos: 0
+        };
+
+      }
+
+
+      equipos[equipo].partidos++;
+
+
+      if ((prediction.points ?? 0) >= 3) {
+        equipos[equipo].aciertos++;
+      }
+
+    }
+
+  }
+
+
+  const rendimiento =
+    Object.entries(equipos)
+      .filter(
+        ([_, data]) =>
+          data.partidos >= 3
+      )
+      .map(
+        ([equipo, data]) => ({
+          equipo,
+          efectividad:
+            Number(
+              (
+                (data.aciertos / data.partidos) *
+                100
+              ).toFixed(1)
+            ),
+          partidos:data.partidos,
+          aciertos:data.aciertos
+        })
+      );
+
+
+  rendimiento.sort(
+    (a,b) =>
+      b.efectividad -
+      a.efectividad
+  );
+
+
+  return {
+    jugador:user.displayName,
+    mejorAliado:
+      rendimiento[0] ?? null,
+    peorPesadilla:
+      rendimiento.length > 0
+        ? rendimiento[rendimiento.length - 1]
+        : null
+  };
+
+
+});
+
+
+
+let mejorAliado = {
+  jugador:"Sin datos",
+  equipo:"",
+  valor:0
+};
+
+
+let peorPesadilla = {
+  jugador:"Sin datos",
+  equipo:"",
+  valor:101
+};
+
+
+
+for (const jugador of rendimientoEquiposPorJugador) {
+
+
+  if (
+    jugador.mejorAliado &&
+    jugador.mejorAliado.efectividad >
+    mejorAliado.valor
+  ) {
+
+    mejorAliado = {
+      jugador: jugador.jugador,
+      equipo: jugador.mejorAliado.equipo,
+      valor: jugador.mejorAliado.efectividad
+    };
+
+  }
+
+
+
+  if (
+    jugador.peorPesadilla &&
+    jugador.peorPesadilla.efectividad <
+    peorPesadilla.valor
+  ) {
+
+    peorPesadilla = {
+      jugador: jugador.jugador,
+      equipo: jugador.peorPesadilla.equipo,
+      valor: jugador.peorPesadilla.efectividad
+    };
+
+  }
+
+}  
+
+  
 // EL CANDADO
 let mejorRachaAciertos = {
   jugador: "",
@@ -734,6 +886,10 @@ const descenso = tablaGeneral
     cazadorPuntos,
     candado,
     campeonJornadas,
+    
+    mejorAliado,
+    peorPesadilla,
+    
     descenso,
   });  
     
