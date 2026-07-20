@@ -1,3 +1,4 @@
+import { calculateDailyLeaders } from "../lib/historical-standings";
 import { Router } from "express";
 import { db } from "@workspace/db";
 import {
@@ -20,6 +21,11 @@ router.get("/hall-of-fame", requireAuth, async (_req, res) => {
   const matches = await db.select().from(matchesTable);
   const jornadas = await db.select().from(jornadasTable);
   const matchups = await db.select().from(matchupsTable);
+  const dailyLeaders = calculateDailyLeaders(
+    users,
+    matches,
+    predictions,
+  );  
   
   const predictionsByUser = new Map<number, typeof predictions>();
   
@@ -303,95 +309,31 @@ const farol = {
     "Mayor racha histórica de partidos consecutivos sin obtener puntos.",
 };  
 
+
 // REY DEL LIDERATO
 
-const diasLider = users.map(user => ({
-  jugador: user.displayName,
-  dias: 0,
-}));
+const diasPorJugador = new Map<string, number>();
 
+for (const leader of dailyLeaders) {
 
-for (const jornada of jornadas) {
-
-  const partidosJornada = matches.filter(
-    m => m.jornadaId === jornada.id
+  diasPorJugador.set(
+    leader.jugador,
+    (diasPorJugador.get(leader.jugador) ?? 0) + 1
   );
-
-
-  const idsPartidos = partidosJornada.map(
-    m => m.id
-  );
-
-
-  const tablaJornada = users.map(user => {
-
-    const puntos = predictions
-      .filter(
-        p =>
-          p.userId === user.id &&
-          idsPartidos.includes(p.matchId)
-      )
-      .reduce(
-        (sum, p) => sum + (p.points ?? 0),
-        0
-      );
-
-
-    return {
-      jugador: user.displayName,
-      puntos,
-    };
-
-  });
-
-
-  tablaJornada.sort(
-    (a,b) => b.puntos - a.puntos
-  );
-
-
-  const lider = tablaJornada[0];
-
-
-  if (lider && jornada.startDate && jornada.endDate) {
-
-    const diferencia =
-      Math.ceil(
-        (
-          jornada.endDate.getTime() -
-          jornada.startDate.getTime()
-        )
-        /
-        (1000 * 60 * 60 * 24)
-      ) + 1;
-
-
-    const jugador = diasLider.find(
-      j => j.jugador === lider.jugador
-    );
-
-
-    if (jugador) {
-      jugador.dias += diferencia;
-    }
-
-  }
 
 }
 
+const rankingLideres = [...diasPorJugador.entries()]
+  .map(([jugador, dias]) => ({
+    jugador,
+    valor: dias,
+  }))
+  .sort((a, b) => b.valor - a.valor);
 
-diasLider.sort(
-  (a,b) => b.dias - a.dias
-);
-
-
-const reyLiderato = {
-  jugador: diasLider[0]?.jugador ?? "",
-  valor: `${diasLider[0]?.dias ?? 0} días`,
-  descripcion:
-    "Jugador que más días ha permanecido como líder de la tabla general.",
+const reyLiderato = rankingLideres[0] ?? {
+  jugador: "Sin datos",
+  valor: 0,
 };
-
 
   
 // DESCENSO
