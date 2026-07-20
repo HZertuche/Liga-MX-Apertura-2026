@@ -90,17 +90,35 @@ export default function GeneralStandings() {
             </thead>
             <tbody className="divide-y divide-border/50">
               {sortedStandings.map((row) => (
-                <tr key={row.userId} className={cn(
-                  "hover:bg-muted/30 transition-colors",
-                  row.position === 1 ? "bg-gradient-to-r from-secondary/10 to-transparent gold-shimmer" : ""
-                )}>
+
+                <tr 
+                  key={row.userId} 
+                  className={cn(
+                    "hover:bg-muted/30 transition-colors",
+                    row.position === 1 
+                      ? "bg-yellow-100 dark:bg-yellow-900/30" 
+                      : row.position === 2 
+                      ? "bg-slate-100 dark:bg-slate-700/30"
+                      : row.position === 3
+                      ? "bg-orange-100 dark:bg-orange-900/30"
+                      : row.position === 8
+                      ? "bg-yellow-50 dark:bg-yellow-900/20"
+                      : row.position >= 9
+                      ? "bg-red-100 dark:bg-red-900/30"
+                      : ""
+                  )}
+                >                  
+     
                   <td className="px-4 py-3 text-center">
                     <div className="flex items-center justify-center gap-2">
                       <span className={cn(
                         "font-display font-bold w-6 h-6 flex items-center justify-center rounded-full",
-                        row.position === 1 ? "bg-secondary text-white" :
-                        row.position === 2 ? "bg-slate-300 text-slate-800" :
-                        row.position === 3 ? "bg-amber-700/80 text-white" : "text-muted-foreground"
+                        row.position === 1 ? "bg-yellow-500 text-white" :
+                        row.position === 2 ? "bg-slate-400 text-white" :
+                        row.position === 3 ? "bg-orange-600 text-white" :
+                        row.position === 8 ? "bg-yellow-400 text-black" :
+                        row.position >= 9 ? "bg-red-500 text-white" :
+                        "text-muted-foreground"                  
                       )}>
                         {row.position}
                       </span>
