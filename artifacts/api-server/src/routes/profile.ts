@@ -149,6 +149,7 @@ router.get("/profile/:userId", async (req, res) => {
     }
 
 
+
     return {
       efectividad:
         intentos === 0
@@ -160,9 +161,11 @@ router.get("/profile/:userId", async (req, res) => {
               100
             ).toFixed(1)
           ),
-
+    
       aciertos,
       intentos,
+    
+      muestraSuficiente: intentos >= 5,
     };
 
   };
