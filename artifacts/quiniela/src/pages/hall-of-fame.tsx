@@ -89,6 +89,14 @@ export default function HallOfFame() {
       descripcion:
         "Jugador que más días ha permanecido como líder de la tabla general.",
     },
+    {
+      titulo: "Campeón de Jornadas",
+      jugador: data?.campeonJornadas?.jugador ?? "Sin datos",
+      valor: `${data?.campeonJornadas?.valor ?? 0} jornadas`,
+      descripcion:
+        "Jugador que más veces ha terminado una jornada en primer lugar.",
+    },
+    
     
   ];
 
