@@ -51,28 +51,66 @@ export default function Dashboard() {
     
         {/* Lider General */}
         
-        <div className="bg-card rounded-xl p-6 border border-card-border shadow-sm flex flex-col justify-between gold-shimmer relative">
-          <div className="flex justify-between items-start mb-4 relative z-10">
-            <h3 className="font-medium text-muted-foreground">
-              Líder General
-            </h3>
+        <div className="space-y-3">
         
-            <div className="p-2 bg-secondary/20 text-secondary-foreground rounded-lg">
-              <Trophy className="h-5 w-5" />
+          <div className="bg-card rounded-xl p-4 border border-card-border shadow-sm">
+            <div className="flex justify-between items-center">
+        
+              <div>
+                <p className="text-xs text-muted-foreground uppercase tracking-wide">
+                  Líder General
+                </p>
+        
+                <h2
+                  className="text-xl font-display font-bold mt-1"
+                  title={data.generalLeader || "N/A"}
+                >
+                  {data.generalLeader || "-"}
+                </h2>
+              </div>
+        
+              <div className="p-2 rounded-lg bg-secondary/20">
+                <Trophy className="h-5 w-5" />
+              </div>
+        
             </div>
           </div>
         
-          <p
-            className="text-2xl font-display font-bold text-foreground truncate relative z-10"
-            title={data.generalLeader || "N/A"}
-          >
-            {data.generalLeader || "-"}
-          </p>
+          {data.campeonSemana && (
+        
+            <div className="bg-card rounded-xl p-4 border border-card-border shadow-sm">
+        
+              <div className="flex justify-between items-center">
+        
+                <div>
+        
+                  <p className="text-xs text-muted-foreground uppercase tracking-wide">
+                    Campeón de la Semana
+                  </p>
+        
+                  <h2 className="text-lg font-display font-bold mt-1">
+                    {data.campeonSemana.nombre}
+                  </h2>
+        
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Jornada {data.campeonSemana.jornada} • {data.campeonSemana.puntos} pts
+                  </p>
+        
+                </div>
+        
+                <div className="text-3xl">
+                  🏆
+                </div>
+        
+              </div>
+        
+            </div>
+        
+          )}
+        
         </div>
         
-        
-        <div className="space-y-8">        
-        
+        <div className="space-y-8">       
     
         {/* Última Hora */}
         <div className="space-y-3">
