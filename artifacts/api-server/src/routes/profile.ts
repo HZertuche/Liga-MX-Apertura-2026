@@ -467,6 +467,8 @@ router.get("/profile/:userId", async (req, res) => {
 
     if (!prediction) continue;
 
+    if (match.status !== "finished") continue;
+
 
     if ((prediction.points ?? 0) >= 3) {
 
