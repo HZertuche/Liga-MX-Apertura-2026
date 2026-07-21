@@ -640,14 +640,59 @@ router.get("/profile/:userId", async (req, res) => {
           )[0]
       : null;
 
+  // ===============================
+  // RANKING GENERAL
+  // ===============================
 
+  const ranking = users.map(player => {
+
+    const playerPredictions = predictions
+      .filter(p => p.userId === player.id);
+
+
+    const playerPoints = playerPredictions.reduce(
+      (sum, p) => sum + (p.points ?? 0),
+      0
+    );
+
+
+    const playerExactos = playerPredictions.filter(
+      p => p.points === 5
+    ).length;
+
+
+    return {
+      userId: player.id,
+      puntos: playerPoints,
+      exactos: playerExactos
+    };
+
+  });
+
+
+  ranking.sort(
+    (a,b) =>
+      b.puntos - a.puntos ||
+      b.exactos - a.exactos
+  );
+
+
+  const posicion =
+    ranking.findIndex(
+      p => p.userId === userId
+    ) + 1;
 
   return res.json({
 
     jugador:
       user.displayName,
 
+    ranking:{
+      posicion,
+      total: ranking.length
+    },
 
+    
     resumen:{
       puntos,
       exactos,
