@@ -144,27 +144,76 @@ export default function Dashboard() {
               </div>
             ) : (
               <div className="divide-y divide-card-border">
+          
                 {data.upcomingMatches.map(match => (
-                  <div key={match.id} className="p-4 hover:bg-muted/50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="flex items-center gap-4 flex-1">
-                      <div className="text-right w-24 sm:w-32 font-medium text-foreground truncate">{match.homeTeam}</div>
-                      <div className="bg-muted text-muted-foreground text-xs font-bold px-3 py-1 rounded-md shrink-0 border">VS</div>
-                      <div className="w-24 sm:w-32 font-medium text-foreground truncate">{match.awayTeam}</div>
+                  <div
+                    key={match.id}
+                    className="p-4 hover:bg-muted/50 transition-colors"
+                  >
+          
+                    {/* Jornada */}
+                    <div className="text-xs text-muted-foreground mb-3">
+                      ⚽ Jornada {match.jornadaNumber}
                     </div>
-                    <div className="flex flex-col sm:items-end text-sm text-muted-foreground">
-                      <span className="font-medium text-foreground">{formatDate(match.matchDate)}</span>
-                      <span className="text-xs">{match.stadium || "Estadio TBD"}</span>
+          
+          
+                    {/* Partido */}
+                    <div className="flex items-center justify-center gap-4">
+          
+                      <div className="flex-1 text-right">
+                        <p className="font-semibold text-foreground truncate">
+                          {match.homeTeam}
+                        </p>
+                      </div>
+          
+          
+                      <div className="bg-muted border rounded-full px-3 py-1 text-xs font-bold shrink-0">
+                        VS
+                      </div>
+          
+          
+                      <div className="flex-1">
+                        <p className="font-semibold text-foreground truncate">
+                          {match.awayTeam}
+                        </p>
+                      </div>
+          
                     </div>
-                    <div className="shrink-0 flex items-center justify-end w-8">
-                      {match.isLocked && <Lock className="h-4 w-4 text-destructive" aria-label="Cerrado para pronósticos" />}
+          
+          
+                    {/* Fecha / Estadio / Candado */}
+                    <div className="flex justify-between items-center mt-4 text-xs text-muted-foreground">
+          
+                      <div>
+                        <p className="font-medium text-foreground">
+                          {formatDate(match.matchDate)}
+                        </p>
+          
+                        <p>
+                          {match.stadium || "Estadio TBD"}
+                        </p>
+                      </div>
+          
+          
+                      {match.isLocked && (
+                        <div className="flex items-center gap-1 text-destructive">
+                          <Lock className="h-4 w-4" />
+                          Cerrado
+                        </div>
+                      )}
+          
                     </div>
+          
                   </div>
                 ))}
+          
               </div>
             )}
           </div>
-        </div>
 
+
+
+            
         {/* Tablas Rápidas */}
         <div className="space-y-8">
           <div className="space-y-4">
