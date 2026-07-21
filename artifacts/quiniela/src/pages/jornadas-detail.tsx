@@ -418,20 +418,20 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                 </div>
                 
                   {/* Contenedor del Partido*/}
-                  <div className="p-3 flex flex-col items-center gap-4">
+                  <div className="p-2 sm:p-3 flex flex-col items-center gap-3">
                   
                     {/* Equipos y Marcador*/}
-                    <div className="w-full flex items-center justify-center gap-3 sm:gap-8">
+                    <div className="w-full flex items-center justify-center gap-2 sm:gap-8">
                   
                       {/* LOCAL */}
                       <div className="flex flex-col items-center w-24 sm:w-32 text-center">
                         <img
                           src={getTeamLogo(match.homeTeam)}
                           alt={match.homeTeam}
-                          className="w-14 h-14 sm:w-20 sm:h-20 object-contain mb-1"
+                          className="w-12 h-12 sm:w-20 sm:h-20 object-contain mb-1"
                         />
                   
-                        <span className="font-display font-bold text-xs sm:text-base">
+                        <span className="font-display font-bold text-[11px] sm:text-base">
                           {match.homeTeam}
                         </span>
                       </div>
@@ -445,7 +445,7 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                             {match.homeScore} - {match.awayScore}
                           </span>
                         ) : (
-                          <span className="text-xl sm:text-2xl font-bold text-muted-foreground">
+                          <span className="text-lg sm:text-2xl font-bold text-muted-foreground">
                             VS
                           </span>
                         )}
@@ -458,10 +458,10 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                         <img
                           src={getTeamLogo(match.awayTeam)}
                           alt={match.awayTeam}
-                          className="w-14 h-14 sm:w-20 sm:h-20 object-contain mb-1"
+                          className="w-12 h-12 sm:w-20 sm:h-20 object-contain mb-1"
                         />
                   
-                        <span className="font-display font-bold text-xs sm:text-base">
+                        <span className="font-display font-bold text-[11px] sm:text-base">
                           {match.awayTeam}
                         </span>
                       </div>
@@ -487,7 +487,7 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                           onChange={(e) => handleScoreChange(match.id, "home", e.target.value)}
                           disabled={isLocked}
                           className={cn(
-                            "w-12 h-12 sm:w-16 sm:h-16 text-center text-xl sm:text-2xl font-bold rounded-lg border-2",
+                            "w-10 h-10 sm:w-16 sm:h-16 text-center text-lg sm:text-2xl font-bold rounded-lg border-2",
                             isLocked
                               ? "bg-muted text-muted-foreground border-border"
                               : "bg-background focus:border-primary"
@@ -508,7 +508,7 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                           onChange={(e) => handleScoreChange(match.id, "away", e.target.value)}
                           disabled={isLocked}
                           className={cn(
-                            "w-12 h-12 sm:w-16 sm:h-16 text-center text-xl sm:text-2xl font-bold rounded-lg border-2",
+                            "w-10 h-10 sm:w-16 sm:h-16 text-center text-lg sm:text-2xl font-bold rounded-lg border-2",
                             isLocked
                               ? "bg-muted text-muted-foreground border-border"
                               : "bg-background focus:border-primary"
