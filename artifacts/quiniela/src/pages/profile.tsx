@@ -60,7 +60,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-8">
+    <div className="max-w-5xl mx-auto p-3 md:p-6 space-y-5"">
 
       {/* Selector */}
       <div className="space-y-2">
@@ -108,7 +108,7 @@ export default function Profile() {
             Puntos
           </p>
 
-          <p className="text-3xl font-bold">
+          <p className="text-2xl md:text-3xl font-bold">
             {data.resumen.puntos}
           </p>
         </div>
@@ -118,7 +118,7 @@ export default function Profile() {
             Efectividad
           </p>
 
-          <p className="text-3xl font-bold">
+          <p className="text-2xl md:text-3xl font-bold">
             {data.resumen.efectividad}%
           </p>
         </div>
@@ -128,7 +128,7 @@ export default function Profile() {
             Exactos
           </p>
 
-          <p className="text-3xl font-bold">
+          <p className="text-2xl md:text-3xl font-bold">
             {data.resumen.exactos}
           </p>
         </div>
@@ -138,7 +138,7 @@ export default function Profile() {
             Aciertos
           </p>
 
-          <p className="text-3xl font-bold">
+          <p className="text-2xl md:text-3xl font-bold">
             {data.resumen.aciertos}
           </p>
         </div>
@@ -208,7 +208,112 @@ export default function Profile() {
       
       </div>
 
-   
+      {/* Mis Récords */}
+      
+      <div className="space-y-4">
+      
+        <h2 className="text-xl font-bold">
+          🔥 Mis Récords
+        </h2>
+      
+      
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+      
+      
+          {/* Especialista */}
+      
+          <div className="border rounded-xl p-3">
+      
+            <p className="text-xs text-muted-foreground">
+              🟢 Especialista
+            </p>
+      
+            {data.records?.especialista ? (
+              <>
+                <p className="text-lg font-bold mt-2">
+                  {data.records.especialista.equipo}
+                </p>
+      
+                <p className="text-sm">
+                  {data.records.especialista.efectividad}%
+                </p>
+              </>
+            ) : (
+              <p className="text-sm mt-2">
+                Sin datos
+              </p>
+            )}
+      
+          </div>
+      
+      
+      
+          {/* Pesadilla */}
+      
+          <div className="border rounded-xl p-3">
+      
+            <p className="text-xs text-muted-foreground">
+              😈 Pesadilla
+            </p>
+      
+            {data.records?.pesadilla ? (
+              <>
+                <p className="text-lg font-bold mt-2">
+                  {data.records.pesadilla.equipo}
+                </p>
+      
+                <p className="text-sm">
+                  {data.records.pesadilla.efectividad}%
+                </p>
+              </>
+            ) : (
+              <p className="text-sm mt-2">
+                Sin datos
+              </p>
+            )}
+      
+          </div>
+      
+      
+      
+          {/* Sorpresas */}
+      
+          <div className="border rounded-xl p-3">
+      
+            <p className="text-xs text-muted-foreground">
+              💥 Sorpresas
+            </p>
+      
+            <p className="text-2xl font-bold mt-2">
+              {data.records?.detectorSorpresas?.aciertos ?? 0}
+            </p>
+      
+            <p className="text-xs">
+              aciertos
+            </p>
+      
+          </div>
+      
+      
+      
+          {/* Riesgo */}
+      
+          <div className="border rounded-xl p-3">
+      
+            <p className="text-xs text-muted-foreground">
+              🎲 Riesgo
+            </p>
+      
+            <p className="text-lg font-bold mt-2">
+              {data.records?.riesgo?.perfil?.nivel ?? "Sin datos"}
+            </p>
+      
+          </div>
+      
+      
+        </div>
+      
+      </div>   
       
       {/* Estilo de Juego */}
       <div className="space-y-4">
