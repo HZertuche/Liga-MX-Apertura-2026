@@ -47,10 +47,8 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
   // General standings for top 3
   const players = await db.select().from(usersTable);
   const finishedMatches = allMatches.filter(m => m.status === "finished");
-  const allPredictions = await db.select().from(predictionsTable);
-  const standingsHistory = await db
-    .select()
-    .from(standingsHistoryTable);  
+  const allPredictions = await db.select().from(predictionsTable);  
+  const standingsHistory: any[] = [];
   
 
   const generalRows = players.map(player => {
