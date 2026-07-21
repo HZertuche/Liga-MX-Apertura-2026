@@ -198,6 +198,50 @@ export default function Dashboard() {
             </div>
           </div>
 
+        {/* Zona de Descenso */}
+        
+          <div className="space-y-4">
+          
+            <h2 className="text-xl font-display font-bold flex items-center">
+              ⚠️ Zona de Descenso
+            </h2>
+          
+          
+            <div className="bg-card rounded-xl border border-card-border shadow-sm p-2 space-y-2">
+          
+              {data.zonaDescenso.map(player => (
+          
+                <div
+                  key={player.userId}
+                  className="flex items-center justify-between p-3 rounded-lg bg-red-50 dark:bg-red-900/20"
+                >
+          
+                  <div className="flex items-center gap-3">
+          
+                    <div className="font-bold text-sm">
+                      {player.position}
+                    </div>
+          
+                    <span className="font-medium">
+                      {player.displayName}
+                    </span>
+          
+                  </div>
+          
+          
+                  <span className="font-mono font-semibold">
+                    {player.points} pts
+                  </span>
+          
+          
+                </div>
+          
+              ))}
+          
+            </div>
+          
+          </div>
+          
           <div className="space-y-4">
             <h2 className="text-xl font-display font-bold flex items-center">
               <Medal className="h-5 w-5 mr-2 text-blue-600" />
