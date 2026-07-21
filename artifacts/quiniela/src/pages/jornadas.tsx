@@ -53,7 +53,7 @@ export default function Jornadas() {
             return (
               <Link key={jornada.id} href={`/jornadas/${jornada.id}`}>
                 <div className={cn(
-                  "group flex items-center justify-between p-3 sm:p-5 bg-card rounded-lg border transition-all duration-200 hover:shadow-md cursor-pointer",
+                  "group flex items-center justify-between p-2.5 sm:p-5 bg-card rounded-lg border transition-all duration-200 hover:shadow-md cursor-pointer",
                   jornada.status === 'active' ? "border-primary/30 hover:border-primary/60" : "border-card-border hover:border-foreground/20"
                 )}>
                   <div className="flex items-center gap-3 sm:gap-5">
@@ -61,12 +61,12 @@ export default function Jornadas() {
                       {jornada.number}
                     </div>
                     <div>
-                      <h3 className="font-display font-bold text-base sm:text-xl text-foreground group-hover:text-primary transition-colors">
+                      <h3 className="font-display font-bold text-sm sm:text-xl text-foreground group-hover:text-primary transition-colors">
                         {jornada.name}
                       </h3>
-                      <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-muted-foreground">
+                      <div className="flex flex-wrap items-center gap-2 mt-1 text-xs sm:text-sm text-muted-foreground">
                         <span className="flex items-center">
-                          <CalendarDays className="h-4 w-4 mr-1.5 opacity-70" />
+                          <CalendarDays className="h-3.5 w-3.5 mr-1 opacity-70" />
                           {formatShortDate(jornada.startDate)} - {formatShortDate(jornada.endDate)}
                         </span>
                         <span className="hidden sm:inline">•</span>
@@ -80,7 +80,7 @@ export default function Jornadas() {
                       <StatusIcon className="h-3.5 w-3.5 mr-1.5" />
                       {config.label}
                     </div>
-                    <ChevronRight className="h-6 w-6 text-muted-foreground group-hover:text-primary transition-transform group-hover:translate-x-1" />
+                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>
               </Link>
