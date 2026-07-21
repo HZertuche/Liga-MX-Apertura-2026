@@ -195,7 +195,7 @@ export default function Profile() {
           <div className="border rounded-lg p-1.5">
       
             <p className="text-[11px] text-muted-foreground">
-              💥 Farol
+              🤡 Farol
             </p>
       
             <p className="text-xl font-bold">
@@ -339,163 +339,158 @@ export default function Profile() {
           </div> 
       
       {/* Estilo de Juego */}
-      <div className="space-y-4">
-
-        <h2 className="text-lg font-bold">
+      <div className="space-y-3">
+      
+        <h2 className="text-base font-bold">
           📊 Mi Estilo de Juego
         </h2>
-
-
+      
+      
         <div className="grid grid-cols-3 gap-2">
-
-
+      
+      
           {/* Local */}
-          <div className="border rounded-xl p-2">
-          
-            <p className="text-xs text-muted-foreground">
-              🏟️ Especialista Local
+          <div className="border rounded-lg p-2">
+      
+            <p className="text-[11px] text-muted-foreground">
+              🏟️ Local
             </p>
-          
-            <p className="texl-lg font-bold mt-1">
+      
+            <p className="text-lg font-bold mt-1">
               {data.estilo.local.efectividad}%
             </p>
-          
-            <p className="text-xs">
-              {data.estilo.local.aciertos} de{" "}
-              {data.estilo.local.intentos}
-              {" "}aciertos
+      
+            <p className="text-[11px]">
+              {data.estilo.local.aciertos} de {data.estilo.local.intentos}
             </p>
-          
+      
             {!data.estilo.local.muestraSuficiente && (
               <p className="text-[10px] text-muted-foreground mt-1">
                 ⚠️ Muestra pequeña
               </p>
             )}
-          
+      
           </div>
-
-
-
+      
+      
+      
           {/* Visitante */}
-          <div className="border rounded-xl p-2">
-
-            <p className="text-xs text-muted-foreground">
-              ✈️ Especialista Visitante
+          <div className="border rounded-lg p-2">
+      
+            <p className="text-[11px] text-muted-foreground">
+              ✈️ Visitante
             </p>
-
-            <p className="texl-lg font-bold mt-1">
+      
+            <p className="text-lg font-bold mt-1">
               {data.estilo.visitante.efectividad}%
             </p>
-
-            <p className="text-xs">
-              {data.estilo.visitante.aciertos} de{" "}
-              {data.estilo.visitante.intentos}
-              {" "}aciertos
+      
+            <p className="text-[11px]">
+              {data.estilo.visitante.aciertos} de {data.estilo.visitante.intentos}
             </p>
-
+      
             {!data.estilo.visitante.muestraSuficiente && (
               <p className="text-[10px] text-muted-foreground mt-1">
                 ⚠️ Muestra pequeña
               </p>
-            )}            
-
+            )}
+      
           </div>
-
-
-
+      
+      
+      
           {/* Empate */}
-          <div className="border rounded-xl p-2">
-
-            <p className="text-xs text-muted-foreground">
-              🤝 Especialista Empates
+          <div className="border rounded-lg p-2">
+      
+            <p className="text-[11px] text-muted-foreground">
+              🤝 Empate
             </p>
-
-            <p className="texl-lg font-bold mt-1">
+      
+            <p className="text-lg font-bold mt-1">
               {data.estilo.empate.efectividad}%
             </p>
-
-            <p className="text-xs">
-              {data.estilo.empate.aciertos} de{" "}
-              {data.estilo.empate.intentos}
-              {" "}aciertos
+      
+            <p className="text-[11px]">
+              {data.estilo.empate.aciertos} de {data.estilo.empate.intentos}
             </p>
-            
+      
             {!data.estilo.empate.muestraSuficiente && (
               <p className="text-[10px] text-muted-foreground mt-1">
                 ⚠️ Muestra pequeña
               </p>
             )}
-            
+      
           </div>
-
+      
+      
         </div>
+      
+      </div>
 
-      </div> 
 
 
       {/* Perfil de Riesgo */}
-      <div className="space-y-4">
-
-        <h2 className="text-lg font-bold">
+      
+      <div className="space-y-3">
+      
+        <h2 className="text-base font-bold">
           🎲 Perfil de Riesgo
         </h2>
-
-
-        <div className="border rounded-xl p-2">
-
-          <p className="text-2xl font-bold">
+      
+      
+        <div className="border rounded-lg p-2">
+      
+          <p className="text-xl font-bold">
             {data.riesgo.perfil.nivel}
           </p>
-
-
-          <p className="text-muted-foreground mt-2">
+      
+      
+          <p className="text-xs text-muted-foreground mt-1">
             {data.riesgo.perfil.descripcion}
           </p>
-
-
-          <div className="grid grid-cols-3 gap-2 mt-3">
-
-
+      
+      
+          <div className="grid grid-cols-3 gap-2 mt-2">
+      
+      
             <div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-[11px] text-muted-foreground">
                 🏟️ Local
               </p>
-
-              <p className="text-lg font-bold">
+      
+              <p className="text-base font-bold">
                 {data.riesgo.distribucion.local}%
               </p>
             </div>
-
-
+      
+      
             <div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-[11px] text-muted-foreground">
                 ✈️ Visitante
               </p>
-
-              <p className="text-lg font-bold">
+      
+              <p className="text-base font-bold">
                 {data.riesgo.distribucion.visitante}%
               </p>
             </div>
-
-
+      
+      
             <div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-[11px] text-muted-foreground">
                 🤝 Empate
               </p>
-
-              <p className="text-lg font-bold">
+      
+              <p className="text-base font-bold">
                 {data.riesgo.distribucion.empate}%
               </p>
             </div>
-
-
+      
+      
           </div>
-
+      
         </div>
-
-      </div>
-
-      {/* Detector de Sorpresas */}
+      
+      </div>     
       {/* Detector de Sorpresas */}
       <div className="space-y-2">
       
