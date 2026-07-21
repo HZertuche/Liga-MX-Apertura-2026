@@ -175,22 +175,6 @@ export default function Profile() {
       
       </div>
       
-      <div className="grid grid-cols-2 gap-2">
-      
-      
-        <div className="rounded-lg border p-1.5">
-      
-          <p className="text-[11px] text-muted-foreground">
-            Puntos
-          </p>
-      
-          <p className="text-xl font-bold">
-            {data.resumen.puntos}
-          </p>
-      
-        </div>
-      
-      
       
       {/* Logros */}
       
