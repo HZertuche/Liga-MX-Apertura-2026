@@ -224,7 +224,7 @@ export default function Dashboard() {
           
                   <div className="flex items-center gap-3">
           
-                    <div className="font-bold text-xs"
+                    <div className="font-bold text-xs">
                       {player.position}
                     </div>
           
