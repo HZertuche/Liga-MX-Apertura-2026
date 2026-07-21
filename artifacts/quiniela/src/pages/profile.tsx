@@ -154,7 +154,7 @@ export default function Profile() {
           <div className="border rounded-lg p-2 text-center">
       
             <p className="text-xs text-muted-foreground">
-              ✅ Aciertos
+              🔥 Aciertos
             </p>
       
             <p className="text-lg font-bold">
@@ -189,7 +189,6 @@ export default function Profile() {
       
 
       
-      {/* Logros */}
       {/* Logros */}
       
       <div className="space-y-2">
@@ -235,7 +234,7 @@ export default function Profile() {
           <div className="text-center">
       
             <div className="text-2xl">
-              🎯
+              🏹
             </div>
       
             <p className="text-[10px] text-muted-foreground">
@@ -243,8 +242,12 @@ export default function Profile() {
             </p>
       
             <p className="text-sm font-bold">
-              J{data.logros.cazadorPuntos.jornada}
-            </p>
+              J{data.logros.cazadorPuntos.jornada} 
+              <span className="text-xs font-normal">
+                ({data.logros.cazadorPuntos.puntos})
+              </span>
+            </p>              
+
       
           </div>
       
@@ -270,7 +273,7 @@ export default function Profile() {
           <div className="text-center">
       
             <div className="text-xl">
-              🟢
+              👑
             </div>
       
             <p className="text-[10px] text-muted-foreground">
@@ -302,7 +305,7 @@ export default function Profile() {
           <div className="text-center">
       
             <div className="text-xl">
-              😈
+              ☠️
             </div>
       
             <p className="text-[10px] text-muted-foreground">
@@ -597,7 +600,7 @@ export default function Profile() {
           <div className="border rounded-lg p-1.5">
       
             <p className="text-xs text-muted-foreground">
-              🟢 Especialista
+              👑 Mi Aliado
             </p>
       
       
@@ -628,7 +631,7 @@ export default function Profile() {
           <div className="border rounded-lg p-1.5">
       
             <p className="text-xs text-muted-foreground">
-              🔴 Tu pesadilla
+              ☠️ Mi Nemesis
             </p>
       
       
