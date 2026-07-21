@@ -101,7 +101,7 @@ export default function Profile() {
 
 
       {/* Resumen */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-2">
 
         <div className="rounded-xl border p-4">
           <p className="text-sm text-muted-foreground">
@@ -208,16 +208,17 @@ export default function Profile() {
       
       </div>
 
+     
       {/* Mis Récords */}
       
-      <div className="space-y-4">
+      <div className="space-y-3">
       
-        <h2 className="text-xl font-bold">
-          🔥 Mis Récords
+        <h2 className="text-lg font-bold">
+          🏆 Mis Récords
         </h2>
       
       
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-2">
       
       
           {/* Especialista */}
@@ -510,7 +511,7 @@ export default function Profile() {
         </h2>
 
 
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2">
 
 
           <div className="border rounded-xl p-4">
