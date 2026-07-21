@@ -288,7 +288,7 @@ export default function Dashboard() {
                             alt={match.homeTeam}
                             className="h-10 w-10 object-contain mb-1"          
                           />
-                        )}
+
                       
                         <p className="font-semibold text-xs text-center truncate w-full">
                           {match.homeTeam}
@@ -311,7 +311,7 @@ export default function Dashboard() {
                             alt={match.awayTeam}
                             className="h-10 w-10 object-contain mb-1"
                           />
-                        )}
+  
                       
                         <p className="font-semibold text-xs text-center truncate w-full">
                           {match.awayTeam}
