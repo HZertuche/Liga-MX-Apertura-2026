@@ -158,7 +158,94 @@ export default function Dashboard() {
         
         </div>        
         
+
+        {/* Tabla General */}
+        <div className="space-y-8">
+          <div className="space-y-4">
+            <h2 className="text-xl font-display font-bold flex items-center">
+              <Trophy className="h-5 w-5 mr-2 text-secondary" />
+              Top 3 General
+            </h2>
+            <div className="bg-card rounded-xl border border-card-border shadow-sm overflow-hidden p-2 space-y-2">
+              {data.top3General.length === 0 ? (
+                <div className="p-4 text-center text-muted-foreground text-sm">Sin datos</div>
+              ) : (
+                data.top3General.map(player => (
+                  <div key={player.userId} className={cn(
+                    "flex items-center justify-between p-3 rounded-lg border",
+                    player.position === 1 ? "bg-gradient-to-r from-secondary/20 to-transparent border-secondary/30" : "border-transparent bg-muted/30"
+                  )}>
+                    <div className="flex items-center gap-3">
+                      <div className={cn(
+                        "w-6 h-6 flex items-center justify-center rounded-full font-bold text-xs",
+                        player.position === 1 ? "bg-secondary text-white" : "bg-muted-foreground/20 text-muted-foreground"
+                      )}>{player.position}</div>
+                      <span className={cn("font-medium", player.position === 1 && "font-bold text-foreground")}>{player.displayName}</span>
+                    </div>
+                    <span className="font-mono font-semibold">{player.points} pts</span>
+                  </div>
+                ))
+              )}
+              <div className="pt-2 text-center">
+                <Link href="/standings/general" className="text-sm font-medium text-primary hover:underline">Ver tabla completa</Link>
+              </div>
+            </div>
+          </div>
+
+
+        {/* Zona de Descenso */}
         
+          <div className="space-y-4">
+          
+            <h2 className="text-xl font-display font-bold flex items-center">
+              ⚠️ Zona de Descenso
+            </h2>
+            
+            <p className="text-xs text-muted-foreground mt-1">
+              🟡 Advertencia · 🔴 Descenso
+            </p>
+          </div>
+          
+          
+          
+            <div className="bg-card rounded-xl border border-card-border shadow-sm p-2 space-y-2">
+          
+              {data.zonaDescenso.map(player => (
+          
+                <div
+                  key={player.userId}
+                  className={cn(
+                    "flex items-center justify-between p-3 rounded-lg",
+                    player.position === 8
+                      ? "bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-300"
+                      : "bg-red-50 dark:bg-red-900/20 border border-red-300"
+                  )}
+                >
+          
+                  <div className="flex items-center gap-3">
+          
+                    <div className="font-bold text-sm">
+                      {player.position}
+                    </div>
+          
+                    <span className="font-medium">
+                      {player.displayName}
+                    </span>
+          
+                  </div>
+          
+          
+                  <span className="font-mono font-semibold">
+                    {player.points} pts
+                  </span>
+          
+          
+                </div>
+          
+              ))}
+          
+            </div>
+          
         {/* Próximos Partidos */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
@@ -268,92 +355,7 @@ export default function Dashboard() {
 
 
 
-            
-        {/* Tablas Rápidas */}
-        <div className="space-y-8">
-          <div className="space-y-4">
-            <h2 className="text-xl font-display font-bold flex items-center">
-              <Trophy className="h-5 w-5 mr-2 text-secondary" />
-              Top 3 General
-            </h2>
-            <div className="bg-card rounded-xl border border-card-border shadow-sm overflow-hidden p-2 space-y-2">
-              {data.top3General.length === 0 ? (
-                <div className="p-4 text-center text-muted-foreground text-sm">Sin datos</div>
-              ) : (
-                data.top3General.map(player => (
-                  <div key={player.userId} className={cn(
-                    "flex items-center justify-between p-3 rounded-lg border",
-                    player.position === 1 ? "bg-gradient-to-r from-secondary/20 to-transparent border-secondary/30" : "border-transparent bg-muted/30"
-                  )}>
-                    <div className="flex items-center gap-3">
-                      <div className={cn(
-                        "w-6 h-6 flex items-center justify-center rounded-full font-bold text-xs",
-                        player.position === 1 ? "bg-secondary text-white" : "bg-muted-foreground/20 text-muted-foreground"
-                      )}>{player.position}</div>
-                      <span className={cn("font-medium", player.position === 1 && "font-bold text-foreground")}>{player.displayName}</span>
-                    </div>
-                    <span className="font-mono font-semibold">{player.points} pts</span>
-                  </div>
-                ))
-              )}
-              <div className="pt-2 text-center">
-                <Link href="/standings/general" className="text-sm font-medium text-primary hover:underline">Ver tabla completa</Link>
-              </div>
-            </div>
-          </div>
 
-        {/* Zona de Descenso */}
-        
-          <div className="space-y-4">
-          
-            <h2 className="text-xl font-display font-bold flex items-center">
-              ⚠️ Zona de Descenso
-            </h2>
-            
-            <p className="text-xs text-muted-foreground mt-1">
-              🟡 Advertencia · 🔴 Descenso
-            </p>
-          </div>
-          
-          
-          
-            <div className="bg-card rounded-xl border border-card-border shadow-sm p-2 space-y-2">
-          
-              {data.zonaDescenso.map(player => (
-          
-                <div
-                  key={player.userId}
-                  className={cn(
-                    "flex items-center justify-between p-3 rounded-lg",
-                    player.position === 8
-                      ? "bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-300"
-                      : "bg-red-50 dark:bg-red-900/20 border border-red-300"
-                  )}
-                >
-          
-                  <div className="flex items-center gap-3">
-          
-                    <div className="font-bold text-sm">
-                      {player.position}
-                    </div>
-          
-                    <span className="font-medium">
-                      {player.displayName}
-                    </span>
-          
-                  </div>
-          
-          
-                  <span className="font-mono font-semibold">
-                    {player.points} pts
-                  </span>
-          
-          
-                </div>
-          
-              ))}
-          
-            </div>
           
           </div>
           
