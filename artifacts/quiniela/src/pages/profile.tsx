@@ -60,7 +60,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-3 md:p-6 space-y-5"">
+    <div className="max-w-5xl mx-auto p-3 md:p-6 space-y-5">
 
       {/* Selector */}
       <div className="space-y-2">
