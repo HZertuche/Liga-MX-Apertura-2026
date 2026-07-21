@@ -156,40 +156,44 @@ export default function Dashboard() {
                     
                       {/* Local */}
                       <div className="flex-1 flex flex-col items-center min-w-0">
-                    
-                        <img
-                          src={match.homeLogo}
-                          alt={match.homeTeam}
-                          className="h-10 w-10 object-contain mb-1"
-                        />
-                    
+                      
+                        {match.homeTeamLogo && (
+                          <img
+                            src={match.homeTeamLogo}
+                            alt={match.homeTeam}
+                            className="h-10 w-10 object-contain mb-1"
+                          />
+                        )}
+                      
                         <p className="font-semibold text-xs text-center truncate w-full">
                           {match.homeTeam}
                         </p>
-                    
+                      
                       </div>
-                    
-                    
+                      
+                      
                       {/* VS */}
                       <div className="bg-muted border rounded-full px-3 py-1 text-xs font-bold shrink-0">
                         VS
                       </div>
-                    
-                    
+                      
+                      
                       {/* Visitante */}
                       <div className="flex-1 flex flex-col items-center min-w-0">
-                    
-                        <img
-                          src={match.awayLogo}
-                          alt={match.awayTeam}
-                          className="h-10 w-10 object-contain mb-1"
-                        />
-                    
+                      
+                        {match.awayTeamLogo && (
+                          <img
+                            src={match.awayTeamLogo}
+                            alt={match.awayTeam}
+                            className="h-10 w-10 object-contain mb-1"
+                          />
+                        )}
+                      
                         <p className="font-semibold text-xs text-center truncate w-full">
                           {match.awayTeam}
                         </p>
-                    
-                      </div>
+                      
+                      </div>                      
                     
                     </div>
           
@@ -315,36 +319,6 @@ export default function Dashboard() {
           
           </div>
           
-          <div className="space-y-4">
-            <h2 className="text-xl font-display font-bold flex items-center">
-              <Medal className="h-5 w-5 mr-2 text-blue-600" />
-              Top 3 Enfrentamientos
-            </h2>
-            <div className="bg-card rounded-xl border border-card-border shadow-sm overflow-hidden p-2 space-y-2">
-              {data.top3Matchups.length === 0 ? (
-                <div className="p-4 text-center text-muted-foreground text-sm">Sin datos</div>
-              ) : (
-                data.top3Matchups.map(player => (
-                  <div key={player.userId} className={cn(
-                    "flex items-center justify-between p-3 rounded-lg border",
-                    player.position === 1 ? "bg-gradient-to-r from-blue-50 to-transparent border-blue-100" : "border-transparent bg-muted/30"
-                  )}>
-                    <div className="flex items-center gap-3">
-                      <div className={cn(
-                        "w-6 h-6 flex items-center justify-center rounded-full font-bold text-xs",
-                        player.position === 1 ? "bg-blue-600 text-white" : "bg-muted-foreground/20 text-muted-foreground"
-                      )}>{player.position}</div>
-                      <span className={cn("font-medium", player.position === 1 && "font-bold text-foreground")}>{player.displayName}</span>
-                    </div>
-                    <span className="font-mono font-semibold">{player.points} pts</span>
-                  </div>
-                ))
-              )}
-              <div className="pt-2 text-center">
-                <Link href="/standings/matchups" className="text-sm font-medium text-primary hover:underline">Ver tabla completa</Link>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
