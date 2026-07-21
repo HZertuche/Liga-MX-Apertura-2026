@@ -63,6 +63,60 @@ export default function GeneralStandings() {
         </div>
       </div>
 
+      {/* Tabla para celular */}
+      <div className="md:hidden">
+        
+        <div className="bg-card rounded-xl border border-card-border shadow-sm overflow-hidden">
+          <table className="w-full text-xs">
+            <thead className="bg-muted/50 border-b">
+              <tr>
+                <th className="py-2 text-center w-8">#</th>
+                <th className="py-2 text-left">Jugador</th>
+                <th className="py-2 text-center w-8">🎯</th>
+                <th className="py-2 text-center w-8">✅</th>
+                <th className="py-2 text-center w-10">%</th>
+                <th className="py-2 text-center w-10">Pts</th>
+              </tr>
+            </thead>
+        
+            <tbody>
+              {sortedStandings.map((row) => (
+                <tr key={row.userId}>
+                  <td className="py-2 text-center">
+                    {row.position}
+                  </td>
+        
+                  <td className="py-2">
+                    {row.displayName}
+                  </td>
+        
+                  <td className="py-2 text-center">
+                    {row.exactScores}
+                  </td>
+        
+                  <td className="py-2 text-center">
+                    {row.correctResults}
+                  </td>
+        
+                  <td className="py-2 text-center">
+                    {Math.round(row.accuracy)}%
+                  </td>
+        
+                  <td className="py-2 text-center font-bold">
+                    {row.totalPoints}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        
+
+      </div>
+
+      {/* Tabla para escritorio */}
+      <div className="hidden md:block">    
+
       <div className="bg-card rounded-xl border border-card-border shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
