@@ -190,75 +190,69 @@ export default function Profile() {
 
       
       {/* Logros */}
+      {/* Logros */}
       
       <div className="space-y-2">
       
         <h2 className="text-sm font-bold">
-          Mis Logros
+          🏅 Mis Logros
         </h2>
       
+        <div className="border rounded-lg p-2 grid grid-cols-3 gap-2">
       
-        <div className="grid grid-cols-2 gap-2">
+          <div className="text-center">
+            <div className="text-2xl">
+              🔒
+            </div>
       
-      
-          <div className="border rounded-lg p-1.5">
-      
-            <p className="text-[11px] text-muted-foreground">
-              🔒 Candado
+            <p className="text-[10px] text-muted-foreground">
+              Candado
             </p>
       
-            <p className="text-xl font-bold">
+            <p className="text-sm font-bold">
               {data.logros.candado}
             </p>
-      
-            <p className="text-[11px] text-muted-foreground">
-              rachas acertando
-            </p>
-      
           </div>
       
       
+          <div className="text-center">
       
-          <div className="border rounded-lg p-1.5">
+            <div className="text-2xl">
+              🤡
+            </div>
       
-            <p className="text-[11px] text-muted-foreground">
-              🤡 Farol
+            <p className="text-[10px] text-muted-foreground">
+              Farol
             </p>
       
-            <p className="text-xl font-bold">
+            <p className="text-sm font-bold">
               {data.logros.farol}
             </p>
       
-            <p className="text-[11px] text-muted-foreground">
-              rachas sin puntos
-            </p>
-      
           </div>
       
       
+          <div className="text-center">
       
-          <div className="border rounded-lg p-1.5">
+            <div className="text-2xl">
+              🎯
+            </div>
       
-            <p className="text-[11px] text-muted-foreground">
-              🎯 Cazador
+            <p className="text-[10px] text-muted-foreground">
+              Cazador
             </p>
       
-            <p className="text-xl font-bold">
+            <p className="text-sm font-bold">
               J{data.logros.cazadorPuntos.jornada}
             </p>
       
-            <p className="text-[11px] text-muted-foreground">
-              {data.logros.cazadorPuntos.puntos} puntos
-            </p>
-      
           </div>
-      
       
         </div>
       
       </div>
       
-    
+      
       {/* Mis Récords */}
       
       <div className="space-y-2">
@@ -268,20 +262,24 @@ export default function Profile() {
         </h2>
       
       
-        <div className="grid grid-cols-2 gap-2">
+        <div className="border rounded-lg p-2 grid grid-cols-3 gap-2">
       
       
           {/* Especialista */}
       
-          <div className="border rounded-lg p-1.5">
+          <div className="text-center">
       
-            <p className="text-[11px] text-muted-foreground">
-              🟢 Especialista
+            <div className="text-xl">
+              🟢
+            </div>
+      
+            <p className="text-[10px] text-muted-foreground">
+              Especialista
             </p>
       
             {data.records?.especialista ? (
               <>
-                <p className="text-sm font-bold mt-1 truncate">
+                <p className="text-xs font-bold truncate">
                   {data.records.especialista.equipo}
                 </p>
       
@@ -290,8 +288,8 @@ export default function Profile() {
                 </p>
               </>
             ) : (
-              <p className="text-xs mt-1">
-                Sin datos
+              <p className="text-xs">
+                -
               </p>
             )}
       
@@ -301,15 +299,20 @@ export default function Profile() {
       
           {/* Pesadilla */}
       
-          <div className="border rounded-lg p-1.5">
+          <div className="text-center">
       
-            <p className="text-[11px] text-muted-foreground">
-              😈 Pesadilla
+            <div className="text-xl">
+              😈
+            </div>
+      
+            <p className="text-[10px] text-muted-foreground">
+              Pesadilla
             </p>
+      
       
             {data.records?.pesadilla ? (
               <>
-                <p className="text-sm font-bold mt-1 truncate">
+                <p className="text-xs font-bold truncate">
                   {data.records.pesadilla.equipo}
                 </p>
       
@@ -318,28 +321,31 @@ export default function Profile() {
                 </p>
               </>
             ) : (
-              <p className="text-xs mt-1">
-                Sin datos
+              <p className="text-xs">
+                -
               </p>
             )}
       
           </div>
       
       
-      
           {/* Sorpresas */}
       
-          <div className="border rounded-lg p-1.5">
+          <div className="text-center">
       
-            <p className="text-[11px] text-muted-foreground">
-              💥 Sorpresas
+            <div className="text-xl">
+              💥
+            </div>
+      
+            <p className="text-[10px] text-muted-foreground">
+              Sorpresas
             </p>
       
-            <p className="text-xl font-bold mt-1">
+            <p className="text-sm font-bold">
               {data.records?.detectorSorpresas?.aciertos ?? 0}
             </p>
       
-            <p className="text-xs">
+            <p className="text-[10px]">
               aciertos
             </p>
       
@@ -348,104 +354,138 @@ export default function Profile() {
       
         </div>
       
-      </div>      
+      </div>
       
-      
-          {/* Riesgo */}
-          
-          <div className="border rounded-lg p-1.5">
-          
-            <p className="text-xs text-muted-foreground">
-              🎲 Riesgo
-            </p>
-          
-            <p className="text-sm font-bold mt-1">
-              {data.records?.riesgo?.perfil?.nivel ?? "Sin datos"}
-            </p>
-          
-          </div> 
-      
+
+
       {/* Estilo de Juego */}
-      <div className="space-y-3">
       
-        <h2 className="text-base font-bold">
-          📊 Mi Estilo de Juego
+      <div className="space-y-2">
+      
+        <h2 className="text-sm font-bold">
+          📊 Atributos de juego
         </h2>
       
       
-        <div className="grid grid-cols-3 gap-2">
+        <div className="border rounded-lg p-2 space-y-3">
       
       
           {/* Local */}
-          <div className="border rounded-lg p-2">
       
-            <p className="text-[11px] text-muted-foreground">
-              🏟️ Local
-            </p>
+          <div>
       
-            <p className="text-lg font-bold mt-1">
-              {data.estilo.local.efectividad}%
-            </p>
+            <div className="flex justify-between items-center">
       
-            <p className="text-[11px]">
-              {data.estilo.local.aciertos} de {data.estilo.local.intentos}
-            </p>
-      
-            {!data.estilo.local.muestraSuficiente && (
-              <p className="text-[10px] text-muted-foreground mt-1">
-                ⚠️ Muestra pequeña
+              <p className="text-xs text-muted-foreground">
+                🏟️ Especialista Local
               </p>
-            )}
+      
+              <p className="text-sm font-bold">
+                {data.estilo.local.efectividad}%
+              </p>
+      
+            </div>
+      
+      
+            <div className="h-1.5 bg-muted rounded-full mt-1">
+      
+              <div
+                className="h-1.5 rounded-full bg-primary"
+                style={{
+                  width: `${data.estilo.local.efectividad}%`
+                }}
+              />
+      
+            </div>
+      
+      
+            <p className="text-[10px] text-muted-foreground mt-1">
+              {data.estilo.local.aciertos} de {data.estilo.local.intentos}
+              {!data.estilo.local.muestraSuficiente && " · ⚠️ muestra pequeña"}
+            </p>
       
           </div>
+      
       
       
       
           {/* Visitante */}
-          <div className="border rounded-lg p-2">
       
-            <p className="text-[11px] text-muted-foreground">
-              ✈️ Visitante
-            </p>
+          <div>
       
-            <p className="text-lg font-bold mt-1">
-              {data.estilo.visitante.efectividad}%
-            </p>
+            <div className="flex justify-between items-center">
       
-            <p className="text-[11px]">
-              {data.estilo.visitante.aciertos} de {data.estilo.visitante.intentos}
-            </p>
-      
-            {!data.estilo.visitante.muestraSuficiente && (
-              <p className="text-[10px] text-muted-foreground mt-1">
-                ⚠️ Muestra pequeña
+              <p className="text-xs text-muted-foreground">
+                ✈️ Especialista Visitante
               </p>
-            )}
+      
+              <p className="text-sm font-bold">
+                {data.estilo.visitante.efectividad}%
+              </p>
+      
+            </div>
+      
+      
+            <div className="h-1.5 bg-muted rounded-full mt-1">
+      
+              <div
+                className="h-1.5 rounded-full bg-primary"
+                style={{
+                  width: `${data.estilo.visitante.efectividad}%`
+                }}
+              />
+      
+            </div>
+      
+      
+            <p className="text-[10px] text-muted-foreground mt-1">
+              {data.estilo.visitante.aciertos} de {data.estilo.visitante.intentos}
+              {!data.estilo.visitante.muestraSuficiente && " · ⚠️ muestra pequeña"}
+            </p>
+      
       
           </div>
       
       
       
+      
+      
           {/* Empate */}
-          <div className="border rounded-lg p-2">
       
-            <p className="text-[11px] text-muted-foreground">
-              🤝 Empate
-            </p>
+          <div>
       
-            <p className="text-lg font-bold mt-1">
-              {data.estilo.empate.efectividad}%
-            </p>
+            <div className="flex justify-between items-center">
       
-            <p className="text-[11px]">
-              {data.estilo.empate.aciertos} de {data.estilo.empate.intentos}
-            </p>
-      
-            {!data.estilo.empate.muestraSuficiente && (
-              <p className="text-[10px] text-muted-foreground mt-1">
-                ⚠️ Muestra pequeña
+              <p className="text-xs text-muted-foreground">
+                🤝 Especialista Empate
               </p>
-            )}
+      
+      
+              <p className="text-sm font-bold">
+                {data.estilo.empate.efectividad}%
+              </p>
+      
+      
+            </div>
+      
+      
+            <div className="h-1.5 bg-muted rounded-full mt-1">
+      
+              <div
+                className="h-1.5 rounded-full bg-primary"
+                style={{
+                  width: `${data.estilo.empate.efectividad}%`
+                }}
+              />
+      
+            </div>
+      
+      
+            <p className="text-[10px] text-muted-foreground mt-1">
+              {data.estilo.empate.aciertos} de {data.estilo.empate.intentos}
+              {!data.estilo.empate.muestraSuficiente && " · ⚠️ muestra pequeña"}
+            </p>
+      
       
           </div>
       
@@ -455,97 +495,92 @@ export default function Profile() {
       </div>
 
 
-
-      {/* Perfil de Riesgo */}
+      {/* Personalidad del jugador */}
       
-      <div className="space-y-3">
+      <div className="space-y-2">
       
-        <h2 className="text-base font-bold">
-          🎲 Perfil de Riesgo
+        <h2 className="text-sm font-bold">
+          🧬 Personalidad del jugador
         </h2>
       
       
         <div className="border rounded-lg p-2">
       
-          <p className="text-xl font-bold">
-            {data.riesgo.perfil.nivel}
-          </p>
       
+          {/* Riesgo */}
       
-          <p className="text-xs text-muted-foreground mt-1">
-            {data.riesgo.perfil.descripcion}
-          </p>
-      
-      
-          <div className="grid grid-cols-3 gap-2 mt-2">
-      
+          <div className="flex items-center justify-between">
       
             <div>
+      
               <p className="text-[11px] text-muted-foreground">
-                🏟️ Local
+                🎲 Perfil de riesgo
               </p>
       
-              <p className="text-base font-bold">
+              <p className="text-sm font-bold">
+                {data.riesgo.perfil.nivel}
+              </p>
+      
+            </div>
+      
+      
+            <div className="text-right">
+      
+              <p className="text-[11px] text-muted-foreground">
+                Tendencia
+              </p>
+      
+              <p className="text-xs font-bold">
                 {data.riesgo.distribucion.local}%
-              </p>
-            </div>
-      
-      
-            <div>
-              <p className="text-[11px] text-muted-foreground">
-                ✈️ Visitante
-              </p>
-      
-              <p className="text-base font-bold">
+                🏟️
                 {data.riesgo.distribucion.visitante}%
+                ✈️
+                {data.riesgo.distribucion.empate}%
+                🤝
               </p>
+      
             </div>
+      
+          </div>
+      
+      
+      
+          <div className="border-t my-2" />
+      
+      
+      
+          {/* Sorpresas */}
+      
+          <div className="flex items-center justify-between">
       
       
             <div>
+      
               <p className="text-[11px] text-muted-foreground">
-                🤝 Empate
+                💥 Detector de sorpresas
               </p>
       
-              <p className="text-base font-bold">
-                {data.riesgo.distribucion.empate}%
+              <p className="text-sm font-bold">
+                {data.detectorSorpresas.aciertos}
+                <span className="text-xs font-normal ml-1">
+                  aciertos
+                </span>
               </p>
+      
             </div>
+      
+      
+            <p className="text-[11px] text-muted-foreground text-right max-w-[140px]">
+              Encuentra resultados que pocos esperan
+            </p>
       
       
           </div>
       
+      
         </div>
       
       </div>     
-      {/* Detector de Sorpresas */}
-      <div className="space-y-2">
-      
-        <h2 className="text-sm font-bold">
-          💥 Detector de Sorpresas
-        </h2>
-      
-      
-        <div className="border rounded-lg p-1.5">
-      
-          <p className="text-xl font-bold">
-            {data.detectorSorpresas.aciertos}
-          </p>
-      
-      
-          <p className="text-xs text-muted-foreground">
-            resultados inesperados acertados
-          </p>
-      
-      
-          <p className="text-xs mt-1">
-            Especialista encontrando resultados
-            que pocos esperaban.
-          </p>
-      
-        </div>
-      
-      </div>
       
       
       {/* Equipos */}
@@ -582,7 +617,7 @@ export default function Profile() {
               </>
             ) : (
               <p className="text-xs text-muted-foreground mt-1">
-                Sin datos
+                Aun no hay suficientes datos
               </p>
             )}
       
