@@ -49,21 +49,30 @@ export default function Dashboard() {
       </div> 
 
     
-        {/* KPI Cards */}
+        {/* Lider General */}
         
         <div className="bg-card rounded-xl p-6 border border-card-border shadow-sm flex flex-col justify-between gold-shimmer relative">
           <div className="flex justify-between items-start mb-4 relative z-10">
-            <h3 className="font-medium text-muted-foreground">Líder General</h3>
-            <div className="p-2 bg-secondary/20 text-secondary-foreground rounded-lg"><Trophy className="h-5 w-5" /></div>
+            <h3 className="font-medium text-muted-foreground">
+              Líder General
+            </h3>
+        
+            <div className="p-2 bg-secondary/20 text-secondary-foreground rounded-lg">
+              <Trophy className="h-5 w-5" />
+            </div>
           </div>
-          <p className="text-2xl font-display font-bold text-foreground truncate relative z-10" title={data.generalLeader || "N/A"}>
+        
+          <p
+            className="text-2xl font-display font-bold text-foreground truncate relative z-10"
+            title={data.generalLeader || "N/A"}
+          >
             {data.generalLeader || "-"}
           </p>
         </div>
-        </div>          
-
-      <div className="space-y-8">
-
+        
+        
+        <div className="space-y-8">        
+        
     
         {/* Última Hora */}
         <div className="space-y-3">
