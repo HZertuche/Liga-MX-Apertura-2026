@@ -474,111 +474,112 @@ export default function Profile() {
       </div>
 
       {/* Detector de Sorpresas */}
-      <div className="space-y-4">
-
-        <h2 className="text-lg font-bold">
+      {/* Detector de Sorpresas */}
+      <div className="space-y-2">
+      
+        <h2 className="text-sm font-bold">
           💥 Detector de Sorpresas
         </h2>
-
-
-        <div className="border rounded-xl p-2">
-
-          <p className="text-3xl font-bold">
+      
+      
+        <div className="border rounded-lg p-1.5">
+      
+          <p className="text-xl font-bold">
             {data.detectorSorpresas.aciertos}
           </p>
-
-
-          <p className="text-muted-foreground">
+      
+      
+          <p className="text-xs text-muted-foreground">
             resultados inesperados acertados
           </p>
-
-
-          <p className="text-sm mt-3">
+      
+      
+          <p className="text-xs mt-1">
             Especialista encontrando resultados
-            que pocos jugadores esperaban.
+            que pocos esperaban.
           </p>
-
+      
         </div>
-
+      
       </div>
-
+      
       
       {/* Equipos */}
-      <div className="space-y-4">
-
-        <h2 className="text-lg font-bold">
+      <div className="space-y-2">
+      
+        <h2 className="text-sm font-bold">
           Mis Equipos
         </h2>
-
-
+      
+      
         <div className="grid grid-cols-2 gap-2">
-
-
-          <div className="border rounded-xl p-2">
-
+      
+      
+          <div className="border rounded-lg p-1.5">
+      
             <p className="text-xs text-muted-foreground">
               🟢 Especialista
             </p>
-
-
+      
+      
             {data.equipos.especialista ? (
               <>
-                <p className="text-2xl font-bold mt-2">
+                <p className="text-lg font-bold mt-1">
                   {data.equipos.especialista.equipo}
                 </p>
-
-                <p className="text-muted-foreground">
+      
+                <p className="text-xs text-muted-foreground">
                   {data.equipos.especialista.efectividad}% efectividad
                 </p>
-
-                <p className="text-xs">
-                  {data.equipos.especialista.aciertos} de {data.equipos.especialista.partidos} aciertos
+      
+                <p className="text-[11px]">
+                  {data.equipos.especialista.aciertos} de {data.equipos.especialista.partidos}
                 </p>
               </>
             ) : (
-              <p className="text-muted-foreground mt-2">
-                Aún no hay suficientes datos
+              <p className="text-xs text-muted-foreground mt-1">
+                Sin datos
               </p>
             )}
-
+      
           </div>
-
-
-
-          <div className="border rounded-xl p-2">
-
+      
+      
+      
+          <div className="border rounded-lg p-1.5">
+      
             <p className="text-xs text-muted-foreground">
               🔴 Tu pesadilla
             </p>
-
-
+      
+      
             {data.equipos.pesadilla ? (
               <>
-                <p className="text-2xl font-bold mt-2">
+                <p className="text-lg font-bold mt-1">
                   {data.equipos.pesadilla.equipo}
                 </p>
-
-                <p className="text-muted-foreground">
+      
+                <p className="text-xs text-muted-foreground">
                   {data.equipos.pesadilla.efectividad}% efectividad
                 </p>
-
-                <p className="text-xs">
-                  {data.equipos.pesadilla.aciertos} de {data.equipos.pesadilla.partidos} aciertos
+      
+                <p className="text-[11px]">
+                  {data.equipos.pesadilla.aciertos} de {data.equipos.pesadilla.partidos}
                 </p>
               </>
             ) : (
-              <p className="text-muted-foreground mt-2">
-                Aún no hay suficientes datos
+              <p className="text-xs text-muted-foreground mt-1">
+                Aun no hay suficientes datos
               </p>
             )}
-
+      
           </div>
-
-
+      
+      
         </div>
-
+      
       </div>
-
+    
 
     </div>
   );
