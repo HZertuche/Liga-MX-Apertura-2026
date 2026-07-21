@@ -104,7 +104,7 @@ export default function HallOfFame() {
     },
 
     {
-      titulo: "Conservador del Año",
+      titulo: "Conservador",
       icono: "🛡️",
       jugador: data?.conservadorDelAno?.jugador ?? "Sin datos",
       valor: `${data?.conservadorDelAno?.conservador ?? 0}%`,
@@ -122,9 +122,9 @@ export default function HallOfFame() {
     },
 
     {
-      titulo: "🤝 Mejor Aliado",
+      titulo: "⭐ Mejor Aliado",
       jugador: data?.mejorAliado?.jugador ?? "Sin datos",
-      icono: "🤝",
+      icono: "⭐",
       valor:
         data?.mejorAliado?.valor ?? "0%",
       descripcion:
@@ -132,9 +132,9 @@ export default function HallOfFame() {
     },
     
     {
-      titulo: "😈 Pesadilla",
+      titulo: "☠️ Pesadilla",
       jugador: data?.pesadilla?.jugador ?? "Sin datos",
-      icono: "😈",
+      icono: "☠️",
       valor:
         data?.pesadilla?.valor ?? "0%",
       descripcion:
