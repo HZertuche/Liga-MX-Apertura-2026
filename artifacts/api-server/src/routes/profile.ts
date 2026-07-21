@@ -662,12 +662,21 @@ router.get("/profile/:userId", async (req, res) => {
       cazadorPuntos
     },
 
-
     equipos:{
       especialista,
       pesadilla
     },
-
+    
+    
+    records:{
+      especialista,
+      pesadilla,
+      riesgo,
+      detectorSorpresas,
+      estilo
+    },
+    
+    
     estilo,
     riesgo,
     detectorSorpresas
