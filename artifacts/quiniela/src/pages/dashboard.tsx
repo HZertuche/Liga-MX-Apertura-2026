@@ -1,3 +1,4 @@
+import { getTeamLogo } from "@/lib/team-logos";
 import { useGetDashboard, getGetDashboardQueryKey } from "@workspace/api-client-react";
 import { Trophy, Users, CheckCircle2, CircleDashed, Lock, Clock, Medal } from "lucide-react";
 import { formatDate } from "@/lib/format";
@@ -282,11 +283,10 @@ export default function Dashboard() {
                       {/* Local */}
                       <div className="flex-1 flex flex-col items-center min-w-0">
                       
-                        {match.homeTeamLogo && (
                           <img
-                            src={match.homeTeamLogo}
+                            src={getTeamLogo(match.homeTeam)}
                             alt={match.homeTeam}
-                            className="h-10 w-10 object-contain mb-1"
+                            className="h-10 w-10 object-contain mb-1"          
                           />
                         )}
                       
@@ -306,9 +306,8 @@ export default function Dashboard() {
                       {/* Visitante */}
                       <div className="flex-1 flex flex-col items-center min-w-0">
                       
-                        {match.awayTeamLogo && (
                           <img
-                            src={match.awayTeamLogo}
+                            src={getTeamLogo(match.awayTeam)}
                             alt={match.awayTeam}
                             className="h-10 w-10 object-contain mb-1"
                           />
