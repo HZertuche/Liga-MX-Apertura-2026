@@ -200,12 +200,18 @@ router.post("/admin/recalculate", requireAdmin, async (_req, res) => {
     
       const players = await db.select().from(usersTable);
     
-      const historyRows = players.map(player => {
-    
+        const jornadaMatchIds = allMatches
+          .filter(m => m.jornadaId === ultimaJornada.id)
+          .map(m => m.id);
+        
+        const historyRows = players.map(player => {
+          
         const preds = allPredictions.filter(
-          p => p.userId === player.id
-        );
-    
+          p =>
+            p.userId === player.id &&
+            jornadaMatchIds.includes(p.matchId)
+        );          
+
         const points = preds.reduce(
           (sum,p)=>sum+(p.points ?? 0),
           0
