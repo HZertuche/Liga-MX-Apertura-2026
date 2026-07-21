@@ -80,37 +80,73 @@ export default function GeneralStandings() {
             </thead>
         
             <tbody>
+              
               {sortedStandings.map((row) => (
-                <tr key={row.userId}>
-                  <td className="py-2 text-center">
-                    {row.position}
+
+                <tr
+                  key={row.userId}
+                  className={cn(
+                    "border-b",
+                    row.position === 1
+                      ? "bg-yellow-100 dark:bg-yellow-900/30"
+                      : row.position === 2
+                      ? "bg-slate-100 dark:bg-slate-700/30"
+                      : row.position === 3
+                      ? "bg-orange-100 dark:bg-orange-900/30"
+                      : row.position === 8
+                      ? "bg-yellow-50 dark:bg-yellow-900/20"
+                      : row.position >= 9
+                      ? "bg-red-100 dark:bg-red-900/30"
+                      : ""
+                  )}
+                >
+
+
+                  <td className="py-2 text-center font-bold">
+                    {row.position === 1
+                      ? "🥇"
+                      : row.position === 2
+                      ? "🥈"
+                      : row.position === 3
+                      ? "🥉"
+                      : row.position}
                   </td>
-        
+
+
                   <td className="py-2">
                     {row.displayName}
                   </td>
-        
+
+
                   <td className="py-2 text-center">
                     {row.exactScores}
                   </td>
-        
+
+
                   <td className="py-2 text-center">
                     {row.correctResults}
                   </td>
-        
+
+
                   <td className="py-2 text-center">
                     {Math.round(row.accuracy)}%
                   </td>
-        
+
+
                   <td className="py-2 text-center font-bold">
                     {row.totalPoints}
                   </td>
+
+
                 </tr>
+
               ))}
+
             </tbody>
+
           </table>
+
         </div>
-        
 
       </div>
 
