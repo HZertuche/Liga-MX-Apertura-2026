@@ -13,6 +13,8 @@ export const standingsHistoryTable = pgTable("standings_history", {
 
   points: integer("points").notNull().default(0),
 
+  exactScores: integer("exact_scores").notNull().default(0),
+
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
