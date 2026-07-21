@@ -277,7 +277,7 @@ export default function Profile() {
             </div>
       
             <p className="text-[10px] text-muted-foreground">
-              Especialista
+              Aliado
             </p>
       
             {data.records?.especialista ? (
@@ -600,7 +600,7 @@ export default function Profile() {
           <div className="border rounded-lg p-1.5">
       
             <p className="text-xs text-muted-foreground">
-              👑 Mi Aliado
+              👑 Aliado
             </p>
       
       
@@ -631,7 +631,7 @@ export default function Profile() {
           <div className="border rounded-lg p-1.5">
       
             <p className="text-xs text-muted-foreground">
-              ☠️ Mi Nemesis
+              ☠️ Pesadilla
             </p>
       
       
