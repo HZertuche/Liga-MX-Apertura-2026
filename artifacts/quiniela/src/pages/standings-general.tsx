@@ -103,15 +103,28 @@ export default function GeneralStandings() {
 
 
                   <td className="py-2 text-center font-bold">
-                    {row.position === 1
-                      ? "🥇"
-                      : row.position === 2
-                      ? "🥈"
-                      : row.position === 3
-                      ? "🥉"
-                      : row.position}
+                    <div className="flex items-center justify-center gap-1">
+                  
+                      <span>
+                        {row.position === 1
+                          ? "🥇"
+                          : row.position === 2
+                          ? "🥈"
+                          : row.position === 3
+                          ? "🥉"
+                          : row.position}
+                      </span>
+                  
+                      {row.positionChange > 0 ? (
+                        <ArrowUp className="h-3 w-3 text-green-500" />
+                      ) : row.positionChange < 0 ? (
+                        <ArrowDown className="h-3 w-3 text-red-500" />
+                      ) : (
+                        <span className="text-muted-foreground text-xs">•</span>
+                      )}
+                  
+                    </div>
                   </td>
-
 
                   <td className="py-2">
                     {row.displayName}
