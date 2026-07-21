@@ -74,6 +74,73 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
   const top3Matchups = matchupRows.slice(0, 3).map((r, i) => ({ position: i + 1, ...r }));
   const matchupLeader = top3Matchups[0]?.displayName ?? null;
 
+  
+  // ============================
+  // ÚLTIMA HORA
+  // ============================
+
+  const ultimasNoticias: {
+    icono: string;
+    texto: string;
+  }[] = [];  
+  
+  
+  // Líder General
+
+  if (top3General.length > 0) {
+
+    ultimasNoticias.push({
+      icono: "👑",
+      texto: `${top3General[0].displayName} lidera la tabla general con ${top3General[0].points} puntos.`
+    });
+
+  }
+
+    // Última jornada terminada
+
+  const jornadasTerminadas = jornadas
+    .filter(j => j.status === "finished")
+    .sort((a, b) => b.number - a.number);
+
+  if (jornadasTerminadas.length > 0) {
+
+    const ultima = jornadasTerminadas[0];
+
+    const partidos = finishedMatches.filter(
+      m => m.jornadaId === ultima.id
+    );
+
+    const ids = partidos.map(p => p.id);
+
+    const ganador = players
+      .map(player => {
+
+        const puntos = allPredictions
+          .filter(p => p.userId === player.id && ids.includes(p.matchId))
+          .reduce((s, p) => s + (p.points ?? 0), 0);
+
+        return {
+          nombre: player.displayName,
+          puntos
+        };
+
+      })
+      .sort((a, b) => b.puntos - a.puntos)[0];
+
+    if (ganador) {
+
+      ultimasNoticias.push({
+
+        icono: "🏆",
+
+        texto: `${ganador.nombre} ganó la Jornada ${ultima.number} con ${ganador.puntos} puntos.`
+
+      });
+
+    }
+
+  }
+  
   res.json({
     totalPlayers: Number(totalPlayers),
     currentJornada,
@@ -84,6 +151,7 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
     upcomingMatches,
     top3General,
     top3Matchups,
+    ultimasNoticias,
   });
 });
 
