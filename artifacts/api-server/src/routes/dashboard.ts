@@ -106,49 +106,60 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
 
     // Última jornada terminada
 
+// ============================
+// CAMPEÓN DE LA SEMANA
+// ============================
+
+  let campeonSemana: {
+    nombre: string;
+    puntos: number;
+    jornada: number;
+  } | null = null;
+  
   const jornadasTerminadas = jornadas
     .filter(j => j.status === "finished")
     .sort((a, b) => b.number - a.number);
-
+  
   if (jornadasTerminadas.length > 0) {
-
+  
     const ultima = jornadasTerminadas[0];
-
-    const partidos = finishedMatches.filter(
-      m => m.jornadaId === ultima.id
-    );
-
-    const ids = partidos.map(p => p.id);
-
+  
+    const ids = finishedMatches
+      .filter(m => m.jornadaId === ultima.id)
+      .map(m => m.id);
+  
     const ganador = players
-      .map(player => {
-
-        const puntos = allPredictions
-          .filter(p => p.userId === player.id && ids.includes(p.matchId))
-          .reduce((s, p) => s + (p.points ?? 0), 0);
-
-        return {
-          nombre: player.displayName,
-          puntos
-        };
-
-      })
+      .map(player => ({
+        nombre: player.displayName,
+        puntos: allPredictions
+          .filter(
+            p =>
+              p.userId === player.id &&
+              ids.includes(p.matchId)
+          )
+          .reduce((s, p) => s + (p.points ?? 0), 0)
+      }))
       .sort((a, b) => b.puntos - a.puntos)[0];
-
+  
     if (ganador) {
-
+  
+      campeonSemana = {
+        nombre: ganador.nombre,
+        puntos: ganador.puntos,
+        jornada: ultima.number
+      };
+  
       ultimasNoticias.push({
-
         icono: "🏆",
-
         texto: `${ganador.nombre} ganó la Jornada ${ultima.number} con ${ganador.puntos} puntos.`
-
       });
-
+  
     }
-
+  
   }
 
+
+  
     // ============================
     // RACHAS
     // ============================
@@ -276,6 +287,7 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
     top3Matchups,
     ultimasNoticias,
     zonaDescenso,
+    campeonSemana,
   });
 });
 
