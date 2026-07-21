@@ -59,6 +59,12 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
   }).sort((a, b) => b.points - a.points);
 
   const top3General = generalRows.slice(0, 3).map((r, i) => ({ position: i + 1, ...r }));
+  const zonaDescenso = generalRows
+    .slice(-3)
+    .map((r, i) => ({
+      position: generalRows.length - 2 + i,
+      ...r
+    }));  
   const generalLeader = top3General[0]?.displayName ?? null;
 
   // Matchup standings for top 3
@@ -152,6 +158,7 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
     top3General,
     top3Matchups,
     ultimasNoticias,
+    zonaDescenso,
   });
 });
 
