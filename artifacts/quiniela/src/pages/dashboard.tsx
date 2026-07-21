@@ -205,6 +205,12 @@ export default function Dashboard() {
             <h2 className="text-xl font-display font-bold flex items-center">
               ⚠️ Zona de Descenso
             </h2>
+            
+            <p className="text-xs text-muted-foreground mt-1">
+              🟡 Advertencia · 🔴 Descenso
+            </p>
+          </div>
+          
           
           
             <div className="bg-card rounded-xl border border-card-border shadow-sm p-2 space-y-2">
@@ -213,7 +219,12 @@ export default function Dashboard() {
           
                 <div
                   key={player.userId}
-                  className="flex items-center justify-between p-3 rounded-lg bg-red-50 dark:bg-red-900/20"
+                  className={cn(
+                    "flex items-center justify-between p-3 rounded-lg",
+                    player.position === 8
+                      ? "bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-300"
+                      : "bg-red-50 dark:bg-red-900/20 border border-red-300"
+                  )}
                 >
           
                   <div className="flex items-center gap-3">
