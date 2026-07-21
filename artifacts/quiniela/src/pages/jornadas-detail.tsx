@@ -470,11 +470,45 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                   
                   
                     {/* TU PREDICCION */}
-                    <div className="w-full border-t pt-5 text-center">
-                  
-                      <p className="text-xs uppercase tracking-wide text-muted-foreground font-semibold mb-3">
-                        Tu Predicción
-                      </p>
+                    <div className="w-full border-t pt-4">
+                    
+                      <div className="flex items-center justify-between mb-3">
+                        <p className="text-xs uppercase tracking-wide text-muted-foreground font-semibold">
+                          Tu Predicción
+                        </p>
+                    
+                        {/* PUNTOS DESPUES DEL PARTIDO */}
+                        {match.status === 'finished' &&
+                          pred?.points !== null &&
+                          pred?.points !== undefined && (
+                            <div className="font-bold flex items-center gap-1 text-xs">
+                        
+                              <Trophy
+                                className={cn(
+                                  "h-3.5 w-3.5",
+                                  pred.points === 5
+                                    ? "text-yellow-500"
+                                    : pred.points === 3
+                                    ? "text-green-500"
+                                    : "text-red-500"
+                                )}
+                              />
+                        
+                              <span
+                                className={cn(
+                                  pred.points === 5
+                                    ? "text-yellow-600"
+                                    : pred.points === 3
+                                    ? "text-green-600"
+                                    : "text-red-600"
+                                )}
+                              >
+                                +{pred.points} pts
+                              </span>
+                        
+                            </div>
+                          )}
+                      </div>         
                   
                   
                       <div className="flex justify-center items-center gap-4">
@@ -517,17 +551,6 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                         />
                   
                       </div>
-                  
-
-                      {/* PUNTOS DESPUES DEL PARTIDO */}
-                      {match.status === 'finished' &&
-                        pred?.points !== null &&
-                        pred?.points !== undefined && (
-                          <div className="mt-4 text-primary font-bold flex justify-center items-center gap-2">
-                            <Trophy className="h-4 w-4" />
-                            +{pred.points} puntos
-                          </div>
-                      )}
   
                     </div>
                   </div>
