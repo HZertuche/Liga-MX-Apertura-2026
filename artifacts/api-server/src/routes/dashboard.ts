@@ -48,7 +48,9 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
   const players = await db.select().from(usersTable);
   const finishedMatches = allMatches.filter(m => m.status === "finished");
   const allPredictions = await db.select().from(predictionsTable);  
-  const standingsHistory: any[] = [];
+  const standingsHistory = await db
+    .select()
+    .from(standingsHistoryTable);  
   
 
   const generalRows = players.map(player => {
@@ -149,7 +151,7 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
 
   }
 
-   /* // Cambios de posiciones usando standings history
+   // Cambios de posiciones usando standings history
     
     const ultimaJornadaHistory = standingsHistory
       .sort((a,b) => b.jornadaId - a.jornadaId)
@@ -197,7 +199,7 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
     
       }
     
-    }  */
+    } 
 
 
 
