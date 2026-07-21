@@ -104,7 +104,7 @@ export default function Profile() {
       <div className="grid grid-cols-4 gap-2">
 
         <div className="rounded-xl border p-4">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             Puntos
           </p>
 
@@ -114,7 +114,7 @@ export default function Profile() {
         </div>
 
         <div className="rounded-xl border p-4">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             Efectividad
           </p>
 
@@ -124,7 +124,7 @@ export default function Profile() {
         </div>
 
         <div className="rounded-xl border p-4">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             Exactos
           </p>
 
@@ -134,7 +134,7 @@ export default function Profile() {
         </div>
 
         <div className="rounded-xl border p-4">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             Aciertos
           </p>
 
@@ -148,7 +148,7 @@ export default function Profile() {
       {/* Logros */}
       <div className="space-y-4">
       
-        <h2 className="text-xl font-bold">
+        <h2 className="text-lg font-bold">
           Mis Logros
         </h2>
       
@@ -156,7 +156,7 @@ export default function Profile() {
       
       
           <div className="border rounded-xl p-4">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               🔒 Candado
             </p>
       
@@ -164,15 +164,15 @@ export default function Profile() {
               {data.logros.candado}
             </p>
       
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               partidos consecutivos acertando
             </p>
           </div>
       
       
       
-          <div className="border rounded-xl p-4">
-            <p className="text-sm text-muted-foreground">
+          <div className="border rounded-xl p-2">
+            <p className="text-xs text-muted-foreground">
               💥 Farol
             </p>
       
@@ -180,16 +180,16 @@ export default function Profile() {
               {data.logros.farol}
             </p>
       
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               partidos consecutivos sin puntos
             </p>
           </div>
       
       
       
-          <div className="border rounded-xl p-4">
+          <div className="border rounded-xl p-2">
       
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               🎯 Cazador de Puntos
             </p>
       
@@ -197,7 +197,7 @@ export default function Profile() {
               J{data.logros.cazadorPuntos.jornada}
             </p>
       
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               {data.logros.cazadorPuntos.puntos} puntos
             </p>
       
@@ -235,7 +235,7 @@ export default function Profile() {
                   {data.records.especialista.equipo}
                 </p>
       
-                <p className="text-sm">
+                <p className="text-xs">
                   {data.records.especialista.efectividad}%
                 </p>
               </>
@@ -263,7 +263,7 @@ export default function Profile() {
                   {data.records.pesadilla.equipo}
                 </p>
       
-                <p className="text-sm">
+                <p className="text-xs">
                   {data.records.pesadilla.efectividad}%
                 </p>
               </>
@@ -319,7 +319,7 @@ export default function Profile() {
       {/* Estilo de Juego */}
       <div className="space-y-4">
 
-        <h2 className="text-xl font-bold">
+        <h2 className="text-lg font-bold">
           📊 Mi Estilo de Juego
         </h2>
 
@@ -328,9 +328,9 @@ export default function Profile() {
 
 
           {/* Local */}
-          <div className="border rounded-xl p-4">
+          <div className="border rounded-xl p-2">
           
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               🏟️ Especialista Local
             </p>
           
@@ -338,14 +338,14 @@ export default function Profile() {
               {data.estilo.local.efectividad}%
             </p>
           
-            <p className="text-sm">
+            <p className="text-xs">
               {data.estilo.local.aciertos} de{" "}
               {data.estilo.local.intentos}
               {" "}aciertos
             </p>
           
             {!data.estilo.local.muestraSuficiente && (
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-[10px] text-muted-foreground mt-1">
                 ⚠️ Muestra pequeña
               </p>
             )}
@@ -355,9 +355,9 @@ export default function Profile() {
 
 
           {/* Visitante */}
-          <div className="border rounded-xl p-4">
+          <div className="border rounded-xl p-2">
 
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               ✈️ Especialista Visitante
             </p>
 
@@ -365,14 +365,14 @@ export default function Profile() {
               {data.estilo.visitante.efectividad}%
             </p>
 
-            <p className="text-sm">
+            <p className="text-xs">
               {data.estilo.visitante.aciertos} de{" "}
               {data.estilo.visitante.intentos}
               {" "}aciertos
             </p>
 
             {!data.estilo.visitante.muestraSuficiente && (
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-[10px] text-muted-foreground mt-1">
                 ⚠️ Muestra pequeña
               </p>
             )}            
@@ -382,9 +382,9 @@ export default function Profile() {
 
 
           {/* Empate */}
-          <div className="border rounded-xl p-4">
+          <div className="border rounded-xl p-2">
 
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               🤝 Especialista Empates
             </p>
 
@@ -392,14 +392,14 @@ export default function Profile() {
               {data.estilo.empate.efectividad}%
             </p>
 
-            <p className="text-sm">
+            <p className="text-xs">
               {data.estilo.empate.aciertos} de{" "}
               {data.estilo.empate.intentos}
               {" "}aciertos
             </p>
             
             {!data.estilo.empate.muestraSuficiente && (
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-[10px] text-muted-foreground mt-1">
                 ⚠️ Muestra pequeña
               </p>
             )}
@@ -414,12 +414,12 @@ export default function Profile() {
       {/* Perfil de Riesgo */}
       <div className="space-y-4">
 
-        <h2 className="text-xl font-bold">
+        <h2 className="text-lg font-bold">
           🎲 Perfil de Riesgo
         </h2>
 
 
-        <div className="border rounded-xl p-4">
+        <div className="border rounded-xl p-2">
 
           <p className="text-2xl font-bold">
             {data.riesgo.perfil.nivel}
@@ -431,37 +431,37 @@ export default function Profile() {
           </p>
 
 
-          <div className="grid grid-cols-3 gap-4 mt-6">
+          <div className="grid grid-cols-3 gap-2 mt-3">
 
 
             <div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 🏟️ Local
               </p>
 
-              <p className="text-xl font-bold">
+              <p className="text-lg font-bold">
                 {data.riesgo.distribucion.local}%
               </p>
             </div>
 
 
             <div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 ✈️ Visitante
               </p>
 
-              <p className="text-xl font-bold">
+              <p className="text-lg font-bold">
                 {data.riesgo.distribucion.visitante}%
               </p>
             </div>
 
 
             <div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 🤝 Empate
               </p>
 
-              <p className="text-xl font-bold">
+              <p className="text-lg font-bold">
                 {data.riesgo.distribucion.empate}%
               </p>
             </div>
@@ -476,12 +476,12 @@ export default function Profile() {
       {/* Detector de Sorpresas */}
       <div className="space-y-4">
 
-        <h2 className="text-xl font-bold">
+        <h2 className="text-lg font-bold">
           💥 Detector de Sorpresas
         </h2>
 
 
-        <div className="border rounded-xl p-4">
+        <div className="border rounded-xl p-2">
 
           <p className="text-3xl font-bold">
             {data.detectorSorpresas.aciertos}
@@ -506,7 +506,7 @@ export default function Profile() {
       {/* Equipos */}
       <div className="space-y-4">
 
-        <h2 className="text-xl font-bold">
+        <h2 className="text-lg font-bold">
           Mis Equipos
         </h2>
 
@@ -514,9 +514,9 @@ export default function Profile() {
         <div className="grid grid-cols-2 gap-2">
 
 
-          <div className="border rounded-xl p-4">
+          <div className="border rounded-xl p-2">
 
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               🟢 Especialista
             </p>
 
@@ -531,7 +531,7 @@ export default function Profile() {
                   {data.equipos.especialista.efectividad}% efectividad
                 </p>
 
-                <p className="text-sm">
+                <p className="text-xs">
                   {data.equipos.especialista.aciertos} de {data.equipos.especialista.partidos} aciertos
                 </p>
               </>
@@ -545,9 +545,9 @@ export default function Profile() {
 
 
 
-          <div className="border rounded-xl p-4">
+          <div className="border rounded-xl p-2">
 
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               🔴 Tu pesadilla
             </p>
 
@@ -562,7 +562,7 @@ export default function Profile() {
                   {data.equipos.pesadilla.efectividad}% efectividad
                 </p>
 
-                <p className="text-sm">
+                <p className="text-xs">
                   {data.equipos.pesadilla.aciertos} de {data.equipos.pesadilla.partidos} aciertos
                 </p>
               </>
