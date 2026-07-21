@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
-import { usersTable, jornadasTable, matchesTable, predictionsTable, matchupsTable, standingsHistoryTable} from "@workspace/db";
+import { usersTable, jornadasTable, matchesTable, predictionsTable, matchupsTable} from "@workspace/db";
 import { eq, count, and, gte, lte } from "drizzle-orm";
 import { requireAuth } from "../lib/auth";
 
@@ -48,9 +48,7 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
   const players = await db.select().from(usersTable);
   const finishedMatches = allMatches.filter(m => m.status === "finished");
   const allPredictions = await db.select().from(predictionsTable);  
-  const standingsHistory = await db
-    .select()
-    .from(standingsHistoryTable);  
+
   
 
   const generalRows = players.map(player => {
@@ -151,59 +149,120 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
 
   }
 
-   // Cambios de posiciones usando standings history
+    // ============================
+    // RACHAS
+    // ============================
     
-    const ultimaJornadaHistory = standingsHistory
-      .sort((a,b) => b.jornadaId - a.jornadaId)
-      .slice(0, players.length);
-    
-    
-    if (ultimaJornadaHistory.length > 0) {
-    
-      const cambios = players.map(player => {
-    
-        const actual = standingsHistory
-          .filter(h => h.userId === player.id)
-          .sort((a,b)=> b.jornadaId - a.jornadaId)[0];
+    const jornadasFinalizadas = jornadas
+      .filter(j => j.status === "finished")
+      .sort((a,b)=>b.number-a.number);
     
     
-        const anterior = standingsHistory
-          .filter(h => h.userId === player.id)
-          .sort((a,b)=> b.jornadaId - a.jornadaId)[1];
+    // calcular puntos por jugador por jornada
+    
+    const rendimientoPorJugador = players.map(player => {
+    
+      const jornadasJugador = jornadasFinalizadas.map(jornada => {
+    
+        const partidos = finishedMatches
+          .filter(m => m.jornadaId === jornada.id)
+          .map(m => m.id);
+    
+        const puntos = allPredictions
+          .filter(
+            p =>
+              p.userId === player.id &&
+              partidos.includes(p.matchId)
+          )
+          .reduce(
+            (sum,p)=>sum+(p.points ?? 0),
+            0
+          );
+    
+        return puntos;
+    
+      });
+    
+      return {
+        nombre: player.displayName,
+        jornadas: jornadasJugador
+      };
+    
+    });
     
     
-        if (!actual || !anterior) return null;
+    // Racha positiva
     
+    const mejorRacha = rendimientoPorJugador
+      .map(jugador => {
+    
+        let racha = 0;
+    
+        for(const puntos of jugador.jornadas){
+          if(puntos > 0) racha++;
+          else break;
+        }
     
         return {
-          nombre: player.displayName,
-          cambio: anterior.position - actual.position,
-          posicion: actual.position
+          nombre: jugador.nombre,
+          racha
         };
     
-      }).filter(Boolean);
+      })
+      .sort((a,b)=>b.racha-a.racha)[0];
     
     
-      const subida = cambios
-        .filter(c => c!.cambio > 0)
-        .sort((a,b)=> b!.cambio - a!.cambio)[0];
+    if(mejorRacha && mejorRacha.racha >= 2){
     
+      ultimasNoticias.push({
+        icono:"🔥",
+        texto:
+        `${mejorRacha.nombre} lleva ${mejorRacha.racha} jornadas consecutivas sumando puntos.`
+      });
     
-      if(subida){
-    
-        ultimasNoticias.push({
-          icono:"🚀",
-          texto:
-          `${subida.nombre} subió ${subida.cambio} posiciones y ahora está en el lugar ${subida.posicion}.`
-        });
-    
-      }
-    
-    } 
+    }
 
-
-
-
+  
+    // Racha negativa
+    
+    const peorRacha = rendimientoPorJugador
+      .map(jugador => {
+    
+        let racha = 0;
+    
+        for(const puntos of jugador.jornadas){
+          if(puntos === 0) racha++;
+          else break;
+        }
+    
+        return {
+          nombre: jugador.nombre,
+          racha
+        };
+    
+      })
+      .sort((a,b)=>b.racha-a.racha)[0];
+    
+    
+    if(peorRacha && peorRacha.racha >= 2){
+    
+      ultimasNoticias.push({
+        icono:"❄️",
+        texto:
+        `${peorRacha.nombre} atraviesa una mala racha con ${peorRacha.racha} jornadas sin sumar puntos.`
+      });
+    
+    }
+  
+    if(zonaDescenso.length > 0){
+    
+      ultimasNoticias.push({
+        icono:"⚠️",
+        texto:
+        `${zonaDescenso[0].displayName} se encuentra en zona de descenso con ${zonaDescenso[0].points} puntos.`
+      });
+    
+    }
   
   res.json({
     totalPlayers: Number(totalPlayers),
