@@ -105,77 +105,115 @@ export default function WeeklyStandings() {
 
       {/* Standings table */}
       {standings && standings.some(r => r.totalPoints > 0) && (
-        <div className="bg-card rounded-xl border shadow-sm overflow-hidden">
-          {/* Winner banner */}
+        <div className="bg-card rounded-xl border border-card-border shadow-sm overflow-hidden">
+      
+          {/* Ganador */}
           {standings[0] && standings[0].totalPoints > 0 && (
-            <div className="bg-gradient-to-r from-yellow-400/20 to-amber-300/10 border-b border-yellow-200 px-5 py-3 flex items-center gap-3">
-              <Trophy className="h-5 w-5 text-yellow-600 shrink-0" />
-              <span className="font-semibold text-yellow-800">
-                Líder: {standings[0].displayName}
-              </span>
-              <span className="ml-auto font-mono font-bold text-yellow-700 text-lg">
+            <div className="bg-yellow-100 dark:bg-yellow-900/30 border-b px-4 py-3 flex items-center">
+              
+              <Trophy className="h-5 w-5 text-yellow-600 mr-2" />
+      
+              <div>
+                <p className="text-xs text-muted-foreground">
+                  Ganador Jornada {selectedJornada?.number}
+                </p>
+      
+                <p className="font-bold">
+                  {standings[0].displayName}
+                </p>
+              </div>
+      
+              <span className="ml-auto font-bold">
                 {standings[0].totalPoints} pts
               </span>
+      
             </div>
           )}
-
-          <div className="divide-y divide-border/50">
-            {standings.map((row, idx) => {
-              const isLeader = row.position === 1 && row.totalPoints > 0;
-              const barPct = maxPoints > 0 ? (row.totalPoints / maxPoints) * 100 : 0;
-
-              return (
-                <div
+      
+      
+          {/* Tabla móvil */}
+          <table className="w-full text-xs">
+      
+            <thead className="bg-muted/50 border-b">
+              <tr>
+                <th className="py-2 text-center w-10">
+                  #
+                </th>
+      
+                <th className="py-2 text-left">
+                  Jugador
+                </th>
+      
+                <th className="py-2 text-center">
+                  🎯
+                </th>
+      
+                <th className="py-2 text-center">
+                  ✅
+                </th>
+      
+                <th className="py-2 text-center">
+                  Pts
+                </th>
+              </tr>
+            </thead>
+      
+      
+            <tbody>
+      
+              {standings.map(row => (
+      
+                <tr
                   key={row.userId}
                   className={cn(
-                    "px-5 py-4 flex items-center gap-4 transition-colors hover:bg-muted/30",
-                    isLeader && "bg-yellow-50/50"
+                    "border-b",
+                    row.position === 1 &&
+                    "bg-yellow-100 dark:bg-yellow-900/30"
                   )}
                 >
-                  {/* Position */}
-                  <div className="w-8 shrink-0 flex items-center justify-center">
-                    {isLeader ? (
-                      <span className="w-7 h-7 flex items-center justify-center rounded-full bg-yellow-400 text-white font-bold text-sm">
-                        1
-                      </span>
-                    ) : (
-                      <span className="text-muted-foreground font-semibold text-sm">{row.position}</span>
-                    )}
-                  </div>
-
-                  {/* Name + bar */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className={cn("font-semibold truncate", isLeader && "text-yellow-800")}>
-                        {row.displayName}
-                      </span>
-                      <span className={cn("font-mono font-bold text-base ml-3 shrink-0", isLeader ? "text-yellow-700" : "text-foreground")}>
-                        {row.totalPoints} pts
-                      </span>
-                    </div>
-                    {/* Points bar */}
-                    <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                      <div
-                        className={cn("h-full rounded-full transition-all", isLeader ? "bg-yellow-400" : "bg-primary/60")}
-                        style={{ width: `${barPct}%` }}
-                      />
-                    </div>
-                    {/* Breakdown */}
-                    <div className="flex items-center gap-3 mt-1.5 text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <CheckCircle className="h-3 w-3 text-green-500" />
-                        {row.exactScores} exactos
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Target className="h-3 w-3 text-blue-500" />
-                        {row.correctResults} resultado
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+      
+                  <td className="py-2 text-center font-bold">
+      
+                    {row.position === 1
+                      ? "🥇"
+                      : row.position === 2
+                      ? "🥈"
+                      : row.position === 3
+                      ? "🥉"
+                      : row.position}
+      
+                  </td>
+      
+      
+                  <td className="py-2 font-medium">
+                    {row.displayName}
+                  </td>
+      
+      
+                  <td className="py-2 text-center">
+                    {row.exactScores}
+                  </td>
+      
+      
+                  <td className="py-2 text-center">
+                    {row.correctResults}
+                  </td>
+      
+      
+                  <td className="py-2 text-center font-bold">
+                    {row.totalPoints}
+                  </td>
+      
+      
+                </tr>
+      
+              ))}
+      
+            </tbody>
+      
+      
+          </table>
+      
         </div>
       )}
     </div>
