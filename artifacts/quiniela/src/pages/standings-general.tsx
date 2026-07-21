@@ -205,12 +205,19 @@ export default function GeneralStandings() {
             </tbody>
           </table>
           {sortedStandings.length === 0 && (
+          {sortedStandings.length === 0 && (
             <div className="p-12 text-center text-muted-foreground">
               Aún no hay puntos registrados en la tabla general.
             </div>
           )}
-        </div>
-      </div>
-    </div>
+
+        </div>  
+
+      </div>  
+
+    </div> 
+
+  </div> 
+
   );
 }
