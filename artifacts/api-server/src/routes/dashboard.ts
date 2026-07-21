@@ -151,7 +151,7 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
 
   }
 
-    // Cambios de posiciones usando standings history
+   /* // Cambios de posiciones usando standings history
     
     const ultimaJornadaHistory = standingsHistory
       .sort((a,b) => b.jornadaId - a.jornadaId)
@@ -199,7 +199,7 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
     
       }
     
-    }
+    }  */
 
 
 
