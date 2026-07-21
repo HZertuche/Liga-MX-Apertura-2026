@@ -194,40 +194,44 @@ export default function HallOfFame() {
       </div>
 
 
-      <div className="grid grid-cols-2 gap-3">
-
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
+      
         {awards.map((award) => (
-
+      
           <div
             key={award.titulo}
-            className="bg-card border rounded-xl p-3 space-y-2"
+            className="bg-card border rounded-lg p-2 md:p-3 space-y-1.5"
           >
-
-            <div className="text-2xl">
+      
+            <div className="text-xl md:text-2xl">
               {award.icono}
-            </div>            
-
-            <h2 className="font-bold text-sm">
+            </div>
+      
+            <h2 className="font-bold text-xs md:text-sm">
               {award.titulo}
             </h2>
-
-            <p className="text-lg font-bold">
+      
+            <p className="text-sm md:text-lg font-bold truncate">
               {award.jugador}
             </p>
-
-            <p className="text-primary font-semibold">
+      
+            <p className="text-sm md:text-base text-primary font-semibold">
               {award.valor}
             </p>
-
-            <p className="text-xs text-muted-foreground">
+      
+            <p className="text-[10px] md:text-xs text-muted-foreground line-clamp-2">
               {award.descripcion}
             </p>
-
+      
           </div>
-
+      
         ))}
-
+      
       </div>
+
+
+
+        
 
 
       <div className="bg-card border rounded-xl p-3">
