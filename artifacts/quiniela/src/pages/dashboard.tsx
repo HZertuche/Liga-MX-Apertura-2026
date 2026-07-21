@@ -77,7 +77,56 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="space-y-8">
+        
+        {/* Última Hora */}
+        <div className="space-y-4">
+        
+          <h2 className="text-xl font-display font-bold flex items-center">
+            📰 Última Hora
+          </h2>
+        
+          <div className="bg-card rounded-xl border border-card-border shadow-sm overflow-hidden">
+        
+            {data.ultimasNoticias.length === 0 ? (
+        
+              <div className="p-6 text-center text-muted-foreground">
+                Sin noticias por el momento.
+              </div>
+        
+            ) : (
+        
+              <div className="divide-y divide-card-border">
+        
+                {data.ultimasNoticias.map((noticia, index) => (
+        
+                  <div
+                    key={index}
+                    className="flex items-start gap-3 p-4 hover:bg-muted/30 transition-colors"
+                  >
+        
+                    <div className="text-xl">
+                      {noticia.icono}
+                    </div>
+        
+                    <p className="text-sm leading-6">
+                      {noticia.texto}
+                    </p>
+        
+                  </div>
+        
+                ))}
+        
+              </div>
+        
+            )}
+        
+          </div>
+        
+        </div>        
+        
+        
+        
         {/* Próximos Partidos */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
