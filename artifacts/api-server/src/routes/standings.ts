@@ -202,7 +202,7 @@ router.post("/admin/recalculate", requireAdmin, async (_req, res) => {
     const ultimaJornada = jornadasConResultados[0];
     
     
-    if (ultimaJornada) {
+    if (true) {
     
       const players = await db.select().from(usersTable);
     
@@ -225,7 +225,7 @@ router.post("/admin/recalculate", requireAdmin, async (_req, res) => {
     
     
         return {
-          jornadaId: ultimaJornada.id,
+          jornadaId: ultimaJornada?.id ?? 1,
           userId: player.id,
           position: 0,
           points,
