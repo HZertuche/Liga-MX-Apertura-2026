@@ -155,7 +155,7 @@ export default function Profile() {
         <div className="grid md:grid-cols-2 gap-4">
       
       
-          <div className="border rounded-xl p-4">
+          <div className="border rounded-xl p-2">
             <p className="text-xs text-muted-foreground">
               🔒 Candado
             </p>
@@ -324,7 +324,7 @@ export default function Profile() {
         </h2>
 
 
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-2">
 
 
           {/* Local */}
@@ -334,7 +334,7 @@ export default function Profile() {
               🏟️ Especialista Local
             </p>
           
-            <p className="text-3xl font-bold mt-2">
+            <p className="texl-lg font-bold mt-1">
               {data.estilo.local.efectividad}%
             </p>
           
@@ -361,7 +361,7 @@ export default function Profile() {
               ✈️ Especialista Visitante
             </p>
 
-            <p className="text-3xl font-bold mt-2">
+            <p className="texl-lg font-bold mt-1">
               {data.estilo.visitante.efectividad}%
             </p>
 
@@ -388,7 +388,7 @@ export default function Profile() {
               🤝 Especialista Empates
             </p>
 
-            <p className="text-3xl font-bold mt-2">
+            <p className="texl-lg font-bold mt-1">
               {data.estilo.empate.efectividad}%
             </p>
 
