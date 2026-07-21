@@ -191,9 +191,15 @@ router.post("/admin/recalculate", requireAdmin, async (_req, res) => {
     
     const jornadas = await db.select().from(jornadasTable);
     
-    const ultimaJornada = jornadas
-      .filter(j => j.status === "finished")
-      .sort((a,b)=>b.number-a.number)[0];
+    const jornadasConResultados = jornadas
+      .filter(j =>
+        allMatches.some(
+          m => m.jornadaId === j.id && m.status === "finished"
+        )
+      )
+      .sort((a,b)=>b.number-a.number);
+    
+    const ultimaJornada = jornadasConResultados[0];
     
     
     if (ultimaJornada) {
