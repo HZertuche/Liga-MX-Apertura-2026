@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
-import { predictionsTable, matchupsTable, usersTable, matchesTable } from "@workspace/db";
+import { predictionsTable, matchupsTable, usersTable, matchesTable, standingsHistoryTable, jornadasTable } from "@workspace/db";
 import { eq, and } from "drizzle-orm";
 import { requireAuth, requireAdmin } from "../lib/auth";
 import { calculatePoints, calculateMatchupPoints, matchupResult } from "../lib/scoring";
@@ -187,7 +187,59 @@ router.post("/admin/recalculate", requireAdmin, async (_req, res) => {
       result,
     }).where(eq(matchupsTable.id, mu.id));
   }
-
+    // Guardar histórico de posiciones
+    
+    const jornadas = await db.select().from(jornadasTable);
+    
+    const ultimaJornada = jornadas
+      .filter(j => j.status === "finished")
+      .sort((a,b)=>b.number-a.number)[0];
+    
+    
+    if (ultimaJornada) {
+    
+      const players = await db.select().from(usersTable);
+    
+      const historyRows = players.map(player => {
+    
+        const preds = allPredictions.filter(
+          p => p.userId === player.id
+        );
+    
+        const points = preds.reduce(
+          (sum,p)=>sum+(p.points ?? 0),
+          0
+        );
+    
+    
+        return {
+          jornadaId: ultimaJornada.id,
+          userId: player.id,
+          position: 0,
+          points,
+          exactScores: 0
+        };
+    
+      });
+    
+    
+      historyRows.sort(
+        (a,b)=>b.points-a.points
+      );
+    
+    
+      const finalRows = historyRows.map(
+        (row,index)=>({
+          ...row,
+          position:index+1
+        })
+      );
+    
+    
+      await db.insert(standingsHistoryTable)
+        .values(finalRows);
+    
+    }
   res.json({ success: true, message: "Recalculación completada" });
 });
 
