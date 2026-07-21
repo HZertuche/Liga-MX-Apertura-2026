@@ -24,7 +24,7 @@ export default function HallOfFame() {
   const awards = [
     {
       titulo: "Campeón de Jornadas",
-      icono: "👑",
+      icono: "🏆",
       jugador: data?.campeonJornadas?.jugador ?? "Sin datos",
       valor: `${data?.campeonJornadas?.valor ?? 0} jornadas`,
       descripcion:
@@ -122,7 +122,7 @@ export default function HallOfFame() {
     },
 
     {
-      titulo: "⭐ Mejor Aliado",
+      titulo: "Mejor Aliado",
       jugador: data?.mejorAliado?.jugador ?? "Sin datos",
       icono: "⭐",
       valor:
@@ -132,7 +132,7 @@ export default function HallOfFame() {
     },
     
     {
-      titulo: "☠️ Pesadilla",
+      titulo: "Pesadilla",
       jugador: data?.pesadilla?.jugador ?? "Sin datos",
       icono: "☠️",
       valor:
@@ -243,7 +243,7 @@ export default function HallOfFame() {
           </div>          
 
           <h2 className="font-bold text-sm">
-            🔻 Zona de Descenso
+            Zona de Descenso
           </h2>
 
         </div>
