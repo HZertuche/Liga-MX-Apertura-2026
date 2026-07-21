@@ -86,95 +86,108 @@ export default function Profile() {
       
       </div>
       
-      {/* Encabezado */}
-      <div>
+
+      {/* Tarjeta principal del jugador */}
       
-        <h1 className="text-3xl font-bold">
-          {data.jugador}
-        </h1>
+      <div className="border rounded-xl p-4 bg-card space-y-4">
       
-        <p className="text-muted-foreground">
-          Estadísticas del torneo
-        </p>
+        <div>
+          <h1 className="text-2xl font-bold">
+            👤 {data.jugador}
+          </h1>
       
-        <div className="mt-2 inline-flex items-center gap-1 rounded-lg border px-2 py-1">
-          🏆
-          <span className="text-sm font-bold">
-            Lugar #{data.ranking.posicion}
-          </span>
-      
-          <span className="text-xs text-muted-foreground">
-            de {data.ranking.total} jugadores
-          </span>
+          <p className="text-xs text-muted-foreground">
+            Perfil del jugador
+          </p>
         </div>
+      
+      
+        <div className="flex items-center justify-between">
+      
+          <div>
+            <p className="text-xs text-muted-foreground">
+              Ranking actual
+            </p>
+      
+            <p className="text-xl font-bold">
+              🏆 #{data.ranking?.posicion ?? "-"}
+            </p>
+      
+            <p className="text-xs text-muted-foreground">
+              de {data.ranking?.total ?? "-"} jugadores
+            </p>
+          </div>
+      
+      
+          <div className="text-right">
+      
+            <p className="text-xs text-muted-foreground">
+              ⭐ Puntos
+            </p>
+      
+            <p className="text-3xl font-bold text-primary">
+              {data.resumen.puntos}
+            </p>
+      
+          </div>
+      
+        </div>
+      
+      
+        <div className="grid grid-cols-3 gap-2">
+      
+      
+          <div className="border rounded-lg p-2 text-center">
+      
+            <p className="text-xs text-muted-foreground">
+              🎯 Exactos
+            </p>
+      
+            <p className="text-lg font-bold">
+              {data.resumen.exactos}
+            </p>
+      
+          </div>
+      
+      
+      
+          <div className="border rounded-lg p-2 text-center">
+      
+            <p className="text-xs text-muted-foreground">
+              ✅ Aciertos
+            </p>
+      
+            <p className="text-lg font-bold">
+              {data.resumen.aciertos}
+            </p>
+      
+          </div>
+      
+      
+      
+          <div className="border rounded-lg p-2 text-center">
+      
+            <p className="text-xs text-muted-foreground">
+              📈 Efect.
+            </p>
+      
+            <p className="text-lg font-bold">
+              {data.resumen.efectividad}%
+            </p>
+      
+          </div>
+      
+      
+        </div>
+      
       
       </div>
 
 
 
 
-      {/* Resumen */}
       
-      <div className="grid grid-cols-2 gap-2">
-      
-      
-        <div className="rounded-lg border p-1.5">
-      
-          <p className="text-[11px] text-muted-foreground">
-            🏆 Puntos
-          </p>
-      
-          <p className="text-xl font-bold">
-            {data.resumen.puntos}
-          </p>
-      
-        </div>
-      
-      
-      
-        <div className="rounded-lg border p-1.5">
-      
-          <p className="text-[11px] text-muted-foreground">
-            📈 Efectividad
-          </p>
-      
-          <p className="text-xl font-bold">
-            {data.resumen.efectividad}%
-          </p>
-      
-        </div>
-      
-      
-      
-        <div className="rounded-lg border p-1.5">
-      
-          <p className="text-[11px] text-muted-foreground">
-            🎯 Exactos
-          </p>
-      
-          <p className="text-xl font-bold">
-            {data.resumen.exactos}
-          </p>
-      
-        </div>
-      
-      
-      
-        <div className="rounded-lg border p-1.5">
-      
-          <p className="text-[11px] text-muted-foreground">
-            🔥 Aciertos
-          </p>
-      
-          <p className="text-xl font-bold">
-            {data.resumen.aciertos}
-          </p>
-      
-        </div>
-      
-      
-      </div>
-      
+
       
       {/* Logros */}
       
