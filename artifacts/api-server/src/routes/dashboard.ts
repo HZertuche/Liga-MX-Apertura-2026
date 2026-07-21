@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
-import { usersTable, jornadasTable, matchesTable, predictionsTable, matchupsTable } from "@workspace/db";
+import { usersTable, jornadasTable, matchesTable, predictionsTable, matchupsTable, standingsHistoryTable} from "@workspace/db";
 import { eq, count, and, gte, lte } from "drizzle-orm";
 import { requireAuth } from "../lib/auth";
 
@@ -48,6 +48,10 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
   const players = await db.select().from(usersTable);
   const finishedMatches = allMatches.filter(m => m.status === "finished");
   const allPredictions = await db.select().from(predictionsTable);
+  const standingsHistory = await db
+    .select()
+    .from(standingsHistoryTable);  
+  
 
   const generalRows = players.map(player => {
     const preds = allPredictions.filter(p => p.userId === player.id);
@@ -146,6 +150,60 @@ router.get("/dashboard", requireAuth, async (_req, res) => {
     }
 
   }
+
+    // Cambios de posiciones usando standings history
+    
+    const ultimaJornadaHistory = standingsHistory
+      .sort((a,b) => b.jornadaId - a.jornadaId)
+      .slice(0, players.length);
+    
+    
+    if (ultimaJornadaHistory.length > 0) {
+    
+      const cambios = players.map(player => {
+    
+        const actual = standingsHistory
+          .filter(h => h.userId === player.id)
+          .sort((a,b)=> b.jornadaId - a.jornadaId)[0];
+    
+    
+        const anterior = standingsHistory
+          .filter(h => h.userId === player.id)
+          .sort((a,b)=> b.jornadaId - a.jornadaId)[1];
+    
+    
+        if (!actual || !anterior) return null;
+    
+    
+        return {
+          nombre: player.displayName,
+          cambio: anterior.position - actual.position,
+          posicion: actual.position
+        };
+    
+      }).filter(Boolean);
+    
+    
+      const subida = cambios
+        .filter(c => c!.cambio > 0)
+        .sort((a,b)=> b!.cambio - a!.cambio)[0];
+    
+    
+      if(subida){
+    
+        ultimasNoticias.push({
+          icono:"🚀",
+          texto:
+          `${subida.nombre} subió ${subida.cambio} posiciones y ahora está en el lugar ${subida.posicion}.`
+        });
+    
+      }
+    
+    }
+
+
+
+
   
   res.json({
     totalPlayers: Number(totalPlayers),
