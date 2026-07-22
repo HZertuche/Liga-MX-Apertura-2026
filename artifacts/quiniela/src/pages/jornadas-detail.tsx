@@ -476,12 +476,47 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                         Tu Predicción
                       </p>
                     
+                    
                       <div className="flex justify-center items-center gap-3">
                     
                         <div className="flex justify-center items-center gap-4">
-                          <input />
-                          <span>-</span>
-                          <input />
+                    
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            value={score.home}
+                            onChange={(e) => handleScoreChange(match.id, "home", e.target.value)}
+                            disabled={isLocked}
+                            className={cn(
+                              "w-10 h-10 sm:w-16 sm:h-16 text-center text-lg sm:text-2xl font-bold rounded-lg border-2",
+                              isLocked
+                                ? "bg-muted text-muted-foreground border-border"
+                                : "bg-background focus:border-primary"
+                            )}
+                            placeholder="-"
+                          />
+                    
+                    
+                          <span className="font-bold text-muted-foreground">
+                            -
+                          </span>
+                    
+                    
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            value={score.away}
+                            onChange={(e) => handleScoreChange(match.id, "away", e.target.value)}
+                            disabled={isLocked}
+                            className={cn(
+                              "w-10 h-10 sm:w-16 sm:h-16 text-center text-lg sm:text-2xl font-bold rounded-lg border-2",
+                              isLocked
+                                ? "bg-muted text-muted-foreground border-border"
+                                : "bg-background focus:border-primary"
+                            )}
+                            placeholder="-"
+                          />
+                    
                         </div>
                     
                     
@@ -502,68 +537,17 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                               )}
                             />
                     
-                            <span
-                              className={cn(
-                                pred.points === 5
-                                  ? "text-yellow-600"
-                                  : pred.points === 3
-                                  ? "text-green-600"
-                                  : "text-red-600"
-                              )}
-                            >
+                            <span>
                               +{pred.points}
                             </span>
                     
                           </div>
+                    
                         )}
+                    
                       </div>
                     
                     </div>
-
-                  
-                      <div className="flex justify-center items-center gap-4">
-                  
-                  
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          value={score.home}
-                          onChange={(e) => handleScoreChange(match.id, "home", e.target.value)}
-                          disabled={isLocked}
-                          className={cn(
-                            "w-10 h-10 sm:w-16 sm:h-16 text-center text-lg sm:text-2xl font-bold rounded-lg border-2",
-                            isLocked
-                              ? "bg-muted text-muted-foreground border-border"
-                              : "bg-background focus:border-primary"
-                          )}
-                          placeholder="-"
-                        />
-                  
-                  
-                        <span className="font-bold text-muted-foreground">
-                          -
-                        </span>
-                  
-                  
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          value={score.away}
-                          onChange={(e) => handleScoreChange(match.id, "away", e.target.value)}
-                          disabled={isLocked}
-                          className={cn(
-                            "w-10 h-10 sm:w-16 sm:h-16 text-center text-lg sm:text-2xl font-bold rounded-lg border-2",
-                            isLocked
-                              ? "bg-muted text-muted-foreground border-border"
-                              : "bg-background focus:border-primary"
-                          )}
-                          placeholder="-"
-                        />
-                  
-                      </div>
-  
-                    </div>
-                  </div>
   
                 </div>
               );
