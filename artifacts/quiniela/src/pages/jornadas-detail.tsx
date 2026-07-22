@@ -470,46 +470,56 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                   
                   
                     {/* TU PREDICCION */}
-                    <div className="w-full border-t pt-4">
+                    <div className="w-full border-t pt-4 text-center">
                     
-                      <div className="flex items-center justify-between mb-3">
-                        <p className="text-xs uppercase tracking-wide text-muted-foreground font-semibold">
-                          Tu Predicción
-                        </p>
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground font-semibold mb-3">
+                        Tu Predicción
+                      </p>
                     
-                        {/* PUNTOS DESPUES DEL PARTIDO */}
+                      <div className="flex justify-center items-center gap-3">
+                    
+                        <div className="flex justify-center items-center gap-4">
+                          <input />
+                          <span>-</span>
+                          <input />
+                        </div>
+                    
+                    
                         {match.status === 'finished' &&
                           pred?.points !== null &&
                           pred?.points !== undefined && (
-                            <div className="font-bold flex items-center gap-1 text-xs">
-                        
-                              <Trophy
-                                className={cn(
-                                  "h-3.5 w-3.5",
-                                  pred.points === 5
-                                    ? "text-yellow-500"
-                                    : pred.points === 3
-                                    ? "text-green-500"
-                                    : "text-red-500"
-                                )}
-                              />
-                        
-                              <span
-                                className={cn(
-                                  pred.points === 5
-                                    ? "text-yellow-600"
-                                    : pred.points === 3
-                                    ? "text-green-600"
-                                    : "text-red-600"
-                                )}
-                              >
-                                +{pred.points} pts
-                              </span>
-                        
-                            </div>
-                          )}
-                      </div>         
-                  
+                    
+                          <div className="flex items-center gap-1 font-bold">
+                    
+                            <Trophy
+                              className={cn(
+                                "h-5 w-5",
+                                pred.points === 5
+                                  ? "text-yellow-500"
+                                  : pred.points === 3
+                                  ? "text-green-500"
+                                  : "text-red-500"
+                              )}
+                            />
+                    
+                            <span
+                              className={cn(
+                                pred.points === 5
+                                  ? "text-yellow-600"
+                                  : pred.points === 3
+                                  ? "text-green-600"
+                                  : "text-red-600"
+                              )}
+                            >
+                              +{pred.points}
+                            </span>
+                    
+                          </div>
+                        )}
+                      </div>
+                    
+                    </div>
+
                   
                       <div className="flex justify-center items-center gap-4">
                   
