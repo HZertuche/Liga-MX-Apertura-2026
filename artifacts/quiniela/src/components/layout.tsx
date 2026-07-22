@@ -31,21 +31,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { href: '/dashboard', label: 'Inicio', icon: LayoutDashboard },
+    { href: '/profile', label: 'Mi Perfil', icon: User },
     { href: '/jornadas', label: 'Jornadas', icon: CalendarDays },
     { href: '/standings/general', label: 'Tabla General', icon: Trophy },
     { href: '/standings/weekly', label: 'Premio Semanal', icon: Star },
-    { href: '/standings/matchups', label: 'Enfrentamientos', icon: Swords },
-    { href: '/profile', label: 'Mi Perfil', icon: User },
-    { href: `/history/${user.id}`, label: 'Mi Historial', icon: History },
     { href: '/hall-of-fame', label: 'Salón de la Fama', icon: Trophy },
   ];
 
   const adminItems = [
-    { href: '/admin/users', label: 'Jugadores', icon: Users },
-    { href: '/admin/jornadas', label: 'Jornadas Admin', icon: Settings },
-    { href: '/admin/matches', label: 'Partidos', icon: CalendarDays },
-    { href: '/admin/matchups', label: 'Admin Enfrentamientos', icon: Swords },
     { href: '/admin/predictions', label: 'Quinielas', icon: ClipboardList },
+    { href: '/admin/jornadas', label: 'Jornadas Admin', icon: Settings },
+    { href: '/admin/matches', label: 'Resultados', icon: CalendarDays },
+    { href: '/admin/users', label: 'Jugadores', icon: Users },
   ];
 
   return (
