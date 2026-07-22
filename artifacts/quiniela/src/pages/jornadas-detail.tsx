@@ -367,7 +367,7 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
       
       </div>
       <div className="space-y-4">
-        {filteredMatches.length === 0 ? (
+        {tches.length === 0 ? (
           <div className="text-center p-12 bg-card rounded-xl border border-dashed">
             <p className="text-muted-foreground"
               >No hay partidos configurados para esta fecha.
@@ -550,6 +550,9 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                     </div>
   
                 </div>
+
+              </div>       
+
               );
             })
           )}
