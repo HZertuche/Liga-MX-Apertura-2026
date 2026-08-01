@@ -285,6 +285,48 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
   );  
 
   const dirty = isFormDirty();
+  const predictionStats = (() => {
+  let registered = 0;
+  let unsaved = 0;
+  let pending = 0;
+
+  jornada?.matches.forEach((match: any) => {
+    const local = localScores[match.id] || { home: "", away: "" };
+    const saved = predictions?.find((p: any) => p.matchId === match.id);
+
+    const localEmpty = local.home === "" && local.away === "";
+
+    // No ha capturado nada
+    if (localEmpty) {
+      pending++;
+      return;
+    }
+
+    // Escribió algo, pero nunca lo ha guardado
+    if (!saved) {
+      unsaved++;
+      return;
+    }
+
+    const savedHome =
+      saved.homeScore !== null && saved.homeScore !== undefined
+        ? String(saved.homeScore)
+        : "";
+
+    const savedAway =
+      saved.awayScore !== null && saved.awayScore !== undefined
+        ? String(saved.awayScore)
+        : "";
+
+    if (local.home === savedHome && local.away === savedAway) {
+      registered++;
+    } else {
+      unsaved++;
+    }
+  });
+
+  return { registered, unsaved, pending };
+})();
   const LOCK_MS = 10 * 60 * 1000;
   const isMatchLocked = (m: { isLocked: boolean; matchDate?: string | null }) =>
     m.isLocked || (!!m.matchDate && new Date(m.matchDate).getTime() - Date.now() < LOCK_MS);
@@ -329,7 +371,26 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
           </button>
         )}
       </div>
-
+      
+      <div className="bg-card border rounded-lg p-4">
+        <div className="text-sm font-semibold mb-2">
+          📋 Estado de tus predicciones
+        </div>
+      
+        <div className="flex flex-wrap gap-3 text-sm">
+          <span className="text-green-600 font-medium">
+            Registradas: {predictionStats.registered}
+          </span>
+      
+          <span className="text-amber-600 font-medium">
+            Sin guardar: {predictionStats.unsaved}
+          </span>
+      
+          <span className="text-muted-foreground font-medium">
+            Pendientes: {predictionStats.pending}
+          </span>
+        </div>
+      </div>
 
       <div className="flex items-center justify-center gap-4 bg-card border rounded-xl p-4">
 
