@@ -8,6 +8,9 @@ import { useQueryClient } from "@tanstack/react-query";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showResetPassword, setShowResetPassword] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
+  const [temporaryPassword, setTemporaryPassword] = useState("");
   const loginMutation = useLogin();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
@@ -30,7 +33,52 @@ export default function Login() {
       }
     });
   };
-
+  const handleResetPassword = async () => {
+    if (!username) {
+      toast({
+        title: "Usuario requerido",
+        description: "Escribe tu usuario para recuperar la contraseña.",
+        variant: "destructive",
+      });
+      return;
+    }
+  
+    try {
+      setResetLoading(true);
+  
+      const response = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.error || "No se pudo recuperar la contraseña");
+      }
+  
+      setTemporaryPassword(data.temporaryPassword);
+  
+      toast({
+        title: "Contraseña restablecida",
+        description: "Usa la contraseña temporal para ingresar.",
+      });
+  
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setResetLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen w-full flex bg-background">
       {/* Left Panel: Branding */}
@@ -104,6 +152,41 @@ export default function Login() {
                 "Entrar a la Cancha"
               )}
             </button>
+            {!showResetPassword ? (
+              <button
+                type="button"
+                onClick={() => setShowResetPassword(true)}
+                className="w-full text-sm text-primary hover:underline mt-3"
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
+            ) : (
+              <div className="mt-4 space-y-3 p-4 border rounded-lg">
+                <p className="text-sm text-muted-foreground">
+                  Se generará una nueva contraseña temporal para tu usuario.
+                </p>
+            
+                <button
+                  type="button"
+                  onClick={handleResetPassword}
+                  disabled={resetLoading}
+                  className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold py-3 rounded-lg"
+                >
+                  {resetLoading ? "Generando..." : "Recuperar contraseña"}
+                </button>
+            
+                {temporaryPassword && (
+                  <div className="mt-3 p-3 bg-muted rounded-lg text-center">
+                    <p className="text-sm">
+                      Tu contraseña temporal es:
+                    </p>
+                    <p className="font-bold text-lg">
+                      {temporaryPassword}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}            
           </form>
 
           <div className="text-center mt-6">
