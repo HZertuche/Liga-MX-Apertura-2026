@@ -116,6 +116,7 @@ router.post("/auth/reset-password", async (req, res) => {
 
   res.json({
     ok: true,
+    message: "Contraseña temporal generada",
     temporaryPassword
   });
 });
