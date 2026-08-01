@@ -85,4 +85,11 @@ router.get("/auth/me", requireAuth, async (req, res) => {
   res.json({ id: user.id, username: user.username, displayName: user.displayName, role: user.role });
 });
 
+
+// POST /api/auth/admin-reset-password
+router.post("/auth/admin-reset-password", async (req, res) => {
+  res.json({ ok: true });
+});
+
+
 export default router;
