@@ -86,9 +86,38 @@ router.get("/auth/me", requireAuth, async (req, res) => {
 });
 
 
-// POST /api/auth/admin-reset-password
-router.post("/auth/admin-reset-password", async (req, res) => {
-  res.json({ ok: true });
+// POST /api/auth/reset-password
+router.post("/auth/reset-password", async (req, res) => {
+  const { username } = req.body;
+
+  if (!username) {
+    res.status(400).json({ error: "Username requerido" });
+    return;
+  }
+
+  const [user] = await db
+    .select()
+    .from(usersTable)
+    .where(eq(usersTable.username, username));
+
+  if (!user) {
+    res.status(404).json({ error: "Usuario no encontrado" });
+    return;
+  }
+
+  const temporaryPassword = Math.random().toString(36).slice(-8);
+
+  const passwordHash = await bcrypt.hash(temporaryPassword, 10);
+
+  await db
+    .update(usersTable)
+    .set({ passwordHash })
+    .where(eq(usersTable.id, user.id));
+
+  res.json({
+    ok: true,
+    temporaryPassword
+  });
 });
 
 
