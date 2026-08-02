@@ -399,7 +399,6 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
             Pendientes: {predictionStats.pending}
           </span>
         </div>
-        </div>
       
         {lastSaved && (
           <div className="mt-3 text-sm text-muted-foreground">
