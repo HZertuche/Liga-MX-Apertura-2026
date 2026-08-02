@@ -300,7 +300,7 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
     if (localEmpty) {
       pending++;
       return;
-    }
+    }  
 
     // Escribió algo, pero nunca lo ha guardado
     if (!saved) {
@@ -324,9 +324,18 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
       unsaved++;
     }
   });
-
+    
   return { registered, unsaved, pending };
 })();
+
+  const lastSaved = predictions?.length
+    ? new Date(
+        Math.max(
+          ...predictions.map((p: any) => new Date(p.updatedAt).getTime())
+        )
+      )
+    : null;  
+  
   const LOCK_MS = 10 * 60 * 1000;
   const isMatchLocked = (m: { isLocked: boolean; matchDate?: string | null }) =>
     m.isLocked || (!!m.matchDate && new Date(m.matchDate).getTime() - Date.now() < LOCK_MS);
@@ -390,7 +399,21 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
             Pendientes: {predictionStats.pending}
           </span>
         </div>
-      </div>
+        </div>
+      
+        {lastSaved && (
+          <div className="mt-3 text-sm text-muted-foreground">
+            🕒 Último guardado:{" "}
+            <span className="font-medium text-foreground">
+              {lastSaved.toLocaleDateString("es-MX")} •{" "}
+              {lastSaved.toLocaleTimeString("es-MX", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </span>
+          </div>
+        )}
+      </div>        
 
       <div className="flex items-center justify-center gap-4 bg-card border rounded-xl p-4">
 
