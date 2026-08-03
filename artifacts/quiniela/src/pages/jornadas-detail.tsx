@@ -531,6 +531,11 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
             const pred = predictions?.find((p: any) => p.matchId === match.id);
             const score = localScores[match.id] || { home: "", away: "" };
             const hasOfficialResult = match.homeScore !== null && match.awayScore !== null;
+            const canSaveMatch =
+              !isLocked &&
+              isMatchDirty(match.id) &&
+              score.home !== "" &&
+              score.away !== "";            
 
             return (
               <div key={match.id} className={cn(
@@ -671,14 +676,12 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                         <button
                           type="button"
                           onClick={() => handleSaveMatch(match.id)}
-                          disabled={isLocked || saveMutation.isPending}
+                          disabled={!canSaveMatch || saveMutation.isPending}
                           className={cn(
                             "h-10 w-10 sm:h-12 sm:w-12 rounded-lg border flex items-center justify-center transition-all",
-                            isLocked
-                              ? "bg-muted text-muted-foreground cursor-not-allowed"
-                              : isMatchDirty(match.id)
-                                ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                                : "bg-green-600 text-white hover:bg-green-700"
+                            canSaveMatch
+                              ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                              : "bg-muted text-muted-foreground cursor-not-allowed"
                           )}
                         >
                           {saveMutation.isPending ? (
