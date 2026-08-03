@@ -650,6 +650,23 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                             )}
                             placeholder="-"
                           />
+                        <button
+                          type="button"
+                          onClick={() => handleSaveMatch(match.id)}
+                          disabled={isLocked || saveMutation.isPending}
+                          className={cn(
+                            "ml-2 h-10 w-10 sm:h-12 sm:w-12 rounded-lg border flex items-center justify-center transition-all",
+                            isLocked
+                              ? "bg-muted text-muted-foreground cursor-not-allowed"
+                              : "bg-primary text-primary-foreground hover:bg-primary/90"
+                          )}
+                        >
+                          {saveMutation.isPending ? (
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />
+                          ) : (
+                            <Save className="h-4 w-4" />
+                          )}
+                        </button>                          
                     
                         </div>
                     
