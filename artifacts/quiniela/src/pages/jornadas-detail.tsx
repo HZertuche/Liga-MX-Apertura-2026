@@ -531,11 +531,18 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
             const pred = predictions?.find((p: any) => p.matchId === match.id);
             const score = localScores[match.id] || { home: "", away: "" };
             const hasOfficialResult = match.homeScore !== null && match.awayScore !== null;
+            const hasInput = score.home !== "" && score.away !== "";
+            
+            const isSaved =
+              hasInput &&
+              pred &&
+              String(pred.homeScore ?? "") === score.home &&
+              String(pred.awayScore ?? "") === score.away;
+            
             const canSaveMatch =
               !isLocked &&
-              isMatchDirty(match.id) &&
-              score.home !== "" &&
-              score.away !== "";            
+              hasInput &&
+              !isSaved;         
 
             return (
               <div key={match.id} className={cn(
@@ -681,19 +688,21 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                             "h-10 w-10 sm:h-12 sm:w-12 rounded-lg border flex items-center justify-center transition-all",
                             canSaveMatch
                               ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                              : "bg-muted text-muted-foreground cursor-not-allowed"
+                              : isSaved
+                                ? "bg-green-600 text-white"
+                                : "bg-muted text-muted-foreground cursor-not-allowed"
                           )}
                         >
                           {saveMutation.isPending ? (
                             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />
-                          ) : isLocked ? (
-                            <Lock className="h-4 w-4" />
-                          ) : isMatchDirty(match.id) ? (
+                          ) : canSaveMatch ? (
                             <Save className="h-4 w-4" />
-                          ) : (
+                          ) : isSaved ? (
                             <Check className="h-4 w-4" />
+                          ) : (
+                            <Save className="h-4 w-4" />
                           )}
-                        </button>                         
+                        </button>                        
                     
                         </div>
                     
