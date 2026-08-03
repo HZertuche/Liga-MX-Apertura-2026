@@ -241,6 +241,57 @@ export default function JornadaDetail() {
     });
   };
 
+  const handleSaveMatch = (matchId: number) => {
+    const score = localScores[matchId];
+    
+    if (!score || score.home === "" || score.away === "") {
+      toast({
+        title: "Pronóstico incompleto",
+        description: "Debes capturar ambos marcadores antes de guardar.",
+        variant: "destructive",
+      });
+      return;
+    }    
+  
+    saveMutation.mutate(
+      {
+        data: {
+          jornadaId,
+          predictions: [
+            {
+              matchId,
+              homeScore: score?.home !== "" ? Number(score?.home) : null,
+              awayScore: score?.away !== "" ? Number(score?.away) : null,
+            },
+          ],
+        },
+      },
+      {
+        onSuccess: () => {
+          toast({
+            title: "Pronóstico guardado",
+          });
+  
+          queryClient.invalidateQueries({
+            queryKey: getListPredictionsQueryKey({
+              userId: user?.id,
+              jornadaId,
+            }),
+          });
+        },
+        onError: (err: any) => {
+          toast({
+            title: "Error",
+            description:
+              (err.data as any)?.error || "No se pudo guardar el pronóstico.",
+            variant: "destructive",
+          });
+        },
+      }
+    );
+  };
+  
+
   const isFormDirty = () => {
     if (!predictions) return false;
     let dirty = false;
