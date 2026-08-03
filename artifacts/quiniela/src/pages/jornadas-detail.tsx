@@ -6,7 +6,7 @@ import {
   useGetMe
 } from "@workspace/api-client-react";
 import { useParams, Link } from "wouter";
-import { ChevronLeft, Lock, Save, Trophy, AlertCircle, Users, X } from "lucide-react";
+import { ChevronLeft, Lock, Save, Check, Trophy, AlertCircle, Users, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { formatDate } from "@/lib/format";
@@ -304,6 +304,24 @@ export default function JornadaDetail() {
     });
     return dirty;
   };
+
+  const isMatchDirty = (matchId: number) => {
+    const local = localScores[matchId] || { home: "", away: "" };
+    const saved = predictions?.find((p: any) => p.matchId === matchId);
+  
+    const savedHome =
+      saved?.homeScore !== null && saved?.homeScore !== undefined
+        ? String(saved.homeScore)
+        : "";
+  
+    const savedAway =
+      saved?.awayScore !== null && saved?.awayScore !== undefined
+        ? String(saved.awayScore)
+        : "";
+  
+    return local.home !== savedHome || local.away !== savedAway;
+  };
+  
 
   if (isJornadaLoading || isPredictionsLoading) {
     return <div className="p-8 flex justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>;
@@ -655,18 +673,24 @@ const currentDate = selectedDate || firstAvailableDate || availableDates[0];
                           onClick={() => handleSaveMatch(match.id)}
                           disabled={isLocked || saveMutation.isPending}
                           className={cn(
-                            "ml-2 h-10 w-10 sm:h-12 sm:w-12 rounded-lg border flex items-center justify-center transition-all",
+                            "h-10 w-10 sm:h-12 sm:w-12 rounded-lg border flex items-center justify-center transition-all",
                             isLocked
                               ? "bg-muted text-muted-foreground cursor-not-allowed"
-                              : "bg-primary text-primary-foreground hover:bg-primary/90"
+                              : isMatchDirty(match.id)
+                                ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                                : "bg-green-600 text-white hover:bg-green-700"
                           )}
                         >
                           {saveMutation.isPending ? (
                             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />
-                          ) : (
+                          ) : isLocked ? (
+                            <Lock className="h-4 w-4" />
+                          ) : isMatchDirty(match.id) ? (
                             <Save className="h-4 w-4" />
+                          ) : (
+                            <Check className="h-4 w-4" />
                           )}
-                        </button>                          
+                        </button>                         
                     
                         </div>
                     
